@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel='stylesheet' href='https://fonts.google.com/specimen/Inconsolata'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+   
+    <div class="w3-container">
+	<div class="w3-row">
+            <div class="w3-col s4  w3-left-align">
+                <img src="{{logo}}" height="60" width="250">
+            
+            </div>
+            <div class="w3-col s4 w3-tiny w3-center" >
+                    {{igu_tanggal}}
+                
+            </div>
+            <div class="w3-col s4 w3-right-align">
+                    <p > <h3>INVOICE</h3></p>
+                    
+            
+            </div>   
+        </div>
+      </div>
+      <div class="w3-container">
+            <table class="w3-table w3-bordered w3-tiny" style="border-collapse: collapse;border: 1px solid black;">
+                 
+                    <tr>
+                            <td rowspan="2" width="70%" style="border: 1px solid black;">
+                                <b>Customer Name & Address</b> 
+                                <p><b>{{ invoice[6] }} {{ invoice[5] }}</b></p>
+                                <p>{{ invoice[8] }}
+                            </td>
+                            <td rowspan="3" style="border: 1px solid black;" class="w3-center">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=58x58&data={{invoice[0] }}" >
+                            </td>
+                            <td><b>Invoice No. </b>{{ invoice[0] }} </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" width="70%" style="border: 1px solid black;">
+                            <b>Customer Name & Address</b> 
+                            <p><b>{{ invoice[6] }} {{ invoice[5] }}</b></p>
+                            <p>{{ invoice[8] }}
+                        </td>
+                         
+                        <td  style="border: 1px solid black;" class="w3-center">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=58x58&data={{invoice[0] }}" >
+                        </td>
+                    </tr>
+                    <tr>
+                            <td   style="border: 1px solid black;"><b>Ship To.</b> {{ invoice[7] }}</p> </td>       
+                            <td   style="border: 1px solid black;"><b>Ref.</b> {{ invoice[2] }} </td>                            
+                            <td  style="border: 1px solid black;"><b>Invoice Date.</b> {{ invoice[1] }} </td>
+                    </tr>
+                    <tr>
+                             
+                            <td   style="border: 1px solid black;"><b>Doc Status.</b> <I>ORIGINAL</I> </td>
+                            <td style="border: 1px solid black;"><b>Term Of Payment.</b>  {{ invoice[4] }}  </td>
+                            <td style="border: 1px solid black;"><b>SO No.</b> {{ invoice[3] }}  </td>
+                    </tr>
+                    <tr>
+                             
+                        <td   style="border: 1px solid black;"><b>Doc Status.</b> <I>ORIGINAL</I> </td>
+                        <td style="border: 1px solid black;"><b>Term Of Payment.</b>  {{ invoice[4] }}  </td>
+                        <td style="border: 1px solid black;"><b>SO No.</b> {{ invoice[3] }}  </td>
+                </tr>                    
+                  </table>
+      </div>
+      <br/>
+      <div class="w3-container">
+            <table class="w3-table w3-bordered   w3-tiny"   style="border: 1px solid black;">
+                <thead>
+                    <tr>
+                      <th width="50%"  style="border: 1px solid black;">Description</th>
+                      <th  style="border: 1px solid black;">Quantity</th>
+                      <th  style="border: 1px solid black;">Unit Price</th>
+                      <th  width="20%" style="border: 1px solid black;" class="w3-right-align">Total</th>
+                    </tr>
+                </thead> 
+                
+    {% for invoiceline in  detail %}
+                
+                    <tr class="w3-tiny">
+                      <td class="w3-tiny">[{{invoiceline[1]}}] {{ invoiceline[2]}} </td>
+                      <td class="w3-tiny">{{invoiceline[3]}} {{invoiceline[6]}} </td>
+                      <td class="w3-right-align class="w3-tiny">{{ "{:,.0f}".format(invoiceline[4]) }} </td>
+                      <td class="w3-right-align class="w3-tiny">{{ "{:,.0f}".format(invoiceline[5]) }} </td>
+                    </tr>
+               
+     {% endfor %}
+     
+                        <tr  class="w3-align-right">
+                            <td colspan="3"  style="border: 1px solid black;" ><b>Amount</b></td>
+                            <td  class="w3-right-align"  style="border: 1px solid black;">{{  "{:,.0f}".format(invoice[9]) }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"  style="border: 1px solid black;" ><b>Discount</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;">{{  "{:,.0f}".format(invoice[11]) }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"  style="border: 1px solid black;" ><b>Tax</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;">{{  "{:,.0f}".format(invoice[10]) }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"   style="border: 1px solid black;"><b>Total</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;"><b>{{  "{:,.0f}".format(invoice[12]) }} </b></td>
+                        </tr>
+                  </table>
+      </div>
+<footer class="w3-center w3-bottom w3-tiny"> 
+    <div class="w3-row">
+            <div class="w3-col s6 w3-left-align">
+            <b>PT. Indoguna Utama Bank Details: <br/>
+
+<i class="fa fa-address-card"> Bank Central Asia (BCA) : No 2303000704</i>
+            </b>
+            </div>
+            <div class="w3-col s6 w3-right-align">  
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=58x58&data={{ invoice[14] }}" > <p>Admin</p></div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col">
+            <p  style="border: 1px solid black;">This is automatically generated by system. No signature is required. <br/>
+        <i>Dokumen ini diolah secara otomatis melalui sistem, sehingga tandatangan tidak diperlukan</i></p>
+    </div>
+    </div>
+  </footer>
+
+  <p style="page-break-before: always" ></p>
+  {% endfor %}
+</body>
+</html>

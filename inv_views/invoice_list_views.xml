@@ -1,0 +1,107 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="ar_invoice_tree">
+            <field name="name">ar.invoice.tree</field>
+            <field name="model">ar.invoice</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice List" editable="top" create="false" edit="false"
+                decoration-danger="canceled=='Y'"
+                decoration-primary="kwitansi != False"
+                decoration-success="tf_number != False"
+                decoration-it="doctype=='S-INV'"
+                decoration-bf="fp_status=='Y'" default_order='docdate desc,numatcard desc' >
+                    <field name="company_id" readonly="1" invisible="1" />
+                    <field name="doctype" readonly="1"  />
+                    <field name="docnum" readonly="1"  />
+                    <field name="numatcard" readonly="1"/>
+                    <field name="docdate" readonly="1" />
+                    <field name="docduedate" readonly="1" />
+                    <field name="taxdate" readonly="1" />
+                    <field name="shiptocode" readonly="1" />
+                    <field name="canceled" readonly="1"  invisible="1" />
+                    <field name="cardname" readonly="1"/>
+                    <field name="fp" readonly="1" />
+                    <button name="fp_download" string="Download FP"   type="object" class="btn-primary"
+                    attrs="{'invisible': [('fp_status', '=', 'N')]}"/>
+                    <field name="fp_filename" readonly="1" invisible="1" />
+                    <field name="fp_status" readonly="1" invisible="1" />
+                    <field name="kwitansi" readonly="1"/>
+                    <field name="cust_ref" readonly="1" /> 
+                    <field name="inotes" readonly="1" /> 
+                    <field name="tf_number" readonly="1" /> 
+                    <field name="tf_remarks" readonly="1" /> 
+                    <field name="collector" readonly="1" /> 
+                    <field name="arperson"  readonly="1"/>
+                    <field name="usersign"  invisible="1" readonly="1" />
+                    <field name="sap_create"  invisible="1"  readonly="1"/>
+                    <field name="vatgroup"  readonly="1" /> 
+                    <field name="total"  readonly="1" sum="total_sum" /> 
+                    <field name="balance"  readonly="1" sum="total_balance" /> 
+                    <field name="act_checked" readonly="1"   />
+                    <field name="act_status" readonly="1"  />
+                    <field name="act_statusdt" readonly="1"  />
+                    <field name="act_notes"  readonly="1"/>
+                    <field name="printstatus"  readonly="1"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="ar_invoice_search">
+            <field name="name">ar.invoice.search</field>
+            <field name="model">ar.invoice</field>
+            <field name="arch" type="xml">
+                <search string="Invoice Search">
+                    <filter string="Checked By Act" domain="[('act_checked','=', True)]" name="checked_by_act" />
+                    <filter string="Not Checked" domain="[('act_checked','=',  False)]" name="notchecked_by_act" />
+                    <filter string="Cancel In SAP" domain="[('canceled','=', 'Y')]" name="canceled_in_sap" />
+                    <filter string="Not Canceled" domain="[('canceled','=', 'N')]" name="notcanceled_in_sap" /> 
+                    <filter string="Paid" domain="[('balance','=', 0)]" name="status_paid" />
+                    <filter string="Un Paid" domain="[('balance','!=', 0)]" name="status_unpaid" />
+                    <field name="numatcard" />
+                    <field name="cardname" />
+                    <field name="arperson" />
+                    <field name="tf_collector" />
+                    <field name="cust_ref" />
+                    <field name="inotes" />
+                    <field name="kwitansi" /> 
+                    <field name="shiptocode" />
+                    <field name="tf_number" />
+                    <field name="collector" />
+                    <field name="taxdate" />
+                    <field name="docduedate" />
+                    <field name="docnum" /> 
+                    <field name="balance" /> 
+                    <field name="fp" />
+                    <filter string="kwitansi" name="group_kwitansi" domain="[]" context="{'group_by':'kwitansi'}" />
+                    <filter string="Invoice Date " name="group_invoice" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="shiptocode " name="group_shiptocode" domain="[]" context="{'group_by':'shiptocode'}" />
+                    <filter string="cust_ref " name="group_cust_ref" domain="[]" context="{'group_by':'cust_ref'}" />
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="ar_invoice_pivot">
+            <field name="name">ar.invoice.pivot</field>
+            <field name="model">ar.invoice</field>
+            <field name="arch" type="xml">
+                <pivot string="Invoice Pivot">
+                    <field name="company_id"  type="row" />
+                    <field name="docdate"  type="col" interval="year" />
+                    <field name="dpp" type="measure"  />
+                    <field name="ppn" type="measure" />
+                    <field name="total"  type="measure" />
+                    <field name="balance"  type="measure" /> 
+                </pivot>
+            </field>
+        </record>
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ar_invoice_action">
+            <field name="name">Invoice List</field>
+            <field name="res_model">ar.invoice</field>
+            <field name="context">{"search_default_notcanceled_in_sap":1}</field>
+
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+
+    </data>
+</odoo>

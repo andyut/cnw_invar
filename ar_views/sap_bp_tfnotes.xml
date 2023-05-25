@@ -1,0 +1,42 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+ 
+
+    <record model="ir.ui.view" id="cnwls_bp_tfnotes_form">
+      <field name="name">cnwls.bp.tfnotes.form</field>
+      <field name="model">cnwls.bp.tfnotes</field>
+            <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="followup">
+          <header>
+             
+          </header>
+        <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="company_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group> 
+                                <field name="tfnotes" /> 
+                            
+                        </group>
+                        
+                    <footer>
+                        <button string="[S]ave" name="update_TFRemarks" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                    </sheet>          
+        </form>
+      </field>
+    </record>
+ 
+    <act_window id="cnwls_bp_tfnotes_action" 
+        name="Tukar Faktur Notes" 
+        res_model="cnwls.bp.tfnotes" 
+        src_model="sap.bp"  
+        view_mode="form" target="new" multi="True" /> 
+  </data>
+</odoo>

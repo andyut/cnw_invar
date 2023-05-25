@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+  
+    <!-- Wizard untuk ambil data sap -->
+    <record id="jas_lap_saldopiutangdetail_action" model="ir.actions.act_window">
+      <field name="name">Saldo Piutang Detail</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">jas.lap.saldopiutangdetail</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+    <record id="jas_lap_saldopiutangdetail_form" model="ir.ui.view">
+      <field name="name">jas.lap.saldopiutangdetail.form</field>
+      <field name="model">jas.lap.saldopiutangdetail</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Get Saldo Piutang Detail ">
+
+          <group string="Saldo Piutang">
+            <field name="company_id" readonly="1"/> 
+            <field name="dateto" />
+            <field name="customer" />
+              <field name="export_to"/>
+          </group>
+
+          <footer>
+            <button string="Get SAldo Piutang" name="get_saldopiutangdetail" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+
+        </form>
+      </field>
+    </record>
+
+     
+  </data>
+</odoo>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_inv_penjualandetailitem_wizard" model="ir.actions.act_window">
+            <field name="name">penjualandetailitem </field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cnw.penjualandetailitem</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="cnw_penjualandetailitem_form" model="ir.ui.view">
+            <field name="name">cnw.penjualandetailitem.form</field>
+            <field name="model">cnw.penjualandetailitem</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Penjualan Detail Per Item">
+
+                    <group string="Penjualan Detail Per Item">
+                    <field name="company_id" widget="many2many_tags" /> 
+
+                        <field name="datefrom" />
+                        <field name="dateto" />  
+                        <field name="customer" />  
+                        <field name="items" />  
+                        <field name="igroups" />  
+                        <field name="sales" />   
+
+                        <field name="export_to" />  
+                    </group>
+
+                    <footer>
+                        <button string="View" name="view_penjualandetailitem" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

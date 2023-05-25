@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+      <!-- explicit list view definition -->
+    
+      <!-- Wizard untuk ambil data sap -->
+      <record id="ar_invoice_scanfp_action" model="ir.actions.act_window">
+        <field name="name">Get File Scan From SAP</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ar.invoice.scanfp</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+  
+      <record id="ar_invoice_scanfp_form" model="ir.ui.view">
+        <field name="name">ar.invoice.scanfp.form</field>
+        <field name="model">ar.invoice.scanfp</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Get File Scan From SAP">
+  
+            <group string="Get File Scan From SAP">
+              <field name="company_id" readonly="1"/>  
+            </group>
+  
+            <footer>
+              <button string="Get File List" name="ScanFP" type="object" class="btn-primary"/>
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+  
+          </form>
+        </field>
+      </record>
+  
+       
+    </data>
+  </odoo>

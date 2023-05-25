@@ -1,0 +1,74 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+        {{igu_title}}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='https://fonts.google.com/specimen/Inconsolata'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+
+<body>
+    <head class="w3-container">
+        <div class="w3-row">
+            <div class="w3-col s4">
+                <img src="{{logo}}" height="60" width="250">
+            </div>
+            <div class="w3-col w3-center s4 w3-tiny">
+               {{igu_tanggal }}
+               <br />
+               <h5><b>{{tfno}}</b></h5> <br/>
+               <img src="https://api.qrserver.com/v1/create-qr-code/?size=45x45&data={{tfno }}">
+            </div>
+            <div class="w3-col w3-right-align s4">
+              <h5>
+               <b>{{igu_title}}</b><p><b> {{igu_remarks}}</b>
+               </p>
+              </h5>   
+            </div>
+        </div>
+      <div class="w3-col">
+       <div class="w3-row w3-right-align w3-tiny">
+        <p><b> {{arperson}} / {{collector}}</b> <br/>
+            <b>{{jalur}}</b>
+      </p> </div>
+      </div>
+      
+      </head>  
+      <br/>
+ 
+      <table width="70%" class="w3-table w3-small " style="border-collapse: collapse;border: 1px solid;">
+          <th class="w3-small w3-left-align "  style="border-collapse: collapse;border: 1px solid;"><b>[Customer]</b></th>
+           <th class="w3-small w3-left-align "  style="border-collapse: collapse;border: 1px solid;"> <b>[Date]</b></th>
+           <th class="w3-small w3-left-align "  style="border-collapse: collapse;border: 1px solid;"><b>[Receipt No.]</b></th>
+           <th  class="w3-small w3-right-align "  style="border-collapse: collapse;border: 1px solid;"><b>[Total]</b></th>
+           <th class="w3-small w3-center "  style="border-collapse: collapse;border: 1px solid;"><b>[Paraf]</b></th>
+      
+     
+    {%for datas in detail %} 
+        
+           <tr class="w3-tiny">
+
+            <td class="w3-tiny"    style="border-collapse: collapse;border: 1px solid;">{{datas[0]}} &nbsp;</td>             
+            <td class="w3-tiny"   style="border-collapse: collapse;border: 1px solid;">{{datas[1]}} &nbsp;</td>
+            <td class="w3-tiny"    style="border-collapse: collapse;border: 1px solid;">{{datas[2]}} &nbsp;</td> 
+            <td class="w3-tiny w3-right-align"      style="border-collapse: collapse;border: 1px solid;">{{"{:,.0f}".format(datas[3])}} &nbsp; </td> 
+            <td class="w3-tiny w3-center"   style="border-collapse: collapse;border: 1px solid;">  ...........&nbsp;</td>
+           </tr> 
+        
+
+    {%endfor%}
+    <tr class="w3-tiny  ">
+
+        <td class="w3-small  w3-right-align" colspan="3"  style="border-collapse: collapse;border: 1px solid;">TOTAL&nbsp;</td>             
+        <td class="w3-small w3-right-align"    style="border-collapse: collapse;border: 1px solid;"><b>{{"{:,.0f}".format(total)}} &nbsp;</b> </td> 
+        <td class="w3-tiny w3-center"  style="border-collapse: collapse;border: 1px solid;">  &nbsp;</td>
+       </tr>     
+    </table>  
+</body>
+
+</html>

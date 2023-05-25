@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="ar_invoice_setting_fppath_tree">
+            <field name="name">ar.invoice.setting.fppath.tree</field>
+            <field name="model">ar.invoice.setting.fppath</field>
+            <field name="arch" type="xml">
+                <tree string="Folder FP" editable="top"   >
+                    <field name="company_id" readonly="1" />
+                    <field name="name"  /> 
+                </tree>
+            </field>
+        </record>
+         
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ar_invoice_setting_fppath_action">
+            <field name="name">Folder FP </field>
+            <field name="res_model">ar.invoice.setting.fppath</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    </data>
+</odoo>

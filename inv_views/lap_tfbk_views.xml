@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+      <!-- explicit list view definition -->
+    
+      <!-- Wizard untuk ambil data sap -->
+      <record id="cnw_invar_tfbk_action" model="ir.actions.act_window">
+        <field name="name">Get TF Burger King</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cnw.invar.tfbk</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+  
+      <record id="cnw_invar_tfbk_form" model="ir.ui.view">
+        <field name="name">cnw.invar.tfbk.form</field>
+        <field name="model">cnw.invar.tfbk</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Tukar faktur BurgerKing">
+  
+            <group string="Tukar faktur BurgerKing">
+              <field name="company_id" readonly="1"/> 
+              <field name="datefrom" />
+              <field name="dateto" />
+              <field name="customer" />  
+            </group>
+  
+            <footer>
+              <button string="Get TF BurgerKing" name="getTFBK" type="object" class="btn-primary"/>
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+  
+          </form>
+        </field>
+      </record>
+  
+       
+    </data>
+  </odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sap_belumfaktur_action" model="ir.actions.act_window">
+            <field name="name">DO Belum Dibuatkan Faktur</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sap.belumfaktur</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="sap_belumfaktur_form" model="ir.ui.view">
+            <field name="name">sap.belumfaktur.form</field>
+            <field name="model">sap.belumfaktur</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="DO Belum dibuatkan Faktur">
+
+                    <group string="DO Belum dibuatkan Faktur"> 
+                     
+                         <field name="company_id" readonly="1"/> 
+                         <field name="dateto" /> 
+                         <field name="partner" /> 
+                         <field name="arperson" /> 
+                         <field name="tukarfaktur" /> 
+                         <field name="export_to" /> 
+                    </group>
+        
+                    <footer>
+                        <button string="View " name="view_belumfaktur_xls" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

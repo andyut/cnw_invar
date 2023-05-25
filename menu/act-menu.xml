@@ -1,0 +1,83 @@
+<odoo>
+<data>
+    <!-- Top menu item -->
+    
+<menuitem sequence="100" name="CNW INV-AR" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer" web_icon="cnw_invar,static/description/icon.png" id="cnw_invar_menu_root"/> 
+
+
+    <menuitem sequence="105" name="..." id="cnw_invar_menu_home" parent="cnw_invar_menu_root" action="cnw_home_action" />    
+    <menuitem sequence="200" name="[L] og Report"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer"  id="cnw_invar_menu_200" parent="cnw_invar_menu_root" />    
+ 
+        <menuitem name="Customer Follow Up Report"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer"  id="cnw_invar_menu_202" parent="cnw_invar_menu_200" action="cnw_cflwup_followup_action"/>
+        <menuitem name="Generate Follow Up Report"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_203" parent="cnw_invar_menu_200" action="cnw_cflwup_followup_report_wizard"/>
+        <menuitem name="Audit Trail"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_204" parent="cnw_invar_menu_200" action="cnw_so_audittrail_action"/>
+    
+    
+    
+    <menuitem  sequence="300" name="[I] nvoice" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer" id="cnw_invar_menu_300" parent="cnw_invar_menu_root" />    
+        <menuitem name="Cetakan Invoice"        groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer" id="cnw_invar_menu_301" parent="cnw_invar_menu_300"  />
+                <menuitem name="Invoice C2 Long" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" id="cnw_invar_menu_302" parent="cnw_invar_menu_301" action="jas_lap_invoicec2long_action"/>
+                <menuitem name="Invoice C4 Short" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer"  id="cnw_invar_menu_303" parent="cnw_invar_menu_301" action="jas_lap_invoicec4short_action"/>
+                <menuitem name="Invoice B1 Logo" id="cnw_invar_menu_304" parent="cnw_invar_menu_301" action="cnw_cetakan_invoice_action"/>
+        <menuitem name="Cetakan Invoice Baru" id="cnw_invar_menu_310" parent="cnw_invar_menu_300"  />
+        <menuitem name="Invoice Print" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" id="cnw_invar_menu_311" parent="cnw_invar_menu_310" action="cnw_cetakan_invoice_action"/>
+        <menuitem name="Invoice Print (Kwitansi)" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" id="cnw_invar_menu_312" parent="cnw_invar_menu_310" action="cnw_cetakan_invoice2_action"/>
+        <menuitem name="Invoice Print (ShiptoAddres)" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" id="cnw_invar_menu_313" parent="cnw_invar_menu_310" action="cnw_cetakan_invoice3_action"/>
+        <menuitem name="Invoice Print (Partner Code)" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" id="cnw_invar_menu_314" parent="cnw_invar_menu_310" action="cnw_cetakan_invoice4_action"/>
+
+        <menuitem name="List File Faktur Pajak" id="cnw_invar_menu_320" parent="cnw_invar_menu_300"  />
+            <menuitem name="List Invoice   file Faktur Pajak" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" id="cnw_invar_menu_321" parent="cnw_invar_menu_320" action="ar_invoice_fpfile_action"/>
+
+
+
+                
+
+    <menuitem  sequence="400" name="[S] ales Report"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer"  id="cnw_invar_menu_400" parent="cnw_invar_menu_root" />    
+        <menuitem  sequence="401"  name="Business Partner"   groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer"   id="cnw_invar_menu_401" parent="cnw_invar_menu_400"  />
+            <menuitem  sequence="402"  name="Business Partner Search"   groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer"   id="cnw_invar_menu_402" parent="cnw_invar_menu_401" action="sap_bp_wiz_action"/>
+            <menuitem  sequence="403"  name="Business Partner List"   groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer"   id="cnw_invar_menu_403" parent="cnw_invar_menu_401" action="sap_bp_action"/>
+            <menuitem  sequence="404"  name="Business Partner Outlet"   groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer,igu_sales_viewer"   id="cnw_invar_menu_404" parent="cnw_invar_menu_401" action="sap_bp_outlet_action"/>
+        <menuitem sequence="405"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" name="DO Belum Jadi Invoice" id="cnw_invar_menu_405" parent="cnw_invar_menu_401"  action="sap_belumfaktur_action"/>
+        <menuitem sequence="408"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer" name="Invoice Belum Dibuat Kwitansi" id="cnw_invar_menu_408" parent="cnw_invar_menu_401"  action="sap_notkwitansi_action"/>
+        <menuitem   sequence="406"  name="Laporan Penjualan Detail" id="cnw_invar_menu_406" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  parent="cnw_invar_menu_400" action="ar_invoice_wizard_action"/>
+        <menuitem   sequence="407"  name="Laporan Penjualan Detail List View" id="cnw_invar_menu_407" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  parent="cnw_invar_menu_400" action="ar_invoice_action"/>
+        <menuitem sequence="413" name="Laporan Penjualan Detail (Item)"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_413" parent="cnw_invar_menu_400" action="ar_invoice_item_wizard_action"/>
+        <menuitem sequence="411" name="Laporan DO Harian (Full Report)"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_411" parent="cnw_invar_menu_401" action="cnw_awr28.cnw_awr28_doharianfull_wizard"/>
+        <menuitem sequence="412" name="Laporan DO List"  groups="igu_sales_viewer,igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_412" parent="cnw_invar_menu_400" action="cnw_invar_dolist_action"/>
+        <menuitem sequence="409" name="Laporan Penjualan  (Item) xls"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_409" parent="cnw_invar_menu_400" action="cnw_inv_penjualandetailitem_wizard"/>
+        <menuitem sequence="410" name="Laporan Penjualan  (Summary) xls"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_410" parent="cnw_invar_menu_400" action="cnw_inv_penjualandetail_wizard"/>
+        <menuitem sequence="407" name="Kwitansi LIst"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_407" parent="cnw_invar_menu_400" action="cnw_invoice_kwitansi_action"/>
+        <menuitem sequence="414" name="Tukar Faktur LIst"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_414" parent="cnw_invar_menu_400" action="ar_tf_action"/>
+        <menuitem sequence="415" name="Print Tukar Faktur "  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_415" parent="cnw_invar_menu_400" action="ar_invoice_tfprint_action"/>
+        <menuitem sequence="490" name="Custom Report"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_490" parent="cnw_invar_menu_400"  />
+        <menuitem sequence="491" name="Tukar Faktur Burger King"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_491" parent="cnw_invar_menu_490" action="cnw_invar_tfbk_action"/>
+
+
+    <menuitem  sequence="500" name="[A] ccounting / AR Report" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer" id="cnw_invar_menu_500" parent="cnw_invar_menu_root" />    
+        <menuitem sequence="501" name="Saldo Piutang Detail" id="cnw_invar_menu_501" parent="cnw_invar_menu_500" action="cnw_invar_saldopiutangdetail_action"/>
+        <menuitem sequence="502"  groups="igu_ar_viewer"  name="Kartu Piutang" id="cnw_invar_menu_502" parent="cnw_invar_menu_500" action="jas_lap_kartupiutang_action"/>        
+        <menuitem sequence="504" groups="igu_ar_viewer"  name="Rincian AR" id="cnw_invar_menu_504" parent="cnw_invar_menu_500" action="sap_rincianar_action"/>        
+
+    <menuitem  sequence="600" name="[C] onfiguration" groups="igu_ar_viewer,igu_invoice_viewer,igu_accounting_viewer,igu_admin_viewer" id="cnw_invar_menu_600" parent="cnw_invar_menu_root" />    
+        <menuitem sequence="601" name="Faktur Pajak" id="cnw_invar_menu_601" parent="cnw_invar_menu_600"  />
+            <menuitem sequence="602"  groups="igu_admin_viewer"  name="Faktur Pajak" id="cnw_invar_menu_602" parent="cnw_invar_menu_601" action="ar_invoice_setting_fppath_action"/>         
+            <menuitem sequence="603"  groups="igu_admin_viewer"  name="Scan FP" id="cnw_invar_menu_603" parent="cnw_invar_menu_601" action="ar_invoice_scanfp_action"/>         
+            <menuitem sequence="604"  groups="igu_admin_viewer"  name="UPdate FP" id="cnw_invar_menu_604" parent="cnw_invar_menu_601" action="ar_invoice_updatefp_action"/>         
+            <menuitem sequence="605"  groups="igu_admin_viewer"  name="Collector" id="cnw_invar_menu_605" parent="cnw_invar_menu_601" action="ar_collector_action"/>         
+        <menuitem sequence="610" groups="igu_ar_viewer,igu_invoice_viewer,igu_accounting_viewer"  name="Email Seting" id="cnw_invar_menu_610" parent="cnw_invar_menu_600"  />
+            <menuitem sequence="611"  groups="igu_ar_viewer,igu_invoice_viewer,igu_accounting_viewer"  name="Email Address" id="cnw_invar_menu_611" parent="cnw_invar_menu_610" action="jas_lap_mailaddress_action"/>         
+
+<!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="/data/igu_it_dev/igu_ar/.menu_1" parent="/data/igu_it_dev/igu_ar/.menu_root"/>
+    <menuitem name="Menu 2" id="/data/igu_it_dev/igu_ar/.menu_2" parent="/data/igu_it_dev/igu_ar/.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="/data/igu_it_dev/igu_ar/.menu_1_list" parent="/data/igu_it_dev/igu_ar/.menu_1"
+              action="/data/igu_it_dev/igu_ar/.action_window"/>
+    <menuitem name="Server to list" id="/data/igu_it_dev/igu_ar/" parent="/data/igu_it_dev/igu_ar/.menu_2"
+              action="/data/igu_it_dev/igu_ar/.action_server"/>
+    -->
+    </data>
+</odoo>

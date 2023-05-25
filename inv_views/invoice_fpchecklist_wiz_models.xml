@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <act_window id="cnw_invoice_fpchecklist_wizard_action" 
+        name="FP Download  List"  
+
+    groups="cnw_invar.igu_invoice_viewer,cnw_invar.igu_ar_viewer"        
+        res_model="cnw.invoice.fpchecklist" 
+        src_model="ar.invoice"  
+        view_mode="form" target="new" multi="True"  view_type="form"/>
+ 
+
+    <record id="cnw_invoice_fpchecklist_wizard" model="ir.ui.view">
+      <field name="name">cnw.invoice.fpchecklist.wizard</field>
+      <field name="model">cnw.invoice.fpchecklist</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="FP Download  List">
+
+          <group string="FP Download  List">
+            <field name="company_id" readonly="1"/> 
+            <field name="export_to" /> 
+            <field name="is_email" />                           
+            <field name="email_body" attrs="{'invisible': [('is_email', '=', False)]}" />              
+            
+          </group>
+          <group string="Email Delivery"  attrs="{'invisible': [('is_email', '=', False)]}" >
+            <field name="fp_detail_ids" nolabel="1">
+              <tree editable="top">
+                    <field name="name"/>
+                    <field name="mailaddress"/>
+              </tree>
+
+            </field>
+          </group>
+          <footer>
+            <button string="Download FP" name="check_list" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+
+        </form>
+      </field>
+    </record>
+</data>
+</odoo>

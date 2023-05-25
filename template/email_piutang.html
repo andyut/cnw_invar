@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head> 
+        <style>
+#piutang ,h1 ,div ,p  {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#piutang td, #piutang th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#piutang tr:nth-child(even){background-color: #f2f2f2;}
+
+#piutang tr:hover {background-color: #ddd;}
+
+#piutang th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #2b86a1;
+  color: white;
+}
+#footer {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: right;
+  background-color: #2b86a1;
+  color: white;
+}
+</style> 
+</head>
+<body>
+    <div>
+        <h1></h1>
+        <p>Dear {{cardname}},</p>
+        <p>
+            {{body}}
+        </p>
+    </div>
+    <div>
+        <table id="piutang"> 
+            <th>Type</th> 
+            <th>Date</th>
+            <th>Doc Number</th>
+            <th>PO Number</th>
+            <th>Number</th>
+            <th>Receipt</th> 
+            <th>Tax Number</th> 
+            <th>Amount</th>
+            <th>Vat</th>
+            <th>Total</th>
+            <th>Balance</th>
+        {{detail}}
+        <tr >
+        <td id="footer"  colspan="10"><b>TOTAL</b></td>
+        <td id="footer"  ><b>{{total}}</b> </td>
+        </tr>
+        </table>
+    
+    </div>
+    <div>
+      <br/>
+      <br/>
+        <p>
+        Best Regards, <br/>
+        {{ar_person}} <br/>
+        <i>{{ar_email}}</i>
+
+        </p>
+    </div>
+</body>
+
+</html>

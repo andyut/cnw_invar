@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+      <!-- explicit list view definition -->
+    
+      <!-- Wizard untuk ambil data sap -->
+      <record id="jas_lap_kartupiutang_action" model="ir.actions.act_window">
+        <field name="name">Kartu Piutang</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">jas.lap.kartupiutang</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+  
+      <record id="jas_lap_kartupiutang_form" model="ir.ui.view">
+        <field name="name">jas.lap.kartupiutang.form</field>
+        <field name="model">jas.lap.kartupiutang</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Get Saldo Piutang Detail ">
+  
+            <group string="Saldo Piutang">
+              <field name="company_id" readonly="1"/> 
+              <field name="datefrom" />
+              <field name="dateto" />
+              <field name="customer" />
+              <field name="arperson" />
+              <field name="account" />
+              <field name="export_to" />
+            </group>
+  
+            <footer>
+              <button string="Get kartupiutang" name="get_kartupiutang" type="object" class="btn-primary"/>
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+  
+          </form>
+        </field>
+      </record>
+  
+       
+    </data>
+  </odoo>

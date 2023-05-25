@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cnw_invar_saldopiutangdetailmodels_tree" model="ir.ui.view">
+            <field name="name">cnw.invar.saldopiutangdetailmodels.tree</field>
+            <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="arch" type="xml">
+                <tree string="Saldo Piutang" create="false" edit="false" 
+                decoration-warning="amount &lt; 0"    > 
+                    <field name="comp_name" />
+                    <field name="docdate"/>
+                    <field name="docnum"  />
+                    <field name="numatcard"/>
+                    <field name="po"/>
+                    <field name="kwitansi"/>
+                    <field name="fp"/>
+                    <field name="cardcode"/>
+                    <field name="cardname"/>
+                    <field name="dpp" sum="sum_dpp"/> 
+                    <field name="ppn" sum="sum_ppn"/>
+                    <field name="amount" sum="sum_amount"/>
+                    <field name="balance" sum="sum_balance"/>  
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="cnw_invar_saldopiutangdetailmodels_pivot" model="ir.ui.view">
+            <field name="name">cnw.invar.saldopiutangdetailmodels.pivot</field>
+            <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="arch" type="xml">
+                <pivot string="Piutang">     
+                 <field name="cardname"  type="row" />  
+                 <field name="balance"  type="measure" />  
+                </pivot>
+            </field>
+        </record>
+
+ 
+        <record model="ir.ui.view" id="cnw_invar_saldopiutangdetailmodels_search">
+            <field name="name">cnw.invar.saldopiutangdetailmodels.search</field>
+            <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                      
+                    <field name="docdate"/>
+                    <field name="docnum"/> 
+                    <field name="numatcard"/> 
+                    <field name="kwitansi"/> 
+                    <field name="fp"/> 
+                    <field name="po"/> 
+                    <field name="cardcode"/>
+                    <field name="cardname"/>  
+                    <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                    <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
+                    <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="cnw_invar_saldopiutangdetailmodels_action" model="ir.actions.act_window">
+            <field name="name">Saldo Piutang Per Customer</field>
+            <field name="res_model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="view_mode">tree,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

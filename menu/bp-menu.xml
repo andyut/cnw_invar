@@ -1,0 +1,39 @@
+<odoo>
+<data>
+    <!-- Top menu item -->
+    
+<menuitem name="ACT-AR"  web_icon="cnw_invar,static/description/icon.png" id="igu_actreport_menu2_root"/>
+    <menuitem name="Home" id="igu_actreport_home2" parent="igu_actreport_menu2_root" />
+
+
+    <menuitem name="<b>I</b>nvoice" id="igu_actreport_invoice" parent="igu_actreport_menu_root" />    
+        <menuitem name="Invoice List" id="igu_actreport_invoice_list" parent="igu_actreport_invoice" action="ar_invoice_wizard_action"/>
+        <menuitem name="Cetakan Invoice" id="igu_actreport_invoice_cetakan" parent="igu_actreport_invoice"  />
+                <menuitem name="Invoice C2 Long" id="igu_actreport_invoice_c2long" parent="igu_actreport_invoice_cetakan" action="jas_lap_saldopiutangdetail_action"/>
+                <menuitem name="Invoice C4 Short" id="igu_actreport_invoice_c4short" parent="igu_actreport_invoice_cetakan" action="jas_lap_saldopiutangdetail_action"/>
+
+        <menuitem name="DO Belum Jadi Invoice" id="igu_actreport_do_belum_invoice" parent="igu_actreport_invoice"  action="jas_lap_saldopiutangdetail_action"/>
+                
+
+    <menuitem name="Report" id="igu_actreport_report" parent="igu_actreport_menu_root" />    
+        <menuitem name="Invoice List Summary" id="igu_actreport_invoice_list_summary" parent="igu_actreport_report" action="jas_lap_saldopiutangdetail_action"/>
+        <menuitem name="Invoice List Detail" id="igu_actreport_invoice_list_detail" parent="igu_actreport_report" action="jas_lap_kartupiutang_action"/>
+
+
+    <menuitem name="Receivable" id="igu_actreport_receivable" parent="igu_actreport_menu_root" />    
+        <menuitem name="Saldo Piutang Detail" id="igu_actreport_piutang_detail" parent="igu_actreport_receivable" action="jas_lap_saldopiutangdetail_action"/>
+        <menuitem name="Kartu Piutang" id="igu_actreport_kartu_piutang" parent="igu_actreport_receivable" action="jas_lap_kartupiutang_action"/>        
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="/data/igu_it_dev/igu_ar/.menu_1" parent="/data/igu_it_dev/igu_ar/.menu_root"/>
+    <menuitem name="Menu 2" id="/data/igu_it_dev/igu_ar/.menu_2" parent="/data/igu_it_dev/igu_ar/.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="/data/igu_it_dev/igu_ar/.menu_1_list" parent="/data/igu_it_dev/igu_ar/.menu_1"
+              action="/data/igu_it_dev/igu_ar/.action_window"/>
+    <menuitem name="Server to list" id="/data/igu_it_dev/igu_ar/" parent="/data/igu_it_dev/igu_ar/.menu_2"
+              action="/data/igu_it_dev/igu_ar/.action_server"/>
+    -->
+    </data>
+</odoo>

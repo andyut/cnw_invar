@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="jas_lap_mailaddress_tree">
+            <field name="name">jas.lap.mailaddress.tree</field>
+            <field name="model">jas.lap.mailaddress</field>
+            <field name="arch" type="xml">
+                <tree string="Mail Addresses"  >
+                     
+                    <field name="name"   /> 
+                    <field name="mailaddress" />
+                    <field name="remarks"  /> 
+
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="jas_lap_mailaddress_form">
+            <field name="name">jas.lap.mailaddress.form</field>
+            <field name="model">jas.lap.mailaddress</field>
+            <field name="arch" type="xml">
+                <form string="mail Address">
+                <group>
+                    <field name="name"   /> 
+                    <field name="mailaddress" />
+                    <field name="remarks"  /> 
+                </group>
+                </form>
+            </field>
+        </record>        
+        <record model="ir.ui.view" id="jas_lap_mailaddress_search">
+            <field name="name">jas.lap.mailaddress.search</field>
+            <field name="model">jas.lap.mailaddress</field>
+            <field name="arch" type="xml">
+                <search string="mail Address"> 
+                    <field name="name"   /> 
+                    <field name="mailaddress" />
+                    <field name="remarks"  /> 
+                </search>
+            </field>
+        </record>
+ 
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="jas_lap_mailaddress_action">
+            <field name="name">Mail Addresses</field>
+            <field name="res_model">jas.lap.mailaddress</field> 
+
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>

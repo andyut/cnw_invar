@@ -1,0 +1,79 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cnw_so_audittrail_tree">
+            <field name="name">cnw.so.audittrail.tree</field>
+            <field name="model">cnw.so.audittrail</field>
+            <field name="arch" type="xml">
+                <tree string="Audit Trail List" create="false" edit="false" delete="false" >
+                    <field name="company_id" readonly="1" invisible="1" />
+                    <field name="name" readonly="1"  /> 
+                    <field name="sonumber" readonly="1"/>
+                    <field name="docref" readonly="1" />
+                    <field name="docdate" readonly="1" />
+
+                    <field name="cardcode" readonly="1" />
+                    <field name="cardname" readonly="1" />
+                    <field name="sales" readonly="1" />
+                    <field name="arperson" readonly="1" />
+                    
+                    <field name="doctype" readonly="1"   />
+                    <field name="position" readonly="1"/>
+                    <field name="docstatus" readonly="1"/> 
+                    <field name="docby" readonly="1" /> 
+                    <field name="docindate"  readonly="1"/>
+                    <field name="notes"   readonly="1" /> 
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="cnw_so_audittrail_form">
+            <field name="name">cnw.so.audittrail.form</field>
+            <field name="model">cnw.so.audittrail</field>
+            <field name="arch" type="xml">
+                <form string="Invoice List" create="false" edit="false" delete="false" >
+                <group>
+                    <field name="company_id" readonly="1" invisible="1" />
+                    <field name="name" readonly="1"  /> 
+                    <field name="sonumber" readonly="1"/>
+                    <field name="docref" readonly="1" />
+                    <field name="cardcode" readonly="1" />
+                    <field name="cardname" readonly="1" />
+                    <field name="sales" readonly="1" />
+                    <field name="arperson" readonly="1" />
+                    <field name="docdate" readonly="1" />
+                    <field name="doctype" readonly="1"   />
+                    <field name="position" readonly="1"/>
+                    <field name="docstatus" readonly="1"/> 
+                    <field name="docby" readonly="1" /> 
+                    <field name="docindate"  readonly="1"/>
+                    <field name="notes"   readonly="1" /> 
+                </group>
+                </form>
+            </field>
+        </record>        
+        <record model="ir.ui.view" id="cnw_so_audittrail_search">
+            <field name="name">cnw.so.audittrail.search</field>
+            <field name="model">cnw.so.audittrail</field>
+            <field name="arch" type="xml">
+                <search string="audit Trail Search"> 
+                    <field name="sonumber" />
+                    <field name="docref" />
+                    <field name="doctype" />
+                    <field name="cardcode" />
+                    <field name="cardname"  />
+                    <field name="sales" />
+                    <field name="arperson" /> 
+                </search>
+            </field>
+        </record>
+ 
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="cnw_so_audittrail_action">
+            <field name="name">Audit Trail List</field>
+            <field name="res_model">cnw.so.audittrail</field> 
+
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    </data>
+</odoo>

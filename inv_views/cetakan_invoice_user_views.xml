@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="cnw_cetakan_invoice_user_tree" model="ir.ui.view">
+            <field name="name">cnw.cetakan.invoice.user.tree</field>
+            <field name="model">cnw.cetakan.invoice.user</field>
+            <field name="arch" type="xml">
+                <tree string="AR Dashboard">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="cnw_cetakan_invoice_user_form" model="ir.ui.view">
+            <field name="name">cnw.cetakan.invoice.user.form</field>
+            <field name="model">cnw.cetakan.invoice.user</field>
+            <field name="arch" type="xml">
+                <form string="AR Dashboard">
+                    <field name="name"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="cnw_cetakan_invoice_user_action" model="ir.actions.act_window">
+            <field name="name">AR Department</field>
+            <field name="res_model">cnw.cetakan.invoice.user</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+                    <center>
+                        <strong>
+                    AR Department
+                        </strong>
+                    </center>
+                </p>
+                <p>
+                    AR Department Module
+                </p>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

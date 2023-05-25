@@ -1,0 +1,83 @@
+<html>
+<head>
+	<title>Kwitansi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+<body>
+<!-- header -->
+<div class="w3-row">
+	<div class ="w3-col s4">
+		<img src="{{logo}}" height="60" width="250">
+	</div>
+	<div class ="w3-col s4 w3-center w3-small">{{datetime}}</div>
+	<div class ="w3-col s4 w3-right-align"><H6>No. {{kwt_no}} </H6></div>
+</div>	
+<div class="w3-row">
+	<div class ="w3-col s4">
+		&nbsp;
+	</div>
+	<div class ="w3-col s4 w3-center"><h4><strong>KWITANSI</strong></h4></div>
+	<div class ="w3-col s4 w3-right-align"><img src="https://api.qrserver.com/v1/create-qr-code/?size=50x50&data={{kwt_no}}" ><br/></div>
+</div>	
+<br/>
+<!-- Header 2 -->
+
+<div class="w3-container">
+	<table class="w3-table ">
+		<tr>
+			<td class="w3-small" style="width:20%">Telah Terima Dari</td>
+			<td  class="w3-small" colspan="4" style="border-bottom: 1px dotted ">{{cardname}}</td>
+		</tr>
+		<tr>
+			<td class="w3-small">Sejumlah</td>
+			<td  class="w3-small"   colspan="4" style="border-bottom: 1px dotted ">{{terbilang}}</td>
+		</tr>
+		<tr>
+			<td  rowspan="3" class="w3-small">Keterangan</td>
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoiceso1}} &nbsp;</td>
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoicedate1}} &nbsp;</td>
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoiceint1}} &nbsp;</td>
+			<td  class="w3-small w3-right-align" style="border-bottom: 1px dotted ">{{invoicetotal1}} &nbsp;</td>
+		</tr>
+		<tr>
+
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoiceso2}} &nbsp;</td>
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoicedate2}} &nbsp;</td>
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoiceint2}} &nbsp;</td>
+			<td  class="w3-small w3-right-align" style="border-bottom: 1px dotted ">{{invoicetotal2}} &nbsp;</td>
+		</tr>
+		<tr>
+
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoiceso3}} &nbsp;</td>
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoicedate3}} &nbsp;</td>
+			<td  class="w3-small" style="border-bottom: 1px dotted ">{{invoiceint3}} &nbsp;</td>
+			<td  class="w3-small w3-right-align" style="border-bottom: 1px dotted ">{{invoicetotal3}} &nbsp;</td>
+		</tr>
+	</table>
+</div>  
+<div class="w3-row">
+	<div class="w3-col s4" style="width:30%;border-bottom:1px solid;border-top:1px solid;"><h6><strong>Rp. {{amount}}</strong><br/></h6></div>
+	<div class="w3-col s4">&nbsp;</div>
+	<div class="w3-col s4 w3-right-align w3-small">{{location}} , {{docdate}}</div>
+</div>	
+<div class="w3-row">
+	<div class="w3-col s4"><br/><b style="font-size:8pt">Bank Details:  
+            </b>
+                <i style="font-size:8pt"> {{transferto}}</i><br/>
+                
+    </div>
+	<div class="w3-col s4 w3-center">
+	<img src="https://api.qrserver.com/v1/create-qr-code/?size=48x48&data={{arperson}}" ><br/><br/></div>
+	<div class="w3-col s4 w3-center  w3-small">TTD</div>
+</div>	
+<br/>
+<div class="w3-row">
+	<div class="w3-col s4"> &nbsp;
+    </div>
+	<div class="w3-col s4 w3-center w3-small">{{arperson}}</div>
+	<div class="w3-col s4 w3-center w3-small">{{spv_ttd}}</div>
+</div>	
+</body>
+</html>

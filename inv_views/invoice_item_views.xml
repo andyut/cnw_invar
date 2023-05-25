@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="ar_invoice_item_tree">
+            <field name="name">ar.invoice.item.tree</field>
+            <field name="model">ar.invoice.item</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice List"   create="false" edit="false"  
+                decoration-danger="canceled=='Y'">
+                    <field name="company_id" readonly="1" invisible="1" />
+                    <field name="invoice" readonly="1"  />
+                    <field name="numatcard" readonly="1"  />
+                    <field name="partner_group" readonly="1"/>
+                    <field name="outlet" readonly="1" />
+                    <field name="docdate" readonly="1" />
+                    <field name="canceled" readonly="1"  invisible="1" />
+                    <field name="itemname" readonly="1"/>
+                    <field name="uom" readonly="1"/>
+                    <field name="product_group" readonly="1"/>
+                    <field name="product_brand" readonly="1"/>
+                    <field name="quantity" readonly="1" sum="sum_quantity" />
+                    <field name="quantity_ar"  readonly="1" sum="sum_quantity_ar" />
+                    <field name="price"  readonly="1"/>
+                    <field name="linetotal"   readonly="1" sum="sum_linetotal"  />
+                    <field name="margin"  readonly="1"/> 
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="ar_invoice_item_pivot">
+            <field name="name">ar.invoice.item.pivot</field>
+            <field name="model">ar.invoice.item</field>
+            <field name="arch" type="xml">
+                <pivot string="Invoice Item List" >
+                    <field name="product_group" type="row"/>
+                    <field name="docdate" type="col" interval="year" />
+                    <field name="linetotal" type="measure" /> 
+                </pivot>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="ar_invoice_item_search">
+            <field name="name">ar.invoice.item.search</field>
+            <field name="model">ar.invoice.item</field>
+            <field name="arch" type="xml">
+                <search string="Invoice Search">
+                    <filter string="Cancel In SAP" domain="[('canceled','=', 'Y')]" name="canceled_in_sap" />
+                    <filter string="Not Canceled" domain="[('canceled','=', 'N')]" name="notcanceled_in_sap" /> 
+                    
+                    <field name="numatcard" />
+                    <field name="invoice" />
+                    <field name="itemname" />
+                    <field name="cardcode" />
+                    <field name="product_group" />
+                    <field name="product_brand" />
+                    <field name="subgroup" />
+
+                    <filter string="product_group" name="group_product_group" domain="[]" context="{'group_by':'product_group'}" />
+                    <filter string="subgroup" name="group_subgroup" domain="[]" context="{'group_by':'subgroup'}" />
+                    <filter string="product_brand" name="group_product_brand" domain="[]" context="{'group_by':'product_brand'}" />
+                    <filter string="Invoice Date " name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ar_invoice_item_action">
+            <field name="name">Invoice Item List</field>
+            <field name="res_model">ar.invoice.item</field>
+            <field name="view_mode">tree,pivot</field>
+        </record>
+
+
+    </data>
+</odoo>

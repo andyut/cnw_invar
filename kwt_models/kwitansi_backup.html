@@ -1,0 +1,86 @@
+<html>
+<head>
+	<title>Kwitansi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+<body>
+<!-- header -->
+<div class="w3-row">
+	<div class ="w3-col s4">
+		<img src="{{logo}}" height="60" width="250">
+	</div>
+	<div class ="w3-col s4 w3-center w3-tiny">{{datetime}}</div>
+	<div class ="w3-col s4 w3-right-align"><H4>KWITANSI</H4></div>
+</div>	
+<div class="w3-row">
+	<div class ="w3-col s4">
+		&nbsp;
+	</div>
+	<div class ="w3-col s4 w3-center"><img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data={{kwt_no}}" ><br/></div>
+	<div class ="w3-col s4 w3-right-align"><h6><strong>{{kwt_no}} </strong></h6></div>
+</div>	
+<br/>
+<!-- Header 2 -->
+<div class="w3-row">
+	<div class ="w3-col w3-tiny" style="width:30%">
+		Telah Terima Dari
+	</div>
+	<div class ="w3-rest w3-left-align  w3-tiny" style="border-bottom: 1px dotted ">{{cardname}}</div>
+</div>	
+<div class="w3-row">
+	<div class ="w3-col w3-tiny" style="width:30%">
+		Sejumlah
+	</div>
+	<div class ="w3-rest w3-left-align w3-tiny"  style="border-bottom: 1px dotted ">{{terbilang}}</div>
+</div>	
+<div class="w3-row">
+	<div class ="w3-col w3-tiny" style="width:30%">
+		Keterangan
+	</div>
+	<div class ="w3-rest w3-left-align"  >
+		<table class="w3-table w3-tiny">
+			<tr style="border-bottom:1px dotted;">
+				<td>{{invoiceso1}}</td>
+				<td>{{invoiceint1}}</td>
+				<td class="w3-right-align">{{invoicetotal1}}</td>
+			</tr>
+			<tr style="border-bottom:1px dotted;">
+				<td>{{invoiceso2}}</td>
+				<td>{{invoiceint2}}</td>
+				<td class="w3-right-align">{{invoicetotal2}}</td>
+			</tr>
+			<tr style="border-bottom:1px dotted;">
+				<td>{{invoiceso3}}</td>
+				<td>{{invoiceint3}}</td>
+				<td class="w3-right-align">{{invoicetotal3}}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<br/>
+<div class="w3-row">
+	<div class="w3-col s4" style="width:30%;border-bottom:1px solid;border-top:1px solid;"><h6><strong>Rp. {{amount}}</strong><br/></h6></div>
+	<div class="w3-col s4">&nbsp;</div>
+	<div class="w3-col s4 w3-right-align w3-tiny">Jakarta,{{docdate}}</div>
+</div>	
+<div class="w3-row">
+	<div class="w3-col s4"><br/><b style="font-size:8pt">Bank Details: <br/>
+            </b>
+                <i style="font-size:8pt"> {{transferto}}</i><br/>
+                <i style="font-size:6pt"> Setiap keterlambatan pembayaran akan dikenakan interest rate 1% / bulan   </i>
+    </div>
+	<div class="w3-col s4 w3-center">
+	<img src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data={{arperson}}" ><br/><br/></div>
+	<div class="w3-col s4 w3-center  w3-tiny">TTD</div>
+</div>	
+<br/>
+<div class="w3-row">
+	<div class="w3-col s4"> &nbsp;
+    </div>
+	<div class="w3-col s4 w3-center w3-tiny">{{arperson}}</div>
+	<div class="w3-col s4 w3-center w3-tiny">{{spv_ttd}}</div>
+</div>	
+</body>
+</html>

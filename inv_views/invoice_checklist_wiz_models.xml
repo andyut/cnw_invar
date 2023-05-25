@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <act_window id="cnw_invoice_checklist_wizard_action" 
+        name="Invoice Check List"  
+
+       
+        res_model="cnw.invoice.checklist" 
+        src_model="ar.invoice"  
+        view_mode="form" target="new" multi="True"  view_type="form"/>
+ 
+
+    <record id="cnw_invoice_checklist_wizard" model="ir.ui.view">
+      <field name="name">cnw.invoice.checklist.wizard</field>
+      <field name="model">cnw.invoice.checklist</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Invoice Check List">
+
+          <group string="Invoice Check List">
+            <field name="company_id" readonly="1"/>
+            <field name="checklist_date"  /> 
+            <field name="notes" /> 
+            
+          </group>
+
+          <footer>
+            <button string="Check List Invoice" name="check_list" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+
+        </form>
+      </field>
+    </record>
+</data>
+</odoo>

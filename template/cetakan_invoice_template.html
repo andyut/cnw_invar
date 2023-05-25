@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<title>Invoice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://sapweb.indoguna.co.id/w3.css">
+<!--<link rel='stylesheet' href='https://fonts.google.com/specimen/Inconsolata'>  -->
+<!--<link rel="stylesheet" href="http://192.168.9.235/font-awesome.min.css"> -->
+
+<style>
+ @page {
+            size: A4;
+</style>
+<body>
+    {% for invoice in  header %}
+    <div class="w3-container">
+	   <div class="w3-row">
+            <div class="w3-col s4  w3-left-align">
+                <img src="{{logo}}" height="60" width="250">
+            
+            </div>
+            <div class="w3-col s4 w3-tiny w3-center" >
+                {{igu_tanggal}} &nbsp;
+                
+            </div>
+            <div class="w3-col s4 w3-right-align">
+                    <p > <h3>INVOICE</h3></p>
+                    
+            
+            </div>   
+        </div>
+    </div>
+
+<!-- New menu
+-->
+<div class="w3-container">
+
+    <div class="w3-row">
+
+        <div class="w3-col s6 w3-tiny">
+            <b>Customer Name & Address</b>
+            <p><b>{{ invoice[6] }} - {{ invoice[5] }}</b></p>
+            <p>{{ invoice[8] }}</p>
+            <b>Ship To.</b> {{ invoice[7] }} <br/> 
+            <b>Ref. </b> {{invoice[2]}} <br/> <br/>
+        </div>
+
+        <div class="w3-col s1 w3-center"><br/>
+            <img src="https://sapweb.indoguna.co.id/IDU_QRCode/api/QrCodeApi/GetQrcode?code={{ invoice[3] }}&maxWidth=45&maxHeight=45">
+        </div>
+
+        <div class="w3-col s5">
+            <table class="w3-table w3-tiny">
+                <tr>
+                    <td>
+                            <b>Invoice No. </b><br/>
+                                    <b>Invoice Date.</b> <br/>
+                                    <b>SO No.</b> <br/> 
+                                    <b>Tax. </b>  <br/> 
+                                    <b>Faktur Pajak.</b> <br/>
+                                    <b>Term Of Payment.</b>  <br/> 
+                                    <b>Doc Status.</b> 
+                                    <br/>                    
+
+                    </td>
+                    <td>
+                            {{ invoice[0] }} <br/>
+                                    {{ invoice[1] }} <br/>
+                                    {{ invoice[3] }} <br/> 
+                                    {{ invoice[18]}}<br/> 
+                                    
+                                    {{ invoice[21] }} <br/>
+                                    {{ invoice[4] }} <br/> 
+                                      
+                                    <I>
+                                        {% if invoice[17] <2 %}
+                                            ORIGINAL
+                                        {% endif %}
+                                        {% if invoice[17] >1 %}
+                                            COPY ({{ invoice[17]-1 }})
+                                        {% endif %}
+                                    </I> <br/>                       
+
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div> 
+</div>       
+      <div class="w3-container">
+            <table class="w3-table"   style="border: 1px solid black;font-size: 9px;border-collapse: collapse;border-spacing: 0;padding: 0;">
+                <thead>
+                    <tr>
+                      <th class="w3-center" width="60%"  style="border: 1px solid black;">Description</th>
+                      <th  class="w3-center"  width="10%" style="border: 1px solid black;">Qty</th>
+                      <th  class="w3-center"  width="5%" style="border: 1px solid black;">Uom</th>
+                      <th class="w3-center"  width="10%" style="border: 1px solid black;">Unit Price <br/>(Rp)</th>
+                          <th class="w3-center"  width="15%" style="border: 1px solid black;" class="w3-right-align">Total<br/>(Rp)</th>
+                    </tr>
+                </thead> 
+                
+    {% for invoiceline in  detail  %}
+    {% if invoiceline[7] == invoice[13] %}
+                
+                    <tr class="w3-tiny" style="line-height:2mm;">
+                      <td style="border: 1px solid black;font-size: 9px;">{{ invoiceline[2]}} </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{ "{:,.4f}".format(invoiceline[3]) }} </td>
+                      <td  style="border: 1px solid black;font-size: 9px;"> {{invoiceline[6]}} </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{ "{:,.0f}".format(invoiceline[4]) }} </td>
+                      <td class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{ "{:,.0f}".format(invoiceline[5]) }} </td>
+                    </tr>
+    {% endif %}
+     {% endfor %}
+     
+                        <tr  class="w3-align-right">
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Amount</b></td>
+                            <td  class="w3-right-align"  style="border: 1px solid black;height:9pt">{{  "{:,.0f}".format(invoice[9]) }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Discount</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt">{{  "{:,.0f}".format(invoice[11]) }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Tax</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt">{{  "{:,.0f}".format(invoice[10]) }} </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;"><b>Total</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt"><b>{{  "{:,.0f}".format(invoice[12]) }} </b></td>
+                        </tr>
+                  </table>
+      </div>
+ <br/>
+ <br/>
+      <div class="w3-container">
+    <div class="w3-row w3-center w3-tiny">
+            <div class="w3-col s6 w3-left-align">
+            <b>Bank Details: <br/>
+            </b>
+                <i class="fa fa-address-card"> {{ invoice[22] }}</i> <br/>
+                <i style="font-size:6pt"> Setiap keterlambatan pembayaran akan dikenakan denda 1% / bulan   </i>
+            
+            </div>
+            <div class="w3-col s3 w3-center">  
+                <img src="https://sapweb.indoguna.co.id/IDU_QRCode/api/QrCodeApi/GetQrcode?maxWidth=58&maxHeight=58&code={{ invoice[15] }}" > &nbsp;&nbsp;&nbsp;<p  style="font-size:6pt" >AR [{{ invoice[15] }}] &nbsp;&nbsp;&nbsp;</p></div>
+                <div class="w3-col s3 w3-right-align">  
+                <img src="https://sapweb.indoguna.co.id/IDU_QRCode/api/QrCodeApi/GetQrcode?maxWidth=58&maxHeight=58&code={{ invoice[16] }}" > &nbsp;&nbsp;&nbsp;<p  style="font-size:6pt"  >[{{ invoice[16] }}] &nbsp;&nbsp;&nbsp;</p></div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col">
+            <p  style="border: 1px solid black;font-size:6pt;text-align: center;">This is automatically generated by system. No signature is required. <br/>
+                <i>Dokumen ini diproses secara otomatis melalui sistem, sehingga tandatangan tidak diperlukan</i></p>
+        </div>
+    </div>
+</div>   
+ 
+
+  <p style="page-break-before: always" ></p>
+  {% endfor %}
+</body>
+</html>

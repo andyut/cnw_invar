@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+ 
+
+        <record model="ir.ui.view" id="ar_tf_tree">
+            <field name="name">ar.tf.tree</field>
+            <field name="model">ar.tf</field>
+            <field name="arch" type="xml">
+                <tree string="List Jadwal Tagihan">
+                    <field name="company_id"  />
+                    <field name="name"   />
+                    <field name="docdate"   />
+                    <field name="coll_id"   />
+                    <field name="jalur_id"  />
+                    <field name="remarks"   />
+                    <field name="ar_id"   />  
+                    <field name="status"  /> 
+                </tree>
+            </field>
+        </record> 
+        <record model="ir.ui.view" id="ar_tf_form">
+            <field name="name">ar.tf.form</field>
+            <field name="model">ar.tf</field>
+            <field name="arch" type="xml">
+                <form string="  Jadwal Tagihan">
+                <header>
+                        <button name="print_pdf" string="Print TF Invoice" type="object" class="btn-primary" 
+                            attrs="{'invisible': [('status','!=','postSAP')] }"  />
+                        <button name="print2_pdf" string="Print TF Kwitansi" type="object" class="btn-primary" 
+                            attrs="{'invisible': [('status','!=','postSAP')] }"  />
+                        <button name="post2sap" string="Post to SAP" type="object" class="btn-primary" 
+                            attrs="{'invisible': [('status','=','postSAP')] }" />
+ 
+                <field name="status" widget="statusbar" statusbar_visible="open,postSAP,closed" />
+                </header>
+                <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1" />
+                            </h1>
+                            <br/>
+                            <h2>
+                                <field name="company_id" readonly="1" />
+                            </h2>
+
+                        </div>
+                        <group>
+                            <group>
+                                <field name="docdate" /> 
+                                <field name="doctotal" /> 
+                            </group>
+                            <group>
+                                <field name="jalur_id" />
+                                <field name="coll_id" />
+                                <field name="remarks" />
+                            </group>
+                        </group>
+                <notebook>
+                    <page string="Invoice">
+                    <field name="tfline_ids">
+                    <tree editable="top">
+                        <field name="docnum" readonly="1"/>
+                        <field name="numatcard" readonly="1"/>
+                        <field name="docdate"  readonly="1"/>
+                        <field name="taxdate"  readonly="1"/>
+                        <field name="shiptocode"  readonly="1"/>
+                        <field name="kwitansi"  readonly="1"/>
+                        <field name="cust_ref"  readonly="1"/>
+                        <field name="tf_collector"  readonly="1"/>
+                        <field name="tf_remarks"  readonly="1"/>
+                        <field name="total"  readonly="1"/>
+                        <field name="inotes"  readonly="1"/>  
+                    </tree>
+                                   
+                    </field>
+                    </page>
+                    <page string="Debug">
+                        <field name="txtlog" />
+                    </page>
+                </notebook>
+                </sheet>
+                </form>
+            </field>
+        </record>         
+        <record model="ir.ui.view" id="ar_tf_search">
+            <field name="name">ar.tf.search</field>
+            <field name="model">ar.tf</field>
+            <field name="arch" type="xml">
+                <search string="Invoice Search">
+      
+                    <field name="jalur_id" />
+                    <field name="coll_id" /> 
+                    <field name="name" /> 
+                    <field name="ar_id" /> 
+                    <field name="remarks" /> 
+
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ar_tf_action">
+            <field name="name">List Tagihan</field>
+            <field name="res_model">ar.tf</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+ 
+
+    </data>
+</odoo>

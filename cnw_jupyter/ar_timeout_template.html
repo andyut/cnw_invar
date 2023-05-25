@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<title>{{judul}}</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<head>
+</head>
+<body>
+{%for data in datas %}
+<div class="w3-row">
+    <div class="w3-col w3-right-align">
+        <h5>No. LT20200923123</h5>
+    </div>
+</div>
+
+<div class="w3-container">
+<p>
+    Kepada Yth. <br/>
+{{data[2]}} ({{data[1]}} )
+    </p>
+    <p>
+Bersama dengan email ini, kami ingin mengingatkan bahwa ada tagihan yang sudah jatuh tempo sejak tanggal <b><i> {{data[8]}}</i></b> sebesar <b><i> Rp. {{data[13]}} </i></b>  yang belum dibayarkan.
+    </p>
+    <p>
+Kami juga ingin mengingatkan kembali bahwa ada tagihan <b><i> {{data[1]}}</i></b> yang sudah jatuh tempo sejak tanggal <b><i> {{data[8]}}</i></b> sebesar <b><i> Rp. {{data[12]}}</i></b>
+    </p>
+<p>    
+Dengan demikian, total tagihan <b><i>{{data[1]}}</i></b> adalah sebesar <b><i> Rp. {{data[5]}}</i></b>
+    </p>
+    <p>
+Sehubungan dengan belum dilakukannya pembayaran atas tagihan tersebut sesuai dengan term of payment <b><i> {{data[6]}} Bulan </i></b>  setelah tanggal tukar faktur, bagian Penerimaan Order kami tidak dapat  memproses order <b><i>{{data[1]}}</i></b> selanjutnya karena account <b><i> {{data[1]}}</i></b> sudah automatically locked by system. Mohon agar <b><i>{{data[2]}}</i></b> dapat melakukan pembayaran atas tagihan yang sudah jatuh tempo di atas untuk dapat melakukan order kembali. 
+    </p>
+    <p>
+Rincian tagihan terlampir.
+    </p>
+    </div>
+<div class="w3-container">
+   <div class="row">
+        <div class="col" >
+        <table class="w3-table w3-striped w3-bordered w3-tiny">
+            <thead>
+            <th>Date </th>
+            <th>SO </th>
+            <th>FP </th>
+            <th>Kwitansi</th> 
+            <th>Total </th> 
+            </thead>
+            <tr>
+                <td>{{data[8]}}</td>
+                <td>{{data[9]}}</td>
+                <td>{{data[10]}}</td>
+                <td>{{data[11]}}</td>
+                <td>{{data[13]}}</td>
+            </tr>
+         </table>
+        </div>
+ 
+    </div>
+    </div>
+
+    
+    
+    <div class="w3-container">
+
+    <p>
+Demikian informasi ini kami sampaikan. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.
+    </p>
+<p class="w3-right-align">
+    <br/><br/>
+Best Regards,<br/>
+Accounting Indoguna
+    </p> 
+    
+    </p>
+    </div>
+{% endfor %}
+</body>
+
+</html>

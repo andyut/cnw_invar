@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sap_bp_outletfind_wiz_action" model="ir.actions.act_window">
+            <field name="name">Business Partner</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sap.bp.outletfind.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="sap_bp_outletfind_wizard_form" model="ir.ui.view">
+            <field name="name">sap.bp.outletfind.form</field>
+            <field name="model">sap.bp.outletfind.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Business Partner">
+
+
+                    <footer>
+                        <button string="List" name="view_bp_xls" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+        <record id="sap_bp_outletfind_tree" model="ir.ui.view">
+            <field name="name">sap.bp.outletfind.tree</field>
+            <field name="model">sap.bp</field>
+            <field name="arch" type="xml">
+                <tree string="Business Partner" create="false" edit="false" decoration-warning="a60>0"  >
+                    <field name="cardcode"/>
+                    <field name="cardname"/> 
+                    <field name="salesperson"/>
+                    <field name="ar_person"/>
+                    <field name="parent_bp"/>
+                    <field name="paymentgroup" />
+                    <field name="creditline"/>
+                    <field name="b60"/>
+                    <field name="a60"/>
+                    <field name="balance"/>
+                    <field name="laststatus"/> 
+                    <field name="laststatus_date"/> 
+                    <field name="followup_type"/> 
+                    <field name="notes"/> 
+                    <field name="freetext"/> 
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="sap_bp_outletfind_pivot" model="ir.ui.view">
+            <field name="name">sap.bp.outletfind.pivot</field>
+            <field name="model">sap.bp</field>
+            <field name="arch" type="xml">
+                <pivot string="Business Partner">     
+                 <field name="ar_person"  type="row" /> 
+                </pivot>
+            </field>
+        </record>
+
+
+        <record id="sap_bp_outletfind_form" model="ir.ui.view">
+            <field name="name">sap.bp.outletfind.form</field>
+            <field name="model">sap.bp</field>
+            <field name="arch" type="xml">
+                <form string="Business Partner"    create="false" edited="false">
+                    <header>
+                        <button name="f_refresh" string="Refresh Data" type="object" class="btn-primary" />
+
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="cardname" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="cardcode" readonly="1"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="groupname" readonly="1"/>
+                                <field name="lictradnum" readonly="1"/>
+                                <field name="alamatnpwp" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="salesperson" readonly="1"/>
+                                <field name="salesgroup" readonly="1"/>
+                                <field name="ar_person" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Finance">
+                                <group>
+                                    <group string="Status">
+                                        <field name="lock_limit" readonly="1"/>
+                                        <field name="lock_bp" readonly="1"/>
+                                        <field name="paymentgroup" readonly="1"/>
+                                    </group>
+                                    <group string="Credit">
+                                        <field name="creditline" readonly="1"/>
+                                        <field name="balance" readonly="1"/>
+                                        <field name="delivery" readonly="1"/>
+                                        <field name="ordersbal" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="General Info">
+                                <group>
+                                    <group >
+                                        <field name="phone1" readonly="1"/>
+                                        <field name="phone2" readonly="1"/>
+                                        <field name="cellular" readonly="1"/>
+                                        <field name="fax" readonly="1"/>
+                                        <field name="e_mail" readonly="1"/>
+                                        <field name="intrntsite" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="notes" readonly="1"/>
+                                        <field name="cntctprsn" readonly="1"/>
+                                        <field name="billaddress" readonly="1"/>
+                                        <field name="address" readonly="1"/>
+                                        <field name="mailaddress" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="List Contact">
+                                <group>
+                                    <button name="refresh_contact" string="Refresh Contact" type="object" class="btn-primary"/>
+                                </group>
+                                <group string="Contact">
+                                    <field name="contact_ids" nolabel="1" readonly="1">
+                                            <field name="name" readonly="1"/>    
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Outlet">
+                                <group>
+                                    <button name="refresh_outlet" string="Refresh Outlet" type="object" class="btn-primary"/>
+                                </group>
+                                <group string="Outlet"> 
+                                    <field name="outlet_ids" nolabel="1" readonly="1">
+                                    <tree editable="0">
+                                            <field name="name" readonly="1"/>    
+                                            <field name="street" readonly="1"/>    
+                                            <field name="delivery_route" readonly="1"/>    
+                                    </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Company Information">
+                                <group>
+                                    <group string="Information"> 
+                                        <field name="nik"  />
+                                        <field name="kartukeluarga"  />
+                                        <field name="siup"  />
+                                        <field name="tdp"  />
+                                        <field name="skd"  />
+                                        <field name="akte_pendirian"  />
+                                        <field name="parent_bp"  />
+                                    </group>
+                                    <group string="Banking Info">
+                                        <field name="va"  />
+                                        <field name="va_status"  />
+                                    </group>
+                                </group>
+                                      
+                            </page>                            
+                            <page string="Special Price">
+                                <group>
+                                    <button name="refresh_specialprice" string="Refresh Special Price" type="object" class="btn-primary"/>
+                                </group>
+                                <group string="Special Price For BP">
+                                    <field name="special_price" nolabel="1" readonly="1">
+                                     <tree editable="0">
+                                            <field name="itemcode" readonly="1"/>    
+                                            <field name="itemname" readonly="1"/>    
+                                            <field name="specialprice" readonly="1"/>  
+                                            <field name="usr_created" readonly="1"/>  
+                                            <field name="date_created" readonly="1"/>  
+                                            <field name="usr_updated" readonly="1"/>  
+                                            <field name="date_updated" readonly="1"/>  
+                                    </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Penjualan">
+                                <group>
+                                    <button name="refresh_invoice" string="Refresh Invoice" type="object" class="btn-primary"/>
+                                </group>
+                                <group string="Penjualan">
+                                    <field name="penjualan_ids" nolabel="1" readonly="1">
+
+                                    <tree editable="0">
+                                            <field name="bulan" readonly="1"/>    
+                                            <field name="basemount" readonly="1" sum="ttl_baseamount" />    
+                                            <field name="ppn" readonly="1" sum="ttl_ppn"/>  
+                                            <field name="piutang" readonly="1" sum="ttl_piutang"/>   
+                                    </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Latest 50 Payment">
+                                <group>
+                                    <button name="refresh_payment" string="Refresh Payment" type="object" class="btn-primary"/>
+                                </group>
+                                <group string="Last Payment">
+                                    <field name="payment_ids" nolabel="1" readonly="1">
+                                     <tree editable="0">
+                                            <field name="name" readonly="1"/>    
+                                            <field name="voucher" readonly="1"/>    
+                                            <field name="Journal" readonly="1"/>  
+                                            <field name="docdate" readonly="1"/>  
+                                            <field name="total" readonly="1"/>  
+                                    </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Follow Up">
+                                <group string="Follow Up Customer">
+                                    <field name="followup_ids" nolabel="1" readonly="1">
+                                     <tree editable="0">
+                                            <field name="name" readonly="1"/>    
+                                            <field name="followup_type" readonly="1"/>    
+                                            <field name="followup_by" readonly="1"/>  
+                                            <field name="internalnotes" readonly="1"/>  
+                                            <field name="notes" readonly="1"/>  
+                                    </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="freetext">
+                            <field name="freetext" nolabel="1" readonly="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="sap_bp_outletfind_search">
+            <field name="name">sap.bp.outletfind.search</field>
+            <field name="model">sap.bp</field>
+            <field name="arch" type="xml">
+                <search string="Business Partner Search">
+                    <field name="cardcode"/>
+                    <field name="cardname"/> 
+                    <field name="salesperson"/>
+                    <field name="ar_person"/>
+                    <field name="groupname"/> 
+                    <field name="bpname"/>
+                    <field name="billaddress"/>
+                    <field name="mailaddress"/>
+                    <field name="notes"/>
+                    <filter string="ar_person" name="group_ar_person" domain="[]" context="{'group_by':'ar_person'}" />
+                    <filter string="salesperson" name="group_salesperson" domain="[]" context="{'group_by':'salesperson'}" />
+                    <filter string="groupname" name="group_groupname" domain="[]" context="{'group_by':'groupname'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="sap_bp_outletfind_action" model="ir.actions.act_window">
+            <field name="name">Business Partner</field>
+            <field name="res_model">sap.bp</field>
+            <field name="view_mode">tree,form,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<title>Invoice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://192.168.9.235/w3.css">
+<!--<link rel='stylesheet' href='https://fonts.google.com/specimen/Inconsolata'>  -->
+<link rel="stylesheet" href="http://192.168.9.235/font-awesome.min.css"> 
+
+<style>
+ @page {
+            size: A4;
+</style>
+<body>
+    
+    <div class="w3-container">
+	   <div class="w3-row">
+            <div class="w3-col s4  w3-left-align">
+                <img src="/data/cnw_cabang/cnw_invar/template/logoigu.png" height="60" width="250">
+            
+            </div>
+            <div class="w3-col s4 w3-tiny w3-center" >
+                    2021-07-08 13:42:04
+                
+            </div>
+            <div class="w3-col s4 w3-right-align">
+                    <p > <h3>INVOICE</h3></p>
+                    
+            
+            </div>   
+        </div>
+    </div>
+
+<!-- New menu
+-->
+<div class="w3-container">
+
+    <div class="w3-row">
+
+        <div class="w3-col s6 w3-tiny">
+            <b>Customer Name & Address</b>
+            <p><b>JHON AGUSTINUS TEKAN - PS0805</b></p>
+            <p>JL Flamboyan Kav DKI P.12/13 Cipayung-Cipayung Jakarta Timur</p>
+            <b>Ship To.</b> TOKO JEJUJA <br/> 
+            <b>Ref. </b> PS0805-08/07/2021 <br/> <br/>
+        </div>
+
+        <div class="w3-col s1 w3-center"><br/>
+            <img src="http://192.168.1.32/IDU_QRCode/api/QrCodeApi/GetQrcode?code=SO202107004549&maxWidth=45&maxHeight=45">
+        </div>
+
+        <div class="w3-col s5">
+            <table class="w3-table w3-tiny">
+                <tr>
+                    <td>
+                            <b>Invoice No. </b><br/>
+                                    <b>Invoice Date.</b> <br/>
+                                    <b>SO No.</b> <br/> 
+                                    <b>Tax. </b>  <br/> 
+                                    <b>Faktur Pajak.</b> <br/>
+                                    <b>Term Of Payment.</b>  <br/> 
+                                    <b>Doc Status.</b> 
+                                    <br/>                    
+
+                    </td>
+                    <td>
+                            SI202107004549 <br/>
+                                    08-07-2021 <br/>
+                                    SO202107004549 <br/> 
+                                    PPNK_01<br/> 
+                                    
+                                    010.005-21.95505114 <br/>
+                                    Payment In Advance <br/> 
+                                      
+                                    <I>
+                                        
+                                        
+                                            COPY (49)
+                                        
+                                    </I> <br/>                       
+
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div> 
+</div>       
+      <div class="w3-container">
+            <table class="w3-table"   style="border: 1px solid black;font-size: 9px;border-collapse: collapse;border-spacing: 0;padding: 0;">
+                <thead>
+                    <tr>
+                      <th class="w3-center" width="60%"  style="border: 1px solid black;">Description</th>
+                      <th  class="w3-center"  width="10%" style="border: 1px solid black;">Qty</th>
+                      <th  class="w3-center"  width="5%" style="border: 1px solid black;">Uom</th>
+                      <th class="w3-center"  width="10%" style="border: 1px solid black;">Unit Price <br/>(Rp)</th>
+                          <th class="w3-center"  width="15%" style="border: 1px solid black;" class="w3-right-align">Total<br/>(Rp)</th>
+                    </tr>
+                </thead> 
+                
+    
+    
+                
+                    <tr class="w3-tiny" style="line-height:2mm;">
+                      <td style="border: 1px solid black;font-size: 9px;">KEWPIE MAYONNAISE ORIGINAL 6X1KG </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">12.0000 </td>
+                      <td  style="border: 1px solid black;font-size: 9px;"> PACK </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">52,450 </td>
+                      <td class="w3-right-align" style="border: 1px solid black;font-size: 9px;">629,400 </td>
+                    </tr>
+    
+     
+     
+                        <tr  class="w3-align-right">
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Amount</b></td>
+                            <td  class="w3-right-align"  style="border: 1px solid black;height:9pt">629,400 </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Discount</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt">0 </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Tax</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt">62,940 </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;"><b>Total</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt"><b>692,340 </b></td>
+                        </tr>
+                  </table>
+      </div>
+ <br/>
+ <br/>
+      <div class="w3-container">
+    <div class="w3-row w3-center w3-tiny">
+            <div class="w3-col s6 w3-left-align">
+            <b>Bank Details: <br/>
+            </b>
+                <i class="fa fa-address-card"> Bank Central Asia (BCA) : No 2303000704</i> <br/>
+                <i style="font-size:6pt"> Setiap keterlambatan pembayaran akan dikenakan denda 1% / bulan   </i>
+            
+            </div>
+            <div class="w3-col s3 w3-center">  
+                <img src="http://192.168.1.32/IDU_QRCode/api/QrCodeApi/GetQrcode?maxWidth=58&maxHeight=58&code=MEGA" > &nbsp;&nbsp;&nbsp;<p  style="font-size:6pt" >AR [MEGA] &nbsp;&nbsp;&nbsp;</p></div>
+                <div class="w3-col s3 w3-right-align">  
+                <img src="http://192.168.1.32/IDU_QRCode/api/QrCodeApi/GetQrcode?maxWidth=58&maxHeight=58&code=ID : 1509445" > &nbsp;&nbsp;&nbsp;<p  style="font-size:6pt"  >[manager] &nbsp;&nbsp;&nbsp;</p></div>
+    </div>
+    <div class="w3-row">
+        <div class="w3-col">
+            <p  style="border: 1px solid black;font-size:6pt;text-align: center;">This is automatically generated by system. No signature is required. <br/>
+                <i>Dokumen ini diproses secara otomatis melalui sistem, sehingga tandatangan tidak diperlukan</i></p>
+        </div>
+    </div>
+</div>   
+ 
+
+  <p style="page-break-before: always" ></p>
+  
+</body>
+</html>

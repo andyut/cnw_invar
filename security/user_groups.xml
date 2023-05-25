@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_actreport_category" model="ir.module.category">
+            <field name="name">CNW-Invoice AR</field>
+        </record>
+ 
+        <record id="igu_invoice_viewer" model="res.groups">
+            <field name="category_id" ref="cnw_invar.module_actreport_category" />
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="name">Invoice</field> 
+        </record>
+        <record id="igu_ar_viewer" model="res.groups">
+            <field name="category_id" ref="cnw_invar.module_actreport_category" />
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="name">AR Person</field>  
+        </record>
+        <record id="igu_accounting_viewer" model="res.groups">
+            <field name="category_id" ref="cnw_invar.module_actreport_category" />
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="name">Accounting</field>  
+        </record>
+        <record id="igu_accounting_spv_viewer" model="res.groups">
+            <field name="category_id" ref="cnw_invar.module_actreport_category" />
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="name">Accounting Supervisor</field>  
+        </record>
+        <record id="igu_regular_viewer" model="res.groups">
+            <field name="category_id" ref="cnw_invar.module_actreport_category" />
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="name">Regular Viewer</field>  
+        </record>        
+        <record id="igu_sales_viewer" model="res.groups">
+            <field name="category_id" ref="cnw_invar.module_actreport_category" />
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="name">Sales Viewer</field>  
+        </record>        
+        <record id="igu_admin_viewer" model="res.groups">
+            <field name="category_id" ref="cnw_invar.module_actreport_category" />
+            <field name="users" eval="[(4,ref('base.user_root'))]"/>
+            <field name="name">Admin Viewer</field>  
+        </record>           
+    </data>
+</odoo>

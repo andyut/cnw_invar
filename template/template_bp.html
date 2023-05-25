@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<title>Invoice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="semantic/dist/semantic.min.js"></script>
+<style>
+ @page {
+            size: A4;
+        }
+</style>
+<body>
+    <div class="w3-container w3-green">
+	   <div class="w3-row">
+            <div class="w3-col s4  w3-left-align">
+                &nbsp;
+            
+            </div>
+            <div class="w3-col s4 w3-tiny w3-center" >
+                {{igu_tanggal}} &nbsp;
+                
+            </div>
+            <div class="w3-col s4 w3-right-align">
+                    <p > <h3>BUSINESS PARTNER</h3></p>
+                    
+            
+            </div>   
+        </div>
+    </div>
+
+<!-- New menu
+-->
+<div class="w3-container">
+  
+    <div class="w3-row w3-small">
+        <div class="w3-col s6">
+          <select class="w3-select" name="option">
+            <option value="" disabled selected>Series</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+           Card Code <input class="w3-input w3-border w3-light-grey" type="text"> 
+          <p><i class="fa fa-fw fa-tv"></i> Card Name</p>
+        </div>
+        <div class="w3-col s6">
+          <p><i class="fa fa-fw fa-cutlery"></i> Kitchen</p>
+          <p><i class="fa fa-fw fa-thermometer"></i> Heating</p>
+          <p><i class="fa fa-fw fa-wheelchair"></i> Accessible</p>
+        </div>
+      </div>
+</div>  
+ 
+ <div class="w3-container">
+
+ </div>
+</body>
+</html>

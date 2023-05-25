@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<title>Invoice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://sapweb.indoguna.co.id/w3.css">
+<!--<link rel='stylesheet' href='https://fonts.google.com/specimen/Inconsolata'>  -->
+<!--<link rel="stylesheet" href="http://192.168.9.235/font-awesome.min.css"> -->
+
+<style>
+ @page {
+            size: A4;
+</style>
+<body> 
+    <div class="w3-container">
+	   <div class="w3-row">
+            <div class="w3-col s4  w3-left-align">
+                <img src="{{logo}}" height="60" width="250">
+            
+            </div>
+            <div class="w3-col s4 w3-tiny w3-center" >
+                    {{igu_tanggal}}
+                
+            </div>
+            <div class="w3-col s4 w3-right-align">
+                    <p > <h3>KWITANSI DETAIL</h3></p>
+                    
+            
+            </div>   
+        </div>
+    </div>
+
+<!-- New menu
+-->
+<div class="w3-container">
+
+    <div class="w3-row">
+
+        <div class="w3-col s6 w3-tiny">
+            <b>Customer Name & Address</b>
+            <p><b>{{cardcode}} - {{cardname}}</b></p> 
+            <b>Address.</b> {{address }} <br/>   <br/>
+        </div>
+
+        <div class="w3-col s1 w3-center"><br/>
+            <img src="https://sapweb.indoguna.co.id/IDU_QRCode/api/QrCodeApi/GetQrcode?code={{kwitansi_no}}&maxWidth=45&maxHeight=45">
+        </div>
+
+        <div class="w3-col s5">
+            <table class="w3-table w3-tiny">
+                <tr>
+                    <td>
+                            <b>Kwitansi No. </b><br/>
+                                    <b> Date.</b> <br/> 
+                                    <br/>                    
+
+                    </td>
+                    <td>
+                            {{ kwitansi_no }} <br/>
+                                    {{ docdate }} <br/> 
+                                        
+
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div> 
+</div>       
+      <div class="w3-container">
+            <table class="w3-table"   style="border: 1px solid black;font-size: 9px;border-collapse: collapse;border-spacing: 0;padding: 0;">
+                <thead>
+                    <tr>
+                      <th class="w3-center" width="25%"  style="border: 1px solid black;">No. Transaksi</th>
+                      <th  class="w3-center"  width="20%" style="border: 1px solid black;">Tanggal Transaksi</th>
+                      <th  class="w3-center"  width="15%" style="border: 1px solid black;">No. Internal </th>
+                      <th class="w3-center"  width="20%" style="border: 1px solid black;">FP</th>
+                          <th class="w3-center"  width="20%" style="border: 1px solid black;" class="w3-right-align">Total<br/>(Rp)</th>
+                    </tr>
+                </thead> 
+                
+    {% for kwitansi in  detail  %} 
+                
+                    <tr class="w3-tiny" style="line-height:2mm;">
+                      <td style="border: 1px solid black;font-size: 9px;">{{ kwitansi[1]}} </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{  kwitansi[3]  }} </td>
+                      <td  style="border: 1px solid black;font-size: 9px;"> {{ kwitansi[2] }} </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{  kwitansi[5]   }} </td>
+                      <td class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{ "{:,.0f}".format(kwitansi[6]) }} </td>
+                    </tr>
+     
+     {% endfor %}
+     
+                        <tr  class="w3-align-right">
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Total</b></td>
+                            <td  class="w3-right-align"  style="border: 1px solid black;height:9pt">{{  "{:,.0f}".format(amount) }} </td>
+                        </tr>
+                         
+                  </table>
+      </div>
+ <br/>
+ <br/>
+      <div class="w3-container">
+    <div class="w3-row w3-center w3-tiny">
+            <div class="w3-col s6 w3-left-align">
+            <b>Terbilang: <br/>
+            </b>
+                <i class="fa fa-address-card"> {{terbilang}}</i> <br/> 
+            
+            </div>
+            <div class="w3-col s3 w3-center">  
+                &nbsp; </div>
+                <div class="w3-col s3 w3-right-align">  
+                <img src="https://sapweb.indoguna.co.id/IDU_QRCode/api/QrCodeApi/GetQrcode?maxWidth=58&maxHeight=58&code={{creator}}" > &nbsp;&nbsp;&nbsp;<p  style="font-size:6pt"  >[{{ creator }}] &nbsp;&nbsp;&nbsp;</p></div>
+    </div>
+    
+</div>   
+ 
+
+  <p style="page-break-before: always" ></p> 
+</body>
+</html>

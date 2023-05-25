@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="cnw_invar_res_users_inherit" model="ir.ui.view">
+            <field name="name">cnw.invar.res.users.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml"> 
+                    <xpath expr="//page[1]" position="after">
+                        <page string="CNW INV AR">
+                            <group string="Setting">
+                                <field name="cnw_sap_salesgroup"/>
+                                <field name="cnw_sap_sales"/> 
+                            </group>
+                        </page>
+                    </xpath>
+               
+            </field>
+        </record>
+    </data>
+</odoo>  

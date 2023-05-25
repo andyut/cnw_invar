@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="jas_lap_kartupiutangmdl_tree" model="ir.ui.view">
+            <field name="name">jas.lap.kartupiutangmdl.tree</field>
+            <field name="model">jas.lap.kartupiutangmdl</field>
+            <field name="arch" type="xml">
+                <tree string="Kartu Piutang" create="false" edit="false" 
+                    > 
+                    <field name="doctype"/>
+                    <field name="cardname"  />
+                    <field name="docdate"/>
+                    <field name="duedate"/>
+                    <field name="refnumber"/>
+                    <field name="kwtnumber"/>
+                    <field name="paymentterm"/>
+                    <field name="docnumber"/> 
+                    <field name="diffdate" avg="sum_diffdate" />  
+                    <field name="diffduedate" avg="sum_diffduedate"/>   
+                    <field name="topdays" invisible="1"/>
+                    <field name="arperson"  invisible="1"/>
+                    <field name="salesgroup"  invisible="1"/>
+                    <field name="debit" sum="sum_debit"/> 
+                    <field name="credit" sum="sum_credit"/>
+                    <field name="amount" sum="sum_amount"/>    
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="jas_lap_kartupiutangmdl_pivot" model="ir.ui.view">
+            <field name="name">jas.lap.kartupiutangmdl.pivot</field>
+            <field name="model">jas.lap.kartupiutangmdl</field>
+            <field name="arch" type="xml">
+                <pivot string="Piutang">     
+                 <field name="cardname"  type="row" />  
+                 <field name="amount"  type="measure" />  
+                </pivot>
+            </field>
+        </record>
+
+ 
+        <record model="ir.ui.view" id="jas_lap_kartupiutangmdl_search">
+            <field name="name">jas.lap.kartupiutangmdl.search</field>
+            <field name="model">jas.lap.kartupiutangmdl</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                      
+                    <field name="name"/>
+                    <field name="cardcode"/> 
+                    <field name="cardname"/> 
+                    <field name="docdate"/> 
+                    <field name="doctype"/> 
+                    <field name="docnumber"/> 
+                    <field name="refnumber"/>
+                    <field name="kwtnumber"/>  
+                    <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                    <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
+                    <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="kwtnumber" name="group_kwtnumber" domain="[]" context="{'group_by':'kwtnumber'}" />
+                    <filter string="doctype" name="group_doctype" domain="[]" context="{'group_by':'doctype'}" />
+                    <filter string="salesgroup" name="group_salesgroup" domain="[]" context="{'group_by':'salesgroup'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="jas_lap_kartupiutangmdl_action" model="ir.actions.act_window">
+            <field name="name">Kartu Piutang Per Customer</field>
+            <field name="res_model">jas.lap.kartupiutangmdl</field>
+            <field name="view_mode">tree,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

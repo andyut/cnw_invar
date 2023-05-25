@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="sap_piutangpph_action" model="ir.actions.act_window">
+            <field name="name">Piutang PPh</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sap.piutang.pph</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="sap_piutangpph_form" model="ir.ui.view">
+            <field name="name">sap.piutang.pph.form</field>
+            <field name="model">sap.piutang.pph</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Piutang PPh">
+
+                    <group string="Piutang PPh"> 
+                    
+                         <field name="datefrom" /> 
+                         <field name="dateto" /> 
+                         <field name="account" /> 
+                    </group>
+        
+                    <footer>
+                        <button string="View XLS" name="view_piutangpph_xls" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

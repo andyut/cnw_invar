@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cnw_invoice_kwitansi_tree">
+            <field name="name">cnw.invoice.kwitansi.tree</field>
+            <field name="model">cnw.invoice.kwitansi</field>
+            <field name="arch" type="xml">
+                <tree string="List Kwitansi">
+                    <field name="company_id" />
+                    <field name="name" />
+                    <field name="docdate" />
+                    <field name="cardcode" />
+                    <field name="cardname" />
+                    <field name="arperson" />
+                    <field name="amount" />
+                    <field name="creator" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="cnw_invoice_kwitansi_form">
+            <field name="name">cnw.invoice.kwitansi.form</field>
+            <field name="model">cnw.invoice.kwitansi</field>
+            <field name="arch" type="xml">
+                <form string="  Jadwal Tagihan">
+                    <header>
+                            <button name="print_kwitansi" string="Print Kwitansi" type="object" class="btn-primary"/>
+                            <button name="print_kwitansi_detail" string="Print Kwitansi Detail" type="object" class="btn-primary"/>
+
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                            <h2>
+                                <field name="company_id" readonly="1"/>
+                            </h2>
+                        </div>                        
+                    <group>
+                        <field name="docdate" />
+                        <field name="cardcode" />
+                        <field name="cardname" />
+                        <field name="arperson" />
+                        <field name="amount" />
+                        <field name="terbilang" />
+                        <field name="creator" />
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="cnw_invoice_kwitansi_search">
+            <field name="name">cnw.invoice.kwitansi.search</field>
+            <field name="model">cnw.invoice.kwitansi</field>
+            <field name="arch" type="xml">
+                <search string="Invoice Search">
+
+                    <field name="name" />
+                    <field name="docdate" />
+                    <field name="cardcode" />
+                    <field name="cardname" />
+                    <field name="arperson" />
+                    <field name="amount" />
+                    <field name="creator" />
+
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="cnw_invoice_kwitansi_action">
+            <field name="name">List Kwitansi</field>
+            <field name="res_model">cnw.invoice.kwitansi</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

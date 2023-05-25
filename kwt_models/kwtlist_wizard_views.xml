@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+   
+     <act_window id="cnw_invoice_kwitansi_wizard_action" 
+        name="Kwitansi"  
+ 
+        res_model="cnw.invar.kwitansilist"  
+        view_mode="form" target="new" multi="True"  view_type="form"/>
+ 
+        
+    <record id="cnw_invoice_kwitansi_wizard_wizard" model="ir.ui.view">
+      <field name="name">cnw.invoice.kwitansi.wizard.wizard</field>
+      <field name="model">cnw.invar.kwitansilist</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Kwitansi">
+
+          <group string="Kwitansi">
+            <field name="company_id" readonly="1"/> 
+            <field name="datetfrom"  />
+            <field name="dateto"  />
+            <field name="customer"  /> 
+            <field name="kwitansi"  />  
+            
+          </group>
+
+          <footer>
+            <button string="Kwitansi" name="get_kwitansi" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+
+        </form>
+      </field>
+    </record>
+
+</data>
+</odoo>

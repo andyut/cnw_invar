@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="ar_collector_tree">
+            <field name="name">ar.collector.tree</field>
+            <field name="model">ar.collector</field>
+            <field name="arch" type="xml">
+                <tree string="collector List" editable="top"   >
+                    <field name="company_id" readonly="1" />
+                    <field name="name"  /> 
+                </tree>
+            </field>
+        </record>
+         
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ar_collector_action">
+            <field name="name">collector List</field>
+            <field name="res_model">ar.collector</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    </data>
+</odoo>

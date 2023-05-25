@@ -1,0 +1,54 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="ar_invoice_fpfile_tree">
+            <field name="name">ar.invoice.fpfile.tree</field>
+            <field name="model">ar.invoice.fpfile</field>
+            <field name="arch" type="xml">
+                <tree string="Invoice List" editable="top" create="false" edit="false"
+                >
+                    <field name="company_id" readonly="1" invisible="1" />
+                    <field name="name" readonly="1"  />
+                    <field name="fp" readonly="1"  />
+                    <field name="doctype" readonly="1"/>
+                    <field name="docnum" readonly="1" />
+                    <field name="so" readonly="1" />
+                    <field name="numatcard" readonly="1"    />
+                    <field name="cardcode" readonly="1"/>
+                    <field name="cardname" readonly="1"/>
+                    <field name="shiptocode" readonly="1"/>
+                    <field name="dpp" readonly="1" /> 
+                    <field name="vatsum"  readonly="1"/>
+                    <field name="total"  invisible="1" readonly="1" /> 
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="ar_invoice_fpfile_search">
+            <field name="name">ar.invoice.fpfile.search</field>
+            <field name="model">ar.invoice.fpfile</field>
+            <field name="arch" type="xml">
+                <search string="Invoice Search">
+                    <field name="so" />
+                    <field name="cardname" />
+                    <field name="cardcode" />
+                    <field name="fp" />
+                    <field name="numatcard" />
+                    <field name="name" />
+                    <field name="shiptocode" />
+                    
+                    <filter string="fp" name="group_fp" domain="[]" context="{'group_by':'fp'}" />
+                    <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                </search>
+            </field>
+        </record>
+ 
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ar_invoice_fpfile_action">
+            <field name="name">Invoice FP List</field>
+            <field name="res_model">ar.invoice.fpfile</field> 
+
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,66 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+ 
+
+    <record model="ir.ui.view" id="cnw_cflwup_followup_wizard_form">
+      <field name="name">cnw.cflwup.followup.wizard.form</field>
+      <field name="model">cnw.cflwup.followup.wizard</field>
+            <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="followup">
+          <header>
+             
+          </header>
+        <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="company_id" readonly="1"/>
+                                <field name="customer_id"  readonly="1"/>
+                                <field name="cardcode"/>
+                                <field name="cardname"/>
+                                <field name="cardgroup"/>
+                                <field name="balance" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="docdate"/>
+                                <field name="arperson"/>  
+                                <field name="salesname"/> 
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                              <group>
+                                  <field name="followup_type" />
+                                  <field name="followup_by" />
+                                  <field name="internalnotes" /> 
+                              </group>
+                            </page>
+                            <page string="email_template">
+                              <button name="generate" string="Generate Template" type="object" class="btn-primary"  />
+                              <field name="notes"/> 
+                              
+                            </page> 
+                        </notebook>
+                    <footer>
+                        <button string="[S]ave" name="save_followup" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                    </sheet>          
+        </form>
+      </field>
+    </record>
+ 
+    <act_window id="cnw_cflwup_followup_wizard_action" 
+        name="Customer Follow Up" 
+        res_model="cnw.cflwup.followup.wizard" 
+        src_model="sap.bp"  
+        view_mode="form" target="new" multi="True" /> 
+  </data>
+</odoo>

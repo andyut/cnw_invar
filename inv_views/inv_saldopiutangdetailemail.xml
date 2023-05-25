@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <act_window id="cnw_invar_saldopiutangdetailemail_wizard_action" 
+        name="Billing Email"  
+
+    groups="cnw_invar.igu_invoice_viewer,cnw_invar.igu_ar_viewer"        
+        res_model="cnw.invar.saldopiutangdetailemail" 
+        src_model="cnw.invar.saldopiutangdetailmodels"  
+        view_mode="form" target="new" multi="True"  view_type="form"/>
+ 
+
+    <record id="cnw_invar_saldopiutangdetailemail_wizard" model="ir.ui.view">
+      <field name="name">cnw.invar.saldopiutangdetailemail.wizard</field>
+      <field name="model">cnw.invar.saldopiutangdetailemail</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Billing Email">
+
+          <group string="Billing Email">          
+            <field name="email_body"  />              
+            
+          </group>
+          <group string="Email Delivery"   >
+            <field name="piutang_ids" nolabel="1">
+              <tree editable="top">
+                    <field name="name"/>
+                    <field name="mailaddress"/>
+                    <field name="remarks"/>
+              </tree>
+
+            </field>
+          </group>
+          <footer>
+            <button string="Send Billing" name="check_list" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+
+        </form>
+      </field>
+    </record>
+</data>
+</odoo>

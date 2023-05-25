@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard untuk ambil data sap -->
+    <act_window id="sar_tf_wizard_action" 
+        name="Jadwal Harian Tukar Faktur" 
+        res_model="ar.tf.wizard" 
+        src_model="ar.invoice"  
+        view_mode="form" target="new" multi="True" /> 
+
+        <record id="ar_tf_wizard_form" model="ir.ui.view">
+            <field name="name">ar.tf.wizard.form</field>
+            <field name="model">ar.tf.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Jadwal Harian Tukar Faktur">
+
+                    <group string="Jadwal">
+                        <field name="company_id" readonly="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="ar_id" readonly="1"/>
+                        <field name="docdate" /> 
+                        <field name="coll_id" widget="selection"/>
+                        <field name="jalur_id"   />
+                        <field name="remarks" />
+                    </group>
+
+                    <footer>
+                        <button string="Jadwal Tukar Faktur" name="CreateJadwalCollector" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

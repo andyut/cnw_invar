@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+        {{igu_title}}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel='stylesheet' href='https://fonts.google.com/specimen/Inconsolata'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+
+<body>
+    <head class="w3-container">
+        <div class="w3-row">
+            <div class="w3-col s4">
+                <h6>&nbsp; {{company}} </h6>
+            </div>
+            <div class="w3-col w3-center s4 w3-tiny">
+               {{igu_tanggal }}
+            </div>
+            <div class="w3-col w3-right-align s4">
+              <h5>
+               <b>{{igu_title}}</b>
+              </h5>   
+            </div>
+        </div>
+      <div class="w3-col">
+       <div class="w3-row w3-right-align w3-tiny">
+        <p><b> {{igu_remarks}}</b>
+      </p> </div>
+      </div>
+      
+      </head>  
+      <br/>
+ 
+      <table  class="w3-table-all w3-small " style="border-bottom-style: double;">
+          <th class="w3-small w3-left-align "><b>[Customer]</b></th>
+           <th class="w3-small  w3-left-align "> <b>[Internal No.]</b></th>
+           <th class="w3-small w3-left-align "><b>[Date]</b></th>
+           <th  class="w3-small w3-left-align "><b>[Sales Order]</b></th>
+           <th class="w3-small w3-left-align "><b>[Receipt No.]</b></th>
+           <th class="w3-small w3-right-align "><b>[Balance]</b></th>
+      
+     
+    {%for datas in detail %} 
+ 
+           <tr class="w3-tiny">
+
+            <td class="w3-tiny">{{datas[7]}} &nbsp;</td>             
+            <td class="w3-tiny">{{datas[0]}} &nbsp;</td>
+            <td class="w3-tiny">{{datas[1]}} &nbsp;</td>
+            <td class="w3-tiny">{{datas[2]}}&nbsp; </td>
+            <td class="w3-tiny">{{datas[3]}} &nbsp; </td> 
+            <td class="w3-tiny w3-right-align">{{"{:,.0f}".format(datas[5])}} &nbsp;</td>
+           </tr> 
+    
+    {%endfor%}
+    <tr class="w3-tiny">
+        <td class="w3-tiny" colspan="5"><B>TOTAL</B>&nbsp;</td>
+        <td class="w3-tiny w3-right-align">{{"{:,.0f}".format(total)}} &nbsp;</td>
+       </tr>     
+    </table>  
+</body>
+
+</html>

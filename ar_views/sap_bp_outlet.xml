@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sap_bp_outlet_tree" model="ir.ui.view">
+            <field name="name">sap.bp.outlet.tree</field>
+            <field name="model">sap.bp.outlet</field>
+            <field name="arch" type="xml">
+                <tree string="Business Partner" create="false" edit="false">
+
+                    <field name="bp_id" widget="many2one" />
+                    <field name="cardcode"/>
+                    <field name="name"/>
+                    <field name="arperson"/>
+                    <field name="street"/>
+                    <field name="delivery_route"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="sap_bp_outlet_action" model="ir.actions.act_window">
+            <field name="name">Business Partner Outlet</field>
+            <field name="res_model">sap.bp.outlet</field>
+            <field name="view_mode">tree</field>
+
+        </record>
+
+    </data>
+</odoo>

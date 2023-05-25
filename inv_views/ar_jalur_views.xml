@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="ar_jalur_tree">
+            <field name="name">ar.jalur.tree</field>
+            <field name="model">ar.jalur</field>
+            <field name="arch" type="xml">
+                <tree string="Jalur List" editable="top"   >
+                    <field name="company_id" readonly="1" />
+                    <field name="name"  /> 
+                </tree>
+            </field>
+        </record>
+         
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="ar_jalur_action">
+            <field name="name">Jalur List</field>
+            <field name="res_model">ar.jalur</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    </data>
+</odoo>

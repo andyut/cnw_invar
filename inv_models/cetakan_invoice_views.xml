@@ -1,0 +1,43 @@
+<odoo>
+    <data>
+      <!-- explicit list view definition -->
+    
+      <!-- Wizard untuk ambil data sap -->
+      <record id="cnw_cetakan_invoice_action" model="ir.actions.act_window">
+        <field name="name">Invoice Print</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cnw.cetakan.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+  
+      <record id="cnw_cetakan_invoice_form" model="ir.ui.view">
+        <field name="name">cnw.cetakan.invoice.form</field>
+        <field name="model">cnw.cetakan.invoice</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="Invoice Print ">
+  
+            <group string="Invoice Print">
+              <field name="company_id" readonly="1"/> 
+              <field name="datefrom" />
+              <field name="dateto" />
+              <field name="inv_from" />
+              <field name="inv_to" />
+              <field name="userwebid" />
+            </group>
+              <field name="filexls" filename="filenamexls"  widget="pdf_viewer" nolabel="1"  attrs="{'invisible': [('export_to','!=','pdf')] }"  />
+               <field name="filenamexls" invisible="1" /> 
+            <footer>
+              <button string="Print Invoice" name="get_CetakanInvoice" type="object" class="btn-primary"/>
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+  
+          </form>
+        </field>
+      </record>
+  
+       
+    </data>
+  </odoo>
