@@ -136,16 +136,7 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="List Contact">
-                                <group>
-                                    <button name="refresh_contact" string="Refresh Contact" type="object" class="btn-primary"/>
-                                </group>
-                                <group string="Contact">
-                                    <field name="contact_ids" nolabel="1" readonly="1">
-                                            <field name="name" readonly="1"/>    
-                                    </field>
-                                </group>
-                            </page>
+ 
                             <page string="Outlet">
                                 <group>
                                     <button name="refresh_outlet" string="Refresh Outlet" type="object" class="btn-primary"/>

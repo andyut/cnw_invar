@@ -11,14 +11,32 @@ from odoo import models, fields, api
 import base64
 import pymssql 
 
- 
 
+class SAPPartner_ContactGet(models.TransientModel):
+	_name           = "cnwls.bp.contact.get"
+
+	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
+	contactname		= fields.Char("Contact Name")
+	partnername 	= fields.Char("Partner Name")
+
+class SAPPartner_ContactUpdateStatus(models.TransientModel):
+	_name           = "cnwls.bp.contact.updatestatus"
+
+	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
+	blacklist		= fields.Selection(string="Black List", selection=[("Y","yes"),("N","No")],default="N") 
+
+ 
 class SAPPartner_TFRemarks(models.TransientModel):
 	_name           = "cnwls.bp.tfnotes"
 
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
 	tfnotes         = fields.Char("TF Notes",required=True)
 
+	delivery_invoice	= fields.Selection(string="Faktur Pengiriman", selection=[("Y","Yes"),("N","No")],default="N")
+	printfaktur			= fields.Selection(string="Print Faktur", selection=[("Y","Yes"),("N","No")],default="Y")
+	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Yes"),("N","No"),("O","Yes, Print Per Outlet")],default="N")
+	printfp				= fields.Selection(string="Print FakturPajak", selection=[("Y","Yes"),("N","No")],default="N")
+	penagihan_type		= fields.Selection(string="Tipe Penagihan", selection=[("Y","Tukar Faktur"),("N","Tidak Tukar Faktur")],default="N") 
 	def update_TFRemarks(self):
 
 		bps= self.env["sap.bp"].browse(self.env.context.get("active_ids"))        
@@ -139,10 +157,15 @@ class SAPPartner(models.Model):
 
 
 #print status
-	invoicing 		= fields.Char("Invoicing")
-	printfp 		= fields.Char("Print FP")
-	printinvoice	= fields.Char("Print Invoice")
-	printkwitansi	= fields.Char("Print Kwitansi")
+
+	delivery_invoice	= fields.Selection(string="Faktur Pengiriman", selection=[("Y","Yes"),("N","No")],default="N")
+	printfaktur			= fields.Selection(string="Print Faktur", selection=[("Y","Yes"),("N","No")],default="Y")
+	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Yes"),("N","No"),("O","Yes, Print Per Outlet")],default="N")
+	printfp				= fields.Selection(string="Print FakturPajak", selection=[("Y","Yes"),("N","No")],default="N")
+	penagihan_type		= fields.Selection(string="Tipe Penagihan", selection=[("Y","Tukar Faktur"),("N","Tidak Tukar Faktur")],default="N") 
+
+
+	printstatussummary = fields.Html("Print Status")
 
 
 	 
@@ -351,7 +374,7 @@ class SAPBPContact(models.Model):
 	cardname 		= fields.Char("Partner Name")
 	cardgroup 		= fields.Char("Partner Group")
 
-	blacklist		= fields.Char("BlackList")
+	blacklist		= fields.Selection(string="BlackList",selection=[("Y","Yes"),("N","No")], default="N")
 	email 			= fields.Char("Email")
 	mobilephone 	= fields.Char("Mobile Phone")
 	position 		= fields.Char("Position")
