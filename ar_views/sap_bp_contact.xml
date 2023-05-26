@@ -6,13 +6,12 @@
             <field name="model">sap.bp.contact</field>
             <field name="arch" type="xml">
                 <tree string="Business Partner" create="false" edit="false">
-
-                    <field name="bp_id" widget="many2one" />
-                    <field name="cardcode"/>
+ 
                     <field name="name"/>
-                    <field name="arperson"/>
-                    <field name="street"/>
-                    <field name="delivery_route"/>
+                    <field name="cardcode"/>
+                    <field name="cardgroup"/>
+                    <field name="address"/>
+                    <field name="blacklist"/>
                 </tree>
             </field>
         </record>
@@ -20,7 +19,7 @@
 
 
         <record id="sap_bp_contact_action" model="ir.actions.act_window">
-            <field name="name">Business Partner Outlet</field>
+            <field name="name">Business Partner Contact</field>
             <field name="res_model">sap.bp.contact</field>
             <field name="view_mode">tree</field>
 

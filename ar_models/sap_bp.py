@@ -37,6 +37,7 @@ class SAPPartner_TFRemarks(models.TransientModel):
 	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Yes"),("N","No"),("O","Yes, Print Per Outlet")],default="N")
 	printfp				= fields.Selection(string="Print FakturPajak", selection=[("Y","Yes"),("N","No")],default="N")
 	penagihan_type		= fields.Selection(string="Tipe Penagihan", selection=[("Y","Tukar Faktur"),("N","Tidak Tukar Faktur")],default="N") 
+	
 	def update_TFRemarks(self):
 
 		bps= self.env["sap.bp"].browse(self.env.context.get("active_ids"))        
