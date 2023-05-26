@@ -18,6 +18,7 @@ class SAPPartner_ContactGet(models.TransientModel):
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
 	contactname		= fields.Char("Contact Name")
 	partnername 	= fields.Char("Partner Name")
+	address 		= fields.Char(" Address")
 
 class SAPPartner_ContactUpdateStatus(models.TransientModel):
 	_name           = "cnwls.bp.contact.updatestatus"
