@@ -143,7 +143,9 @@ class SAPPartner(models.Model):
 	printfp 		= fields.Char("Print FP")
 	printinvoice	= fields.Char("Print Invoice")
 	printkwitansi	= fields.Char("Print Kwitansi")
-	@api.multi
+
+
+	 
 	def _getdesc(self):
 		self.partnerdesc = "[" + self.cardcode + "] " + self.cardname
 
@@ -345,6 +347,17 @@ class SAPBPContact(models.Model):
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
 	name            = fields.Char("Contact Name")    
 	bp_id           = fields.Many2one("sap.bp",string="Business Partner",ondelete='cascade')
+	cardcode 		= fields.Char("Partner Code")
+	cardname 		= fields.Char("Partner Name")
+	cardgroup 		= fields.Char("Partner Group")
+
+	blacklist		= fields.Char("BlackList")
+	email 			= fields.Char("Email")
+	mobilephone 	= fields.Char("Mobile Phone")
+	position 		= fields.Char("Position")
+	ktp 			= fields.Char("KTP")
+	npwp 			= fields.Char("NPWP")
+	address 		= fields.Char("Address")
 
 class SAPBPSpecialPrice(models.Model):
 	_name           = "sap.bp.specialprice"
@@ -381,6 +394,7 @@ class SAPBPPenjualan(models.Model):
 	ppn             = fields.Float("PPn",digit=(19,6))
 	piutang         = fields.Float("Piutang",digit=(19,6))
 	bp_id           = fields.Many2one("sap.bp",string="Business Partner",ondelete='cascade')
+
 class SAPBPInvoice(models.Model):
 	_name           = "sap.bp.invoice"
 	_description    = "SAP BP Last Invoice"
@@ -393,6 +407,7 @@ class SAPBPInvoice(models.Model):
 	fakturpajak     = fields.Char("Faktur Pajak")
 	total           = fields.Char("Street / Address ") 
 	bp_id           = fields.Many2one("sap.bp",string="Business Partner",ondelete='cascade')
+
 class SAPBPPayment(models.Model):
 	_name           = "sap.bp.payment"
 	_description    = "SAP BP payment"
