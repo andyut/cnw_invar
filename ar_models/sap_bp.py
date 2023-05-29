@@ -19,6 +19,7 @@ class SAPPartner_ContactGet(models.TransientModel):
 	contactname		= fields.Char("Contact Name")
 	partnername 	= fields.Char("Partner Name")
 	address 		= fields.Char(" Address")
+	arperson 		= fields.Char(" AR Person")
 
 	def getContact(self): 
 
@@ -35,6 +36,7 @@ class SAPPartner_ContactGet(models.TransientModel):
 		contactname = self.contactname if self.contactname else ""
 		partnername = self.partnername if self.partnername else ""
 		address 	= self.address if self.address else ""
+		arperson 	= self.address if self.address else ""
 		
 		msgsql ="""
 					declare @contactname varchar(20) ,@address varchar(50) , @partnername varchar(50)
@@ -42,6 +44,7 @@ class SAPPartner_ContactGet(models.TransientModel):
 					set @contactname = '""" + contactname + """'
 					set @partnername = '""" + partnername +"""' 
 					set @address = '""" + address +"""' 		
+					set @arperson = '""" + arperson +"""' 		
 
 					select '""" + companycode + """' + convert(varchar,a.cntctcode) id   ,
 							A.NAME , 
@@ -64,6 +67,8 @@ class SAPPartner_ContactGet(models.TransientModel):
 						b.CARDCODE + b.CARDNAME  like '%' + @partnername + '%' 
 					and 
 						isnull(A.Address,'') like '%' + @address + '%' 
+					and 
+						isnull(B.U_AR_Person,'') like '%' + @address + '%' 
 		"""
 		cursor.execute(  msgsql )
 
@@ -601,7 +606,7 @@ class SAPPartnerWizard(models.TransientModel):
                                                 'Faktur Pengiriman  : ' + isnull(a.U_delivery_invoice,'N') + char(13)+'<br/>'+
                                                 'Print Faktur  : ' + isnull(a.U_PrintFaktur,'Y') + char(13)+'<br/>'+
                                                 'Print Kwitansi  : ' + 
-                                                                            case isnull(a.U_PrintKwitansi,'N')
+                                                                            case isnull(a.U_PrintKwitansi,'Y')
                                                                                     when 'N' then 'Tidak Print Kwitansi'
                                                                                     when 'Y' then 'Print Kwitansi'
                                                                                     when 'O' then 'Print Kwitansi Per Outlet'
