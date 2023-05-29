@@ -38,7 +38,11 @@
             <field name="name">sap.bp.tree</field>
             <field name="model">sap.bp</field>
             <field name="arch" type="xml">
-                <tree string="Business Partner" create="false" edit="false" decoration-warning="a60>0"  >
+                <tree string="Business Partner" 
+                create="false" 
+                edit="false" 
+                decoration-warning="a60>0"  
+                 >
                     <field name="cardcode"/>
                     <field name="cardname"/> 
                     <field name="salesperson"/>
@@ -52,7 +56,7 @@
                     <field name="laststatus"/> 
                     <field name="laststatus_date"/> 
                     <field name="followup_type"/> 
-                    <field name="notes"/> 
+                    <field name="printstatussummary"/> 
                     <field name="freetext"/> 
                 </tree>
             </field>

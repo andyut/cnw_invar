@@ -591,7 +591,26 @@ class SAPPartnerWizard(models.TransientModel):
 												A.U_IGU_virtualrek,
 												A.U_print_va    ,
 												a.cardcode  + isnull(a.cardname,'') bpname,
-												a.free_text   itext
+												a.free_text   itext ,
+                                                a.U_delivery_invoice ,
+                                                a.U_PrintFaktur ,
+                                                a.U_PrintKwitansi ,
+                                                a.U_PrintFP ,
+                                                a.U_PenagihanType,
+                                                'Catatan TukarFaktur: ' + isnull(a.Notes,'')  + char(13)+'<br/>'+
+                                                'Faktur Pengiriman  : ' + isnull(a.U_delivery_invoice,'N') + char(13)+'<br/>'+
+                                                'Print Faktur  : ' + isnull(a.U_PrintFaktur,'Y') + char(13)+'<br/>'+
+                                                'Print Kwitansi  : ' + 
+                                                                            case isnull(a.U_PrintKwitansi,'N')
+                                                                                    when 'N' then 'Tidak Print Kwitansi'
+                                                                                    when 'Y' then 'Print Kwitansi'
+                                                                                    when 'O' then 'Print Kwitansi Per Outlet'
+                                                                                    when 'P' then 'Print Kwitansi Per PO '
+                                                                            end + char(13)+'<br/>'+
+                                                'Print Faktur Pajak  : ' + isnull(a.U_PrintFP,'N')+ char(13)+'<br/>'+
+                                                'Tukar Faktur  : ' + isnull(a.U_PenagihanType,'Y') + char(13)+'<br/>' +
+                                                'Lain Lain : ' + isnull(convert(varchar,a.free_text),'')+ char(13)+'<br/>'
+                                                as printsummary 
 												from OCRD (NOLOCK) A   
 												INNER JOIN OCRG (NOLOCK)  B ON A.GroupCode = B.GroupCode   
 												INNER JOIN OSLP (NOLOCK)  C ON A.SLPCODE = C.SlpCode  
@@ -631,6 +650,7 @@ class SAPPartnerWizard(models.TransientModel):
 															OADM  (NOLOCK) G
 												where a.cardtype='C' AND a.cardcode + UPPER(a.cardname) + upper(isnull(a.U_Parent_Group,'')) + UPPER(isnull(a.cardfname,''))+ UPPER(ISNULL(a.BillToDef,'')) like '%' + @partner  + '%' 
 												and isnull(a.u_AR_Person,'') like '%' + @arperson + '%'
+						
 								
 		"""
 #        cursor.execute( """ exec  [dbo].[IGU_ACT_BUSINESSPARTNER] '""" + partner + """' """ )
@@ -678,7 +698,13 @@ class SAPPartnerWizard(models.TransientModel):
 								"va",
 								"va_status",
 								"bpname",
-								"freetext"
+								"freetext",
+								"delivery_invoice",
+								"printfaktur",
+								"printkwitansi",
+								"printfp",
+								"penagihan_type",
+								"printstatussummary"
 								],rowdata)
 
 		conn.close()

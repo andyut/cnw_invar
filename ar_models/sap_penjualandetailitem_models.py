@@ -111,7 +111,9 @@ class SAP_penjualandetailitem(models.TransientModel):
                                     f.vatgroup PPnGroup,
                                     f.vatprcnt PPnPrcnt,
                                     f.vatsum PPn , 
-                                    f.linetotal - case f.linetotal when 0 then 0 else   ((f.linetotal / ( a.doctotal -a.vatsum+a.DiscSum))*a.DiscSum ) end   Total 
+                                    f.linetotal - case f.linetotal when 0 then 0 else   ((f.linetotal / ( a.doctotal -a.vatsum+a.DiscSum))*a.DiscSum ) end   Total ,
+                                    a.u_idu_fpajak ,
+                                    a.U_Kw_No
                             from oinv (nolock) a 
                                 inner join ocrd (nolock) b on a.cardcode = b.cardcode 
                                 inner join ocrg (nolock) c on b.GroupCode =c.GroupCode 
@@ -155,7 +157,9 @@ class SAP_penjualandetailitem(models.TransientModel):
                                     f.vatgroup PPnGroup,
                                     f.vatprcnt PPnPrcnt,
                                     -1 * f.vatsum PPn , 
-                                    -1 * (f.linetotal - case f.linetotal when 0 then 0 else   ((f.linetotal / ( a.doctotal -a.vatsum+a.DiscSum))*a.DiscSum ) end )  total 
+                                    -1 * (f.linetotal - case f.linetotal when 0 then 0 else   ((f.linetotal / ( a.doctotal -a.vatsum+a.DiscSum))*a.DiscSum ) end )  total ,
+                                    a.u_idu_fpajak ,
+                                    a.U_Kw_No
                             from orin (nolock) a 
                                 inner join ocrd (nolock) b on a.cardcode = b.cardcode 
                                 inner join ocrg (nolock) c on b.GroupCode =c.GroupCode 
