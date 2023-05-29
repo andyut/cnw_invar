@@ -24,6 +24,27 @@
         </record>
 
 
+        <record model="ir.ui.view" id="sap_bp_contact_search">
+            <field name="name">sap.bp.contact.search</field>
+            <field name="model">sap.bp.contact</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                      
+                    <field name="name"/>
+                    <field name="blacklist"/>  
+                    <field name="position"/> 
+                    <field name="mobilephone"/> 
+                    <field name="cardcode"/> 
+                    <field name="cardname"/> 
+                    <field name="cardfname"/> 
+                    <field name="email"/>
+                    <field name="ktp"/>  
+                    <field name="address"/>  
+                    <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                     
+                </search>
+            </field>
+        </record>
 
         <record id="sap_bp_contact_action" model="ir.actions.act_window">
             <field name="name">Business Partner Contact</field>
