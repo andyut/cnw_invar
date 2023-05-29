@@ -64,6 +64,7 @@
         'ar_views/sap_bp.xml',
         'ar_views/sap_bp_outlet.xml',
         'ar_views/sap_bp_contact.xml',
+        'ar_views/sap_bp_contact_get.xml',
         'tf_views/tf_views.xml',
         'tf_views/tf_wizard_views.xml',
         'tf_views/tagihan_number.xml',

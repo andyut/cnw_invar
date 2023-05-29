@@ -5,11 +5,18 @@
             <field name="name">sap.bp.contact.tree</field>
             <field name="model">sap.bp.contact</field>
             <field name="arch" type="xml">
-                <tree string="Business Partner" create="false" edit="false">
+                <tree string="Business Contact" create="false" edit="false"
+                decoration-danger="blacklist =='Y'"   >
  
                     <field name="name"/>
                     <field name="cardcode"/>
-                    <field name="cardgroup"/>
+                    <field name="cardname"/>
+                    <field name="cardfname"/>
+                    <field name="mobilephone"/>
+                    <field name="arperson"/>
+                    <field name="email"/>
+                    <field name="ktp"/>
+                    <field name="npwp"/>
                     <field name="address"/>
                     <field name="blacklist"/>
                 </tree>

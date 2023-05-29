@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+ <record id="sap_bp_contact_get_action" model="ir.actions.act_window">
+            <field name="name">Business Partner</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sap.bp.contact.get</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="sap_bp_contact_get_form" model="ir.ui.view">
+            <field name="name">sap.bp.form</field>
+            <field name="model">sap.bp.contact.get</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Business Partner Contact">
+
+                    <group string="Business Partner Contact">
+
+                        <field name="contactname" />
+                        <field name="partnername" />
+                        <field name="address" />
+                    </group>
+
+                    <footer>
+                        <button string="View" name="getContact" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+ 
+    </data>
+</odoo>

@@ -13,13 +13,85 @@ import pymssql
 
 
 class SAPPartner_ContactGet(models.TransientModel):
-	_name           = "cnwls.bp.contact.get"
+	_name           = "sap.bp.contact.get"
 
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
 	contactname		= fields.Char("Contact Name")
 	partnername 	= fields.Char("Partner Name")
 	address 		= fields.Char(" Address")
 
+	def getContact(self): 
+
+		host        = self.env.user.company_id.server
+		database    = self.env.user.company_id.db_name
+		user        = self.env.user.company_id.db_usr
+		password    = self.env.user.company_id.db_pass
+
+		companycode = self.env.user.company_id.code_base
+
+		conn = pymssql.connect(host=host, user=user, password=password, database=database)
+		cursor = conn.cursor()
+
+		contactname = self.contactname if self.contactname else ""
+		partnername = self.partnername if self.partnername else ""
+		address 	= self.address if self.address else ""
+		
+		msgsql ="""
+					declare @contactname varchar(20) ,@address varchar(50) , @partnername varchar(50)
+
+					set @contactname = '""" + contactname + """'
+					set @partnername = '""" + partnername +"""' 
+					set @address = '""" + address +"""' 		
+
+					select '""" + companycode + """' + convert(varchar,a.cntctcode) id   ,
+							A.NAME , 
+							A.[Position] ,
+							A.Cellolar,
+							B.CARDCODE ,
+							B.CARDNAME ,
+							B.CardFName , 
+							B.U_AR_Person ,
+							B.ShipToDef ,  
+							a.u_igu_noktp,
+							b.lictradnum,
+							isnull(A.Address,'')Address ,
+							isnull(a.U_blacklist,'N') blacklist
+					from  DBO.OCPR a
+					INNER JOIN  DBO.OCRD B ON A.CARDCODE = B.CARDCODE 
+					where  
+						a.name like '%' + @contactname + '%' 
+					and 
+						b.CARDCODE + b.CARDNAME  like '%' + @partnername + '%' 
+					and 
+						isnull(A.Address,'') like '%' + @address + '%' 
+		"""
+		cursor.execute(  msgsql )
+
+		rowdata = cursor.fetchall() 	
+		self.env.cr.execute ("""DELETE FROM sap_bp_contact WHERE create_uid =""" + str(self.env.user.id) + """ """ ) 
+			
+			 
+		for line in rowdata:
+			self.env["sap.bp.contact"].create({
+										"name" 			: line[1],  
+										"position" 		: line[2],  
+										"mobilephone"	: line[3],
+										"cardcode"		: line[4],
+										"cardname"		: line[5],
+										"cardfname"		: line[6],  
+										"arperson"		: line[7],
+										"shiptotdef"	: line[8],  
+										"ktp"			: line[9],
+										"npwp"			: line[10],
+										"address"		: line[11],
+										"blacklist"		: line[12] 
+										})
+		conn.close()
+		return {
+			"type": "ir.actions.act_window",
+			"res_model": "sap.bp.contact",
+			"views": [[False, "tree"]],
+			}
 class SAPPartner_ContactUpdateStatus(models.TransientModel):
 	_name           = "cnwls.bp.contact.updatestatus"
 
@@ -45,17 +117,17 @@ class SAPPartner_TFRemarks(models.TransientModel):
 
 
 # INIT SERVICES LAYER
-		appSession = requests.Session()
-		companyDB = self.env.user.company_id.db_name
-		UserName =  self.env.user.company_id.sapuser
-		Password =  self.env.user.company_id.sappassword
+		appSession 	= requests.Session()
+		companyDB 	= self.env.user.company_id.db_name
+		UserName 	=  self.env.user.company_id.sapuser
+		Password 	=  self.env.user.company_id.sappassword
 
-		url = self.env.user.company_id.sapsl
+		url 		= self.env.user.company_id.sapsl
 
 # SERVICES LAYER LOGIN		
 
 
-		urllogin = url + "Login"
+		urllogin 	= url + "Login"
 		print("LOGIN SL :")
 
 
@@ -74,13 +146,13 @@ class SAPPartner_TFRemarks(models.TransientModel):
 			print("update SL :")
 			urlPartner = url + "BusinessPartners('" + partner_id.cardcode + "')" 
 
-			payload = {
+			payload = 	{
 						"Notes": self.tfnotes 
 						}
 
 			response = appSession.patch(urlPartner,json=payload,verify=False)
 
-			print(response.text)
+			#print(response.text)
 			partner_id.notes = self.tfnotes 
 
 
@@ -135,7 +207,9 @@ class SAPPartner(models.Model):
 	special_price   = fields.One2many("sap.bp.specialprice","bp_id",string="Special Price")
 
 	freetext        = fields.Text("Free Text")
+
 #follow up 
+
 	laststatus      = fields.Char("Last Status")
 	laststatus_date = fields.Datetime("Last Status Date")   
 	followup_type   = fields.Selection(selection=[("mail","E-Mail"),("phone","Phone"),("whatsapp","Whatsapp"),("others","Other")],string="Type")
@@ -370,19 +444,21 @@ class SAPBPContact(models.Model):
 	_name           = "sap.bp.contact"
 	_description    = "SAP BP Contact"
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
-	name            = fields.Char("Contact Name")    
 	bp_id           = fields.Many2one("sap.bp",string="Business Partner",ondelete='cascade')
+	name            = fields.Char("Contact Name")    
+	position 		= fields.Char("Position")
+	mobilephone 	= fields.Char("Mobile Phone")
 	cardcode 		= fields.Char("Partner Code")
 	cardname 		= fields.Char("Partner Name")
+	cardfname 		= fields.Char("Partner Name 2")
 	cardgroup 		= fields.Char("Partner Group")
-
-	blacklist		= fields.Selection(string="BlackList",selection=[("Y","Yes"),("N","No")], default="N")
-	email 			= fields.Char("Email")
-	mobilephone 	= fields.Char("Mobile Phone")
-	position 		= fields.Char("Position")
+	arperson 		= fields.Char("AR Person")
+	shiptotdef		= fields.Char("Ship To")
+	email 			= fields.Char("Email") 	
 	ktp 			= fields.Char("KTP")
 	npwp 			= fields.Char("NPWP")
 	address 		= fields.Char("Address")
+	blacklist		= fields.Selection(string="BlackList",selection=[("Y","Yes"),("N","No")], default="N")
 
 class SAPBPSpecialPrice(models.Model):
 	_name           = "sap.bp.specialprice"
