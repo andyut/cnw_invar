@@ -140,7 +140,7 @@
                                     </group>
                                 </group>
                             </page>
- 
+
                             <page string="Outlet">
                                 <group>
                                     <button name="refresh_outlet" string="Refresh Outlet" type="object" class="btn-primary"/>
@@ -239,6 +239,9 @@
                             <page string="freetext">
                             <field name="freetext" nolabel="1" readonly="1"/>
                             </page>
+                             <page string="debug">
+                            <field name="resulttxt" nolabel="1"  />
+                            </page>                           
                         </notebook>
                     </sheet>
                 </form>

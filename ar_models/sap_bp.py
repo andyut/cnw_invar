@@ -39,7 +39,7 @@ class SAPPartner_ContactGet(models.TransientModel):
 		arperson 	= self.address if self.address else ""
 		
 		msgsql ="""
-					declare @contactname varchar(20) ,@address varchar(50) , @partnername varchar(50)
+					declare @contactname varchar(20) ,@address varchar(50) , @partnername varchar(50), @arperson varchar(50)
 
 					set @contactname = '""" + contactname + """'
 					set @partnername = '""" + partnername +"""' 
@@ -112,7 +112,7 @@ class SAPPartner_TFRemarks(models.TransientModel):
 
 	delivery_invoice	= fields.Selection(string="Faktur Pengiriman", selection=[("Y","Yes"),("N","No")],default="N")
 	printfaktur			= fields.Selection(string="Print Faktur", selection=[("Y","Yes"),("N","No")],default="Y")
-	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Yes"),("N","No"),("O","Yes, Print Per Outlet")],default="N")
+	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Yes"),("N","No"),("O","Yes, Print Per Outlet"),("P","Yes, Print Per PO")],default="N")
 	printfp				= fields.Selection(string="Print FakturPajak", selection=[("Y","Yes"),("N","No")],default="N")
 	penagihan_type		= fields.Selection(string="Tipe Penagihan", selection=[("Y","Tukar Faktur"),("N","Tidak Tukar Faktur")],default="N") 
 	
@@ -144,6 +144,7 @@ class SAPPartner_TFRemarks(models.TransientModel):
 		response = appSession.post(urllogin, json=payload,verify=False)
 
 		print(response.text)
+		
 
 # SERVICES LAYER PATCH
 		for partner_id in bps:
@@ -152,13 +153,22 @@ class SAPPartner_TFRemarks(models.TransientModel):
 			urlPartner = url + "BusinessPartners('" + partner_id.cardcode + "')" 
 
 			payload = 	{
-						"Notes": self.tfnotes 
+						"Notes": self.tfnotes ,
+						"U_delivery_invoice": self.delivery_invoice ,
+						"U_PrintFaktur": self.printfaktur ,
+						"U_PrintKwitansi": self.printkwitansi ,
+						"U_PrintFP": self.printfp ,
+						"U_PenagihanType": self.penagihan_type  
 						}
 
 			response = appSession.patch(urlPartner,json=payload,verify=False)
 
-			#print(response.text)
-			partner_id.notes = self.tfnotes 
+			print(response.text)
+			partner_id.delivery_invoice = self.delivery_invoice 
+			partner_id.printfaktur = self.printfaktur 
+			partner_id.printkwitansi = self.printkwitansi 
+			partner_id.printfp = self.printfp 
+			partner_id.resulttxt = urlPartner + "\n" + str(payload)  + "\n" + response.text
 
 
 
@@ -248,7 +258,7 @@ class SAPPartner(models.Model):
 
 	printstatussummary = fields.Html("Print Status")
 
-
+	resulttxt = fields.Text("Result")
 	 
 	def _getdesc(self):
 		self.partnerdesc = "[" + self.cardcode + "] " + self.cardname
@@ -605,13 +615,13 @@ class SAPPartnerWizard(models.TransientModel):
                                                 'Catatan TukarFaktur: ' + isnull(a.Notes,'')  + char(13)+'<br/>'+
                                                 'Faktur Pengiriman  : ' + isnull(a.U_delivery_invoice,'N') + char(13)+'<br/>'+
                                                 'Print Faktur  : ' + isnull(a.U_PrintFaktur,'Y') + char(13)+'<br/>'+
-                                                'Print Kwitansi  : ' + 
+                                                'Print Kwitansi  :<b> ' + 
                                                                             case isnull(a.U_PrintKwitansi,'Y')
                                                                                     when 'N' then 'Tidak Print Kwitansi'
                                                                                     when 'Y' then 'Print Kwitansi'
                                                                                     when 'O' then 'Print Kwitansi Per Outlet'
                                                                                     when 'P' then 'Print Kwitansi Per PO '
-                                                                            end + char(13)+'<br/>'+
+                                                                            end + char(13)+'</b><br/>'+
                                                 'Print Faktur Pajak  : ' + isnull(a.U_PrintFP,'N')+ char(13)+'<br/>'+
                                                 'Tukar Faktur  : ' + isnull(a.U_PenagihanType,'Y') + char(13)+'<br/>' +
                                                 'Lain Lain : ' + isnull(convert(varchar,a.free_text),'')+ char(13)+'<br/>'

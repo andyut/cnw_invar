@@ -21,6 +21,11 @@
                         </div>
                         <group> 
                                 <field name="tfnotes" /> 
+                                <field name="delivery_invoice" /> 
+                                <field name="printfaktur" /> 
+                                <field name="printkwitansi" /> 
+                                <field name="printfp" /> 
+                                <field name="penagihan_type" />  
                             
                         </group>
                         

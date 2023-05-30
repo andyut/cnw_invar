@@ -100,7 +100,20 @@ class SAP_penjualandetailSAP(models.TransientModel):
                                         isnull(a.PaidSys ,0)PaidSys ,
                                         a.DocTotal - isnull(a.PaidSys ,0)  balance , 
                                         g.vatgroup ,
-                                        isnull(b.notes,'') notes ,
+                                        'Catatan TukarFaktur: ' + isnull(b.Notes,'')  + char(13)+'<br/>'+
+                                                'Faktur Pengiriman  : ' + isnull(b.U_delivery_invoice,'N') + char(13)+'<br/>'+
+                                                'Print Faktur  : ' + isnull(b.U_PrintFaktur,'Y') + char(13)+'<br/>'+
+                                                'Print Kwitansi  :<b> ' + 
+                                                                            case isnull(b.U_PrintKwitansi,'Y')
+                                                                                    when 'N' then 'Tidak Print Kwitansi'
+                                                                                    when 'Y' then 'Print Kwitansi'
+                                                                                    when 'O' then 'Print Kwitansi Per Outlet'
+                                                                                    when 'P' then 'Print Kwitansi Per PO '
+                                                                            end + char(13)+'</b><br/>'+
+                                                'Print Faktur Pajak  : ' + isnull(b.U_PrintFP,'N')+ char(13)+'<br/>'+
+                                                'Tukar Faktur  : ' + isnull(b.U_PenagihanType,'Y') + char(13)+'<br/>' +
+                                                ' '
+                                        as notes ,
                                         A.DISCPRCNT , A.DISCSUM
                             from OINV (nolock) A 
                                 inner join ocrd (nolock)  b on a.cardcode = b.cardcode  

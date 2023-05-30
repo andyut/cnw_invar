@@ -28,8 +28,7 @@
                     <field name="kwitansi" readonly="1"/>
                     <field name="cust_ref" readonly="1" /> 
                     <field name="inotes" readonly="1" /> 
-                    <field name="tf_number" readonly="1" /> 
-                    <field name="tf_remarks" readonly="1" /> 
+                    <field name="tf_number" readonly="1" />  
                     <field name="collector" readonly="1" /> 
                     <field name="arperson"  readonly="1"/>
                     <field name="usersign"  invisible="1" readonly="1" />
