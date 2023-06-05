@@ -297,7 +297,12 @@ class ARGetInvoice(models.TransientModel):
 							isnull(a.U_LT_No ,'') Tagihan, 
 							isnull(a.U_Coll_Name ,'') tf_collector,
 							isnull(a.U_RemDelay,'') tf_remarks ,
-							ISNULL(B.U_Coll_Name,'-') as Collector
+							ISNULL(B.U_Coll_Name,'-') as Collector,
+							b.U_delivery_invoice ,
+							b.U_PrintFaktur ,
+							b.U_PrintKwitansi ,
+							b.U_PrintFP ,
+							b.U_PenagihanType						
 
 				from OINV (nolock) A 
 					inner join ocrd (nolock)  b on a.cardcode = b.cardcode  
@@ -374,7 +379,12 @@ class ARGetInvoice(models.TransientModel):
 							isnull(a.U_LT_No ,'') Tagihan, 
 							isnull(a.U_Coll_Name ,'') tf_collector,
 							isnull(a.U_RemDelay,'') tf_remarks,
-							ISNULL(B.U_Coll_Name,'-') as Collector
+							ISNULL(B.U_Coll_Name,'-') as Collector,
+							b.U_delivery_invoice ,
+							b.U_PrintFaktur ,
+							b.U_PrintKwitansi ,
+							b.U_PrintFP ,
+							b.U_PenagihanType
 
 				from orin (nolock) A 
 					inner join ocrd (nolock) b on a.cardcode = b.cardcode  
@@ -440,7 +450,12 @@ class ARGetInvoice(models.TransientModel):
 										'tf_number' ,  
 										'tf_collector',
 										'tf_remarks',
-										"collector"
+										"collector",
+										"delivery_invoice",
+										"printfaktur",
+										"printkwitansi",
+										"printfp",
+										"penagihan_type"
 										],rowdata)
 		
 		#view_do_list_tree = self.env['ir.model.data'].get_object_reference('ar_invoice','sp_do_list_tree')[1]
@@ -545,7 +560,14 @@ class ARInvoice(models.Model):
 
 	filexls         = fields.Binary("File Output")    
 	filenamexls     = fields.Char("File Name Output")
+## laporan status print
 
+	delivery_invoice	= fields.Selection(string="Faktur Pengiriman", selection=[("Y","Yes"),("N","No")],default="N")
+	printfaktur			= fields.Selection(string="Print Faktur", selection=[("Y","Yes"),("N","No")],default="Y")
+	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Yes"),("N","No"),("O","Yes, Print Per Outlet"),("P","Yes, Print Per PO")],default="N")
+	printfp				= fields.Selection(string="Print FakturPajak", selection=[("Y","Yes"),("N","No")],default="N")
+	penagihan_type		= fields.Selection(string="Tipe Penagihan", selection=[("Y","Tukar Faktur"),("N","Tidak Tukar Faktur")],default="N") 
+	
 	def fp_download(self):
 		filename = self.fp_filename
 		fp_path = self.env["ar.invoice.setting.fppath"].search([("company_id","=",self.company_id.id)]).name

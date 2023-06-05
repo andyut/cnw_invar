@@ -160,7 +160,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 																	("1135003","1135003-PIUTANG PENITIPAN BARANG"),
 																	("1135004","1135004-PIUTANG LAIN LAIN"),
 																	("1135005","1135005-PIUTANG  HANDLING"),
-																	("1137001","1137001-PIUTANG PPH23")],
+																	("1137001","1137001-PIUTANG PPH23"),
+																	("","ALL"),],
 																	default="1130001")	
 	export_to       = fields.Selection([ ('list','List 	'),('xlssummary', 'Excel Summary'),('xls', 'Excel'),('pdf', 'PDF'),],string='Export To', default='pdf')
 
@@ -190,6 +191,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 		listfinal = []
 		pandas.options.display.float_format = '{:,.2f}'.format
 		company = ""
+		account = self.account if self.account else ""
 		for comp in self.company_id:
 
 			host        = comp.server
@@ -248,7 +250,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						from oinv a
 						inner join ocrd b on a.cardcode = b.cardcode 
 						where a.canceled='N' and a.DocStatus='O' 
-						and a.ctlAccount = '""" + self.account + """' 
+						and a.ctlAccount = '""" + account + """' 
 						and a.cardcode + a.cardname like '%' +  @cardname + '%'
 						and (a.DocTotal - a.paidsys)<>0 
 						and convert(varchar,a.docdate,112) <= @datefrom
@@ -271,7 +273,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
 						where a.canceled='N' and a.DocStatus='O' 
-						and a.ctlAccount = '""" + self.account + """' 
+						and a.ctlAccount = '""" + account + """' 
 						and a.cardcode + a.cardname  like '%' +  @cardname + '%'
 						and (a.DocTotal - a.paidsys)<>0
 						and convert(varchar,a.docdate,112) <= @datefrom
@@ -299,7 +301,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						inner join ocrd b on a.ShortName = b.cardcode and a.TransType in (24,30)
                         inner join ojdt c on a.transid = c.transid 
 						where  b.cardcode + b.cardname like '%' +  @cardname + '%'
-						and a.Account = '""" + self.account + """' 
+						and a.Account = '""" + account + """' 
 						and (a.BalScDeb - a.BalScCred)<>0 
 						and convert(varchar,a.refdate,112) <= @datefrom
 

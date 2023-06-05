@@ -55,6 +55,12 @@
                     <filter string="Not Canceled" domain="[('canceled','=', 'N')]" name="notcanceled_in_sap" /> 
                     <filter string="Paid" domain="[('balance','=', 0)]" name="status_paid" />
                     <filter string="Un Paid" domain="[('balance','!=', 0)]" name="status_unpaid" />
+                   <filter string="Invoice dengan Pengiriman" domain="[('delivery_invoice','=', 'Y')]" name="checked_delivery_invoice" />
+                    <filter string="print faktur" domain="[('printfaktur','=', 'Y')]" name="checked_printfaktur" />
+                    <filter string="printkwitansi" domain="[('printkwitansi','!=', 'N')]" name="checked_printkwitansi" />
+                    <filter string="TukarFaktur" domain="[('penagihan_type','=', 'Y')]" name="checked_penagihan_type" />
+                    <filter string="printfp" domain="[('printfp','=', 'Y')]" name="checked_printfp" />
+
                     <field name="numatcard" />
                     <field name="cardname" />
                     <field name="arperson" />
@@ -70,6 +76,17 @@
                     <field name="docnum" /> 
                     <field name="balance" /> 
                     <field name="fp" />
+                    <field name="delivery_invoice"/>
+                    <field name="printfaktur"/>
+                    <field name="printkwitansi"/>
+                    <field name="penagihan_type"/>
+                    <field name="printfp"/>                    
+                    <filter string="delivery_invoice" name="group_delivery_invoice" domain="[]" context="{'group_by':'delivery_invoice'}" />
+                    <filter string="printfaktur" name="group_ar_person" domain="[]" context="{'group_by':'printfaktur'}" />
+                    <filter string="printkwitansi" name="group_ar_person" domain="[]" context="{'group_by':'printkwitansi'}" />
+                    <filter string="penagihan_type" name="group_ar_person" domain="[]" context="{'group_by':'penagihan_type'}" />
+                    <filter string="printfp" name="group_ar_person" domain="[]" context="{'group_by':'printfp'}" />
+
                     <filter string="kwitansi" name="group_kwitansi" domain="[]" context="{'group_by':'kwitansi'}" />
                     <filter string="Invoice Date " name="group_invoice" domain="[]" context="{'group_by':'docdate'}" />
                     <filter string="shiptocode " name="group_shiptocode" domain="[]" context="{'group_by':'shiptocode'}" />

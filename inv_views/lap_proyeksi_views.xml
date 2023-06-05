@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+      <!-- explicit list view definition -->
+    
+      <!-- Wizard untuk ambil data sap -->
+      <record id="cnw_invar_proyeksi_action" model="ir.actions.act_window">
+        <field name="name">Get Proyeksi</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cnw.invar.proyeksi</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+  
+      <record id="cnw_invar_proyeksi_form" model="ir.ui.view">
+        <field name="name">cnw.invar.proyeksi.form</field>
+        <field name="model">cnw.invar.proyeksi</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="proyeksi">
+  
+            <group string="proyeksi">
+
+              <field name="company_id" readonly="1"/> 
+              <field name="datefrom" />
+              <field name="dateto" />
+              <field name="arperson" />  
+              <field name="customer" />  
+            </group>
+  
+            <footer>
+              <button string="Get proyeksi" name="getproyeksi" type="object" class="btn-primary"/>
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+  
+          </form>
+        </field>
+      </record>
+  
+       
+    </data>
+  </odoo>
