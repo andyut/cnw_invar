@@ -14,3 +14,4 @@ from . import invoice_fpchecklist_wiz_models
 from . import lap_do_list
 from . import lap_tfbk
 from . import lap_proyeksi
+from . import lap_proyeksisummary

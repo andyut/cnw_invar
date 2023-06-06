@@ -52,6 +52,7 @@
         <menuitem sequence="490" name="Custom Report"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_490" parent="cnw_invar_menu_400"  />
         <menuitem sequence="491" name="Tukar Faktur Burger King"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_491" parent="cnw_invar_menu_490" action="cnw_invar_tfbk_action"/>
         <menuitem sequence="492" name="Proyeksi"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_492" parent="cnw_invar_menu_490" action="cnw_invar_proyeksi_action"/>
+        <menuitem sequence="493" name="Proyeksi Summary"  groups="igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_493" parent="cnw_invar_menu_490" action="cnw_invar_proyeksisummary_action"/>
 
 
     <menuitem  sequence="500" name="[A] ccounting / AR Report" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer" id="cnw_invar_menu_500" parent="cnw_invar_menu_root" />    

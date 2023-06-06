@@ -120,7 +120,7 @@ class CNWproyeksisummary(models.TransientModel):
                     inner join ocrd c on a.ShortName = c.cardcode 
                     inner join ocrg d on c.groupcode = d.groupcode 
 
-                    where  convert(varchar,a.DueDate ,112) <=  @dateto 
+                    where  convert(varchar,a.refdate ,112) <=  @dateto 
                     and a.account ='1130001' and a.transtype in (24)  /* and left(b.U_Trans_No,2) in ('BD','KD') */
                     group by right(convert(varchar,a.refdate ,112),2) ,
                             case 
@@ -147,7 +147,7 @@ class CNWproyeksisummary(models.TransientModel):
             filename = filenamexls2 
             #report = df.groupby(["Group","AR Person"]).sum()
             #df.to_excel(mpath + '/temp/'+ filenamexls2,index=False,engine='xlsxwriter') 
-            df.pivot_table(index=["iday" ],columns=["Header","idivisi"],aggfunc=np.sum,values=["amount"],fill_value=0,margins=True ).sort_index().to_excel(mpath + '/temp/'+ filenamexls2,index=False,engine='xlsxwriter')
+            df.pivot_table(index=["iday" ],columns=["Header","idivisi"],aggfunc=np.sum,values=["amount"],fill_value=0,margins=True ).sort_index().to_excel(mpath + '/temp/'+ filenamexls2,engine='xlsxwriter')
        # SAVE TO MODEL.BINARY 
         file = open(mpath + '/temp/'+ filename , 'rb')
         out = file.read()

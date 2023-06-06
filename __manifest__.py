@@ -46,6 +46,7 @@
         'inv_views/invoice_scanfp_views.xml',
         'inv_views/lap_tfbk_views.xml',
         'inv_views/lap_proyeksi_views.xml',
+        'inv_views/lap_proyeksisummary_views.xml',
         'inv_views/invoice_updatefp_views.xml',
         'inv_views/invoice_fpchecklist_wiz_models.xml',
         'inv_views/inv_saldopiutangdetailemail.xml',

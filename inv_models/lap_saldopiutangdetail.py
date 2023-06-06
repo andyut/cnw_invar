@@ -55,7 +55,7 @@ class CNWLapSaldoPiutangDetailEmail(models.TransientModel):
 		indate = datetime.now(pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d")
 		subject = "[" + self.env.user.company_id.name + "] Your Unpaid Invoice " 
 		strtable = ""
-		print("print sampe sini")
+		#print("print sampe sini")
 		total = 0.0
 		for inv in piutang:
 			strtable +="<tr>" 
@@ -131,7 +131,9 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	comp_name 		= fields.Char("Company Name")
 	docdate         = fields.Date ("Date")
 	taxdate         = fields.Date ("Document Date")
+	docduedate		= fields.Date ("Document Date")
 	docnum          = fields.Char("Docnum")
+	docentry 		= fields.Char("DocEntry")
 	po          	= fields.Char("PO")
 	numatcard       = fields.Char("Sales Order")
 	kwitansi        = fields.Char("Kwitansi")
@@ -144,6 +146,27 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	dpp         	= fields.Float("Amount")
 	balance         = fields.Float("Balance")
 
+# extra
+	doctype 		= fields.Char("DocType")
+	objtype 		= fields.Char("ObjType")
+	tfdate			= fields.Date("TukarFaktur Date")
+	lt_no 			= fields.Char("TF No")
+	remdelay 		= fields.Text("Customer Remarks")
+	nogiro 			= fields.Char("No Giro")
+	tglgiro			= fields.Date("Tgl Giro")
+	checklist 		= fields.Char("CheckList")
+	checklistdate	= fields.Date("Checklist Date")
+	gr_no 			= fields.Char("GR No")
+	arperson 			= fields.Char("AR Person")
+	transtype 		= fields.Char("TransType")
+
+	top_count 		= fields.Float("TOP Count")
+	top_desc 		= fields.Float("TOP Description")
+	datediff 		= fields.Float("Date Diff")
+	denda 			= fields.Float("Denda",default=0.0)
+	denda_status	= fields.Selection("TOP Count")
+
+
 class CNWLapSaldoPiutangDetail(models.TransientModel):
 	_name           = "cnw.invar.saldopiutangdetail"
 	_description    = "Saldo Piutang Detail"
@@ -151,6 +174,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 
 	dateto          = fields.Date("Date To",default=lambda s:fields.Date.today())
 	customer        = fields.Char("Business Partner",default="")
+	arperson        = fields.Char("AR Person",default="")
 	filexls         = fields.Binary("File Output",default=" ")    
 	filenamexls     = fields.Char("File Name Output",default="EmptyText.txt")
 	account         = fields.Selection(string="Account", selection=[
@@ -192,6 +216,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 		pandas.options.display.float_format = '{:,.2f}'.format
 		company = ""
 		account = self.account if self.account else ""
+		arperson = self.arperson if self.arperson else ""
 		for comp in self.company_id:
 
 			host        = comp.server
@@ -201,17 +226,19 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 			company = comp.name
 			 
 			#conn = pymssql.connect(host=host, user=user, password=password, database=database)
+
 			conn = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+host+';DATABASE='+database+';UID='+user+';PWD='+ password + ';TrustServerCertificate=yes')
 			
 			bp = self.customer if self.customer else ""
 
 			msgsql ="""
-						declare @datefrom varchar(20), @dateto varchar(20) 
-						declare @cardname varchar(50)
+						declare @datefrom varchar(20), @dateto varchar(20) ,@arperson varchar(20)
+						declare @cardname varchar(50), @account varchar(10)
 
-						declare @table table (  idx int identity(1,1),
+						declare @table table (  docentry int ,
 												docdate varchar(10),			
-												documentdate varchar(10),													
+												documentdate varchar(10),						
+                                                docduedate varchar(10)	,						
 												docnum varchar(20) ,
 												numatcard varchar(200)  ,
 												kwitansi varchar(200) ,
@@ -223,15 +250,31 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 												balance numeric(19,6),
 												po varchar(100) ,
 												dpp numeric(19,6) ,
-												ppn numeric(19,6),doctype varchar(10))
+												ppn numeric(19,6),
+                                                DocType varchar(100),
+                                                DocSubType varchar(100),
+                                                U_TF_date varchar(100),
+                                                U_LT_No  varchar(100),
+                                                U_RemDelay varchar(200),
+                                                U_No_Giro varchar(200),
+                                                U_Tgl_Jt_Tempo_Giro varchar(100),
+                                                U_IGU_Checklist varchar(100),
+                                                U_IGU_checklistdate varchar(100),
+                                                U_Cust_GR_No varchar(100),
+												arperson varchar(50),
+                                                transtype varchar(100))
+ 
+						set     @DateTo   = '""" + self.dateto.strftime("%Y-%m-%d")  + """'
+						set     @CardCode = '""" + bp + """'
+						set     @account  = '""" + account + """'
+						set     @arperson = '""" + arperson + """'
 
-						set @datefrom = '""" + self.dateto.strftime("%Y%m%d")  + """'
-						set @cardname = '""" + bp + """'
-						set nocount ON
 						insert into @table 
-						select   
+						select  
+                                a.docentry ,  
 								convert(varchar,a.docdate,23) docdate , 
 								convert(varchar,a.taxdate,23) taxdate , 
+								convert(varchar,a.docduedate,23) Docduedate , 
 								a.docnum , 
 								a.numatCard,
 								a.U_Kw_No ,
@@ -244,19 +287,36 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								ISNULL(A.U_CUST_PO_NO,'') po ,
 								a.doctotal - a.vatsum amount, 
 								a.vatsum ppn ,
-								'Invoice' doctype
+                                a.DocType doctype,
+                                a.DocSubType docsubtype,
+                                a.U_TF_date tf_date,
+                                a.U_LT_No Penagihan_No,
+                                a.U_RemDelay DelayRemarks,
+                                a.U_No_Giro ,
+                                a.U_Tgl_Jt_Tempo_Giro ,
+                                a.U_IGU_Checklist ,
+                                a.U_IGU_checklistdate ,
+                                a.U_Cust_GR_No,
+								b.U_AR_Person ,
+								'Invoice' transtype
 								
 
 						from oinv a
 						inner join ocrd b on a.cardcode = b.cardcode 
 						where a.canceled='N' and a.DocStatus='O' 
-						and a.ctlAccount = '""" + account + """' 
+						and a.ctlAccount = @Account 
 						and a.cardcode + a.cardname like '%' +  @cardname + '%'
+						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
 						and (a.DocTotal - a.paidsys)<>0 
-						and convert(varchar,a.docdate,112) <= @datefrom
+						and convert(varchar,a.docdate,112) <= @dateto
+
+
 						insert into @table 
-						select  convert(varchar,a.docdate,23) docdate , 
+						select  
+                                a.docentry ,
+                                convert(varchar,a.docdate,23) docdate , 
 								convert(varchar,a.taxdate,23) taxdate , 
+								convert(varchar,a.docduedate,23) docduedate , 
 								a.docnum , 
 								a.numatCard,
 								a.U_Kw_No ,
@@ -269,19 +329,32 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								ISNULL(A.U_CUST_PO_NO,''),
 								-1 * (a.doctotal - a.vatsum) amount, 
 								-1 * (a.vatsum) ppn,
+                                a.DocType doctype,
+                                a.DocSubType docsubtype,
+                                a.U_TF_date tf_date,
+                                a.U_LT_No Penagihan_No,
+                                a.U_RemDelay DelayRemarks,
+                                a.U_No_Giro ,
+                                a.U_Tgl_Jt_Tempo_Giro ,
+                                a.U_IGU_Checklist ,
+                                a.U_IGU_checklistdate ,
+                                a.U_Cust_GR_No,
+								b.U_AR_Person ,
 								'CN' doctype
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
 						where a.canceled='N' and a.DocStatus='O' 
-						and a.ctlAccount = '""" + account + """' 
+						and a.ctlAccount = @Account 
 						and a.cardcode + a.cardname  like '%' +  @cardname + '%'
+						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
 						and (a.DocTotal - a.paidsys)<>0
-						and convert(varchar,a.docdate,112) <= @datefrom
+						and convert(varchar,a.docdate,112) <= @dateto
 
 						insert into @table 
-						select   
+						select  a.transid , 
 								convert(varchar,a.refdate,23) docdate , 
 								convert(varchar,a.taxdate,23) taxdate , 
+								convert(varchar,a.duedate,23) duedate , 
 								c.number Docnum  , 
 								c.number numatCard,
 								isnull(c.u_trans_no,'') +'-' + a.LineMemo U_Kw_No ,
@@ -294,20 +367,31 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								''  po ,
 								(a.BalScDeb - a.BalScCred) amount, 
 								0 ppn ,
-								'Payment' doctype
+                                ''  doctype,
+                                ''   docsubtype,
+                                '' tf_date,
+                                ''  Penagihan_No,
+                                ''  DelayRemarks,
+                                '' U_No_Giro ,
+                                '' U_Tgl_Jt_Tempo_Giro ,
+                                '' U_IGU_Checklist ,
+                                '' U_IGU_checklistdate ,
+                                '' U_Cust_GR_No,
+								b.U_AR_Person ,
+								'UnReconsile' trasntype
 								
 
 						from JDT1 a
 						inner join ocrd b on a.ShortName = b.cardcode and a.TransType in (24,30)
                         inner join ojdt c on a.transid = c.transid 
 						where  b.cardcode + b.cardname like '%' +  @cardname + '%'
-						and a.Account = '""" + account + """' 
+						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
+						and a.Account = @Account 
 						and (a.BalScDeb - a.BalScCred)<>0 
-						and convert(varchar,a.refdate,112) <= @datefrom
+						and convert(varchar,a.refdate,112) <= @dateto
 
 						select  *,'""" + comp.code_base + """' company from @table    
 						order by docdate ,docnum             
-			
 			"""
 			#print(msgsql)
 			data = pandas.io.sql.read_sql(msgsql,conn) 
@@ -325,22 +409,38 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 
 			for line in datalist2:
 				self.env["cnw.invar.saldopiutangdetailmodels"].create({
+											"docentry" 			: line[1],  
 											"docdate" 			: line[1],  
-											"taxdate" 			: line[2],  
-											"docnum"			: line[3],
-											"numatcard"			: line[4],
-											"kwitansi"			: line[5],
-											"fp"				: line[6],
-											"cardcode"			: line[7],
-											"cardname"			: line[8],
-											"shipto"			: line[9],
-											"amount"			: line[10],
-											"balance"			: line[11], 
-											"po"				: line[12],
-											"dpp"				: line[13],
-											"ppn"				: line[14],
-											"doctype"			: line[15],
-											"comp_name"			: line[16] 
+											"taxdate" 			: line[1],  
+											"docduedate" 			: line[1],  
+											"docnum" 			: line[1],  
+											"numatcard" 			: line[1],  
+											"kwitansi" 			: line[1],  
+											"fp" 			: line[1],  
+											"cardcode" 			: line[1],  
+											"cardname" 			: line[1],  
+											"shiptocode" 			: line[1],  
+											"amount" 			: line[1],  
+											"balance" 			: line[1],  
+											"po" 			: line[1],  
+											"dpp" 			: line[1],  
+											"ppn" 			: line[1],  
+											"doctype" 			: line[1],  
+											"objtype" 			: line[1],  
+											"tfdate" 			: line[1],  
+											"lt_no" 			: line[1],  
+											"remdelay" 			: line[1],  
+											"nogiro" 			: line[1],  
+											"tglgiro" 			: line[1],  
+											"checklist" 			: line[1],  
+											"checklistdate" 			: line[1],  
+											"gr_no" 			: line[1],  
+											"arperson" 			: line[1],  
+											"transtype" 			: line[1],  
+											"docdate" 			: line[1],  
+											"docdate" 			: line[1],  
+											"docdate" 			: line[1],  
+											 
 											})
 			return {
 				"type": "ir.actions.act_window",
