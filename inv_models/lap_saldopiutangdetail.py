@@ -437,9 +437,6 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 											"gr_no" 			: line[1],  
 											"arperson" 			: line[1],  
 											"transtype" 			: line[1],  
-											"docdate" 			: line[1],  
-											"docdate" 			: line[1],  
-											"docdate" 			: line[1],  
 											 
 											})
 			return {
