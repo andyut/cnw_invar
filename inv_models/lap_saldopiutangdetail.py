@@ -130,8 +130,8 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	doctype			= fields.Char("Doc Type")
 	comp_name 		= fields.Char("Company Name")
 	docdate         = fields.Date ("Date")
-	taxdate         = fields.Date ("Document Date")
-	docduedate		= fields.Date ("Document Date")
+	taxdate         = fields.Date ("Date To Pay")
+	docduedate		= fields.Date ("Due Date")
 	docnum          = fields.Char("Docnum")
 	docentry 		= fields.Char("DocEntry")
 	po          	= fields.Char("PO")
@@ -159,12 +159,12 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	gr_no 			= fields.Char("GR No")
 	arperson 			= fields.Char("AR Person")
 	transtype 		= fields.Char("TransType")
-
-	top_count 		= fields.Float("TOP Count")
+ 
+	topdays 		= fields.Float("TOP Days")
 	top_desc 		= fields.Float("TOP Description")
-	datediff 		= fields.Float("Date Diff")
+	datediff 		= fields.Float("Late Payment (Day(s))")
 	denda 			= fields.Float("Denda",default=0.0)
-	denda_status	= fields.Selection("TOP Count")
+	denda_status	= fields.Selection(string="Status Denda " , selection=[("Y","Y"),("N","N")],default="N")
 
 
 class CNWLapSaldoPiutangDetail(models.TransientModel):
@@ -215,8 +215,11 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 		listfinal = []
 		pandas.options.display.float_format = '{:,.2f}'.format
 		company = ""
+		
 		account = self.account if self.account else ""
 		arperson = self.arperson if self.arperson else ""
+		bp = self.customer if self.customer else "" 
+		
 		for comp in self.company_id:
 
 			host        = comp.server
@@ -229,13 +232,12 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 
 			conn = pyodbc.connect('DRIVER={ODBC Driver 18 for SQL Server};SERVER='+host+';DATABASE='+database+';UID='+user+';PWD='+ password + ';TrustServerCertificate=yes')
 			
-			bp = self.customer if self.customer else ""
 
 			msgsql ="""
 						declare @datefrom varchar(20), @dateto varchar(20) ,@arperson varchar(20)
 						declare @cardname varchar(50), @account varchar(10)
-
-						declare @table table (  docentry int ,
+						set nocount on
+						declare @table table (   docentry int ,
 												docdate varchar(10),			
 												documentdate varchar(10),						
                                                 docduedate varchar(10)	,						
@@ -252,7 +254,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 												dpp numeric(19,6) ,
 												ppn numeric(19,6),
                                                 DocType varchar(100),
-                                                DocSubType varchar(100),
+                                                ObjType varchar(100),
                                                 U_TF_date varchar(100),
                                                 U_LT_No  varchar(100),
                                                 U_RemDelay varchar(200),
@@ -262,12 +264,18 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
                                                 U_IGU_checklistdate varchar(100),
                                                 U_Cust_GR_No varchar(100),
 												arperson varchar(50),
-                                                transtype varchar(100))
- 
-						set     @DateTo   = '""" + self.dateto.strftime("%Y-%m-%d")  + """'
-						set     @CardCode = '""" + bp + """'
-						set     @account  = '""" + account + """'
-						set     @arperson = '""" + arperson + """'
+                                                transtype varchar(100),
+												topcount int ,
+												topdesc varchar(200),
+												datediff numeric(19,2),
+												denda numeric(19,2),
+												dendastatus varchar(5)
+												)
+
+						set @dateto = '""" + self.dateto.strftime("%Y%m%d")     + """'
+						set @cardname = '""" + bp + """'
+					    set @ACCOUNT = '""" + account    + """'
+						set @arperson = '""" + arperson     + """'
 
 						insert into @table 
 						select  
@@ -288,7 +296,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								a.doctotal - a.vatsum amount, 
 								a.vatsum ppn ,
                                 a.DocType doctype,
-                                a.DocSubType docsubtype,
+                                a.ObjType ObjType,
                                 a.U_TF_date tf_date,
                                 a.U_LT_No Penagihan_No,
                                 a.U_RemDelay DelayRemarks,
@@ -298,11 +306,19 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
                                 a.U_IGU_checklistdate ,
                                 a.U_Cust_GR_No,
 								b.U_AR_Person ,
-								'Invoice' transtype
+								'Invoice' transtype ,
+								d.ExtraDays topcount,
+								d.PymntGroup ,
+								DATEDIFF(day, a.docduedate,DATEADD(day,d.ExtraDays,a.docduedate)),
+								0,
+								'N'
+
 								
 
 						from oinv a
 						inner join ocrd b on a.cardcode = b.cardcode 
+						inner join ocrg c on b.GroupCode = c.GroupCode 
+						inner join octg d on b.GroupNum = d.GroupNum
 						where a.canceled='N' and a.DocStatus='O' 
 						and a.ctlAccount = @Account 
 						and a.cardcode + a.cardname like '%' +  @cardname + '%'
@@ -313,10 +329,10 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 
 						insert into @table 
 						select  
-                                a.docentry ,
-                                convert(varchar,a.docdate,23) docdate , 
+                                a.docentry ,  
+								convert(varchar,a.docdate,23) docdate , 
 								convert(varchar,a.taxdate,23) taxdate , 
-								convert(varchar,a.docduedate,23) docduedate , 
+								convert(varchar,a.docduedate,23) Docduedate , 
 								a.docnum , 
 								a.numatCard,
 								a.U_Kw_No ,
@@ -324,13 +340,13 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								a.cardcode, 
 								b.cardname,
 								a.shiptocode,
-								-1 * (a.DocTotal) , 
-								-1 * (a.DocTotal - a.paidsys) ,
-								ISNULL(A.U_CUST_PO_NO,''),
-								-1 * (a.doctotal - a.vatsum) amount, 
-								-1 * (a.vatsum) ppn,
+								-1 * a.DocTotal , 
+								-1 * (a.DocTotal - a.paidsys) balance,
+								ISNULL(A.U_CUST_PO_NO,'') po ,
+								-1 * (a.doctotal - a.vatsum ) amount, 
+								-1 * a.vatsum ppn ,
                                 a.DocType doctype,
-                                a.DocSubType docsubtype,
+                                a.ObjType docsubtype,
                                 a.U_TF_date tf_date,
                                 a.U_LT_No Penagihan_No,
                                 a.U_RemDelay DelayRemarks,
@@ -340,9 +356,16 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
                                 a.U_IGU_checklistdate ,
                                 a.U_Cust_GR_No,
 								b.U_AR_Person ,
-								'CN' doctype
+								'CN' transtype ,
+								d.ExtraDays topcount,
+								d.PymntGroup ,
+								DATEDIFF(day, a.docduedate,DATEADD(day,d.ExtraDays,a.docduedate)),
+								0,
+								'N'
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
+						inner join ocrg c on b.GroupCode = c.GroupCode 
+						inner join octg d on b.GroupNum = d.GroupNum
 						where a.canceled='N' and a.DocStatus='O' 
 						and a.ctlAccount = @Account 
 						and a.cardcode + a.cardname  like '%' +  @cardname + '%'
@@ -355,9 +378,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								convert(varchar,a.refdate,23) docdate , 
 								convert(varchar,a.taxdate,23) taxdate , 
 								convert(varchar,a.duedate,23) duedate , 
-								c.number Docnum  , 
-								c.number numatCard,
-								isnull(c.u_trans_no,'') +'-' + a.LineMemo U_Kw_No ,
+								e.number Docnum  , 
+								e.number numatCard,
+								isnull(e.u_trans_no,'') +'-' + a.LineMemo U_Kw_No ,
 								'' U_IDU_FPajak ,
 								a.ShortName, 
 								b.cardname,
@@ -368,7 +391,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								(a.BalScDeb - a.BalScCred) amount, 
 								0 ppn ,
                                 ''  doctype,
-                                ''   docsubtype,
+                                a.ObjType   docsubtype,
                                 '' tf_date,
                                 ''  Penagihan_No,
                                 ''  DelayRemarks,
@@ -378,12 +401,20 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
                                 '' U_IGU_checklistdate ,
                                 '' U_Cust_GR_No,
 								b.U_AR_Person ,
-								'UnReconsile' trasntype
+								'UnReconsile' trasntype,
+								d.ExtraDays topcount,
+								d.PymntGroup ,
+								DATEDIFF(day, a.DueDate,DATEADD(day,d.ExtraDays,a.DueDate)),
+								0,
+								'N'
+
 								
 
 						from JDT1 a
 						inner join ocrd b on a.ShortName = b.cardcode and a.TransType in (24,30)
-                        inner join ojdt c on a.transid = c.transid 
+						inner join ocrg c on b.GroupCode = c.GroupCode 
+						inner join octg d on b.GroupNum = d.GroupNum
+                        inner join ojdt e on a.transid = e.transid 
 						where  b.cardcode + b.cardname like '%' +  @cardname + '%'
 						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
 						and a.Account = @Account 
@@ -391,9 +422,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						and convert(varchar,a.refdate,112) <= @dateto
 
 						select  *,'""" + comp.code_base + """' company from @table    
-						order by docdate ,docnum             
+						order by docdate ,docnum              
 			"""
-			#print(msgsql)
+			print(msgsql)
 			data = pandas.io.sql.read_sql(msgsql,conn) 
 			listfinal.append(data)
   
@@ -409,34 +440,40 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 
 			for line in datalist2:
 				self.env["cnw.invar.saldopiutangdetailmodels"].create({
-											"docentry" 			: line[1],  
+											"docentry" 			: line[0],  
 											"docdate" 			: line[1],  
-											"taxdate" 			: line[1],  
-											"docduedate" 			: line[1],  
-											"docnum" 			: line[1],  
-											"numatcard" 			: line[1],  
-											"kwitansi" 			: line[1],  
-											"fp" 			: line[1],  
-											"cardcode" 			: line[1],  
-											"cardname" 			: line[1],  
-											"shiptocode" 			: line[1],  
-											"amount" 			: line[1],  
-											"balance" 			: line[1],  
-											"po" 			: line[1],  
-											"dpp" 			: line[1],  
-											"ppn" 			: line[1],  
-											"doctype" 			: line[1],  
-											"objtype" 			: line[1],  
-											"tfdate" 			: line[1],  
-											"lt_no" 			: line[1],  
-											"remdelay" 			: line[1],  
-											"nogiro" 			: line[1],  
-											"tglgiro" 			: line[1],  
-											"checklist" 			: line[1],  
-											"checklistdate" 			: line[1],  
-											"gr_no" 			: line[1],  
-											"arperson" 			: line[1],  
-											"transtype" 			: line[1],  
+											"taxdate" 			: line[2],  
+											"docduedate" 		: line[3],  
+											"docnum" 			: line[4],  
+											"numatcard" 		: line[5],  
+											"kwitansi" 			: line[6],  
+											"fp" 				: line[7],  
+											"cardcode" 			: line[8],  
+											"cardname" 			: line[9],  
+											"shiptocode" 		: line[10],  
+											"amount" 			: line[11],  
+											"balance" 			: line[12],  
+											"po" 				: line[13],  
+											"dpp" 				: line[14],  
+											"ppn" 				: line[15],  
+											"doctype" 			: line[16],  
+											"objtype" 			: line[17],  
+											"tfdate" 			: line[18],  
+											"lt_no" 			: line[19],  
+											"remdelay" 			: line[20],  
+											"nogiro" 			: line[21],  
+											"tglgiro" 			: line[22],  
+											"checklist" 		: line[23],  
+											"checklistdate" 	: line[24],  
+											"gr_no" 			: line[25],  
+											"arperson" 			: line[26],  
+											"transtype" 		: line[27],  
+											"topdays" 			: line[28],  
+											"topdesc" 			: line[29],  
+											"datediff" 			: line[30],  
+											"denda" 			: line[31],  
+											"dendastatus"		: line[32],  
+											"comp_name"			: line[33],  
 											 
 											})
 			return {

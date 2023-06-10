@@ -9,17 +9,23 @@
                 decoration-warning="amount &lt; 0"    > 
                     <field name="comp_name" />
                     <field name="docdate"/>
+                    <field name="taxdate"/>
+                    <field name="docduedate"/>
+                    <field name="tfdate"/>
                     <field name="docnum"  />
                     <field name="numatcard"/>
                     <field name="po"/>
+                    <field name="gr_no"/>
                     <field name="kwitansi"/>
                     <field name="fp"/>
                     <field name="cardcode"/>
                     <field name="cardname"/>
-                    <field name="dpp" sum="sum_dpp"/> 
-                    <field name="ppn" sum="sum_ppn"/>
+                    <field name="arperson"/>  
                     <field name="amount" sum="sum_amount"/>
                     <field name="balance" sum="sum_balance"/>  
+                    <field name="topdays"/>  
+                    <field name="datediff"/>  
+                    <field name="denda" sum="sum_denda"/>  
                 </tree>
             </field>
         </record>
@@ -50,6 +56,8 @@
                     <field name="fp"/> 
                     <field name="po"/> 
                     <field name="cardcode"/>
+                    <field name="cardname"/>  
+                    <field name="arperson"/>  
                     <field name="cardname"/>  
                     <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
                     <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
