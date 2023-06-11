@@ -44,7 +44,19 @@
             </field>
         </record>
 
- 
+     <record model="ir.ui.view" id="cnw_invar_saldopiutangdetailmodels_calendar">
+      <field name="name">cnw.invar.saldopiutangdetailmodels.calendar</field>
+      <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+      <field name="arch" type="xml">
+
+        <calendar string="Penagihan" mode="month" date_start="taxdate" color="cardname">
+          <field name="cardname"/> 
+          <field name="numatcard"/> 
+          <field name="balance" widget="monetary"/> 
+
+        </calendar>
+      </field>
+    </record>
         <record model="ir.ui.view" id="cnw_invar_saldopiutangdetailmodels_search">
             <field name="name">cnw.invar.saldopiutangdetailmodels.search</field>
             <field name="model">cnw.invar.saldopiutangdetailmodels</field>
@@ -71,7 +83,7 @@
         <record id="cnw_invar_saldopiutangdetailmodels_action" model="ir.actions.act_window">
             <field name="name">Saldo Piutang Per Customer</field>
             <field name="res_model">cnw.invar.saldopiutangdetailmodels</field>
-            <field name="view_mode">tree,pivot</field>
+            <field name="view_mode">tree,calendar,pivot</field>
 
         </record>
 
