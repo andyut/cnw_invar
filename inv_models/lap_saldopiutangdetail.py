@@ -138,8 +138,9 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	numatcard       = fields.Char("Sales Order")
 	kwitansi        = fields.Char("Kwitansi")
 	fp              = fields.Char("Faktur Pajak")
-	cardcode        = fields.Char("Card Code")
-	cardname        = fields.Char("Card Name")
+	cardcode        = fields.Char("Code")
+	cardname        = fields.Char("Customer")
+	cardgroup        = fields.Char("Cust Group")
 	shiptocode		= fields.Char("ShipTo")
 	amount          = fields.Float("Total")
 	ppn         	= fields.Float("ppn")
@@ -162,11 +163,14 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
  
 	topdays 		= fields.Float("ToP Days")
 	topdesc 		= fields.Char("ToP Description")
-	datediff 		= fields.Float("Late Payment (Day(s))")
+	datediff 		= fields.Float("Late(Day(s))")
 	denda 			= fields.Float("Denda",default=0.0)
 	dendastatus		= fields.Selection(string="Status Denda " , selection=[("Y","Y"),("N","N")],default="N")
 	txtlog			= fields.Text("debug mode")
 	tfstatus 		= fields.Selection(string="TF Status", selection=[("Y","Y"),("N","N")] ,default="N")
+
+
+
 class CNWLapSaldoPiutangDetail(models.TransientModel):
 	_name           = "cnw.invar.saldopiutangdetail"
 	_description    = "Saldo Piutang	 Detail"
@@ -187,7 +191,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 																	("1137001","1137001-PIUTANG PPH23"),
 																	("","ALL"),],
 																	default="1130001")	
-	export_to       = fields.Selection([ ('list','List 	'),('xlssummary', 'Excel Summary'),('xls', 'Excel'),('pdf', 'PDF'),],string='Export To', default='pdf')
+	export_to       = fields.Selection([ ('list','List 	'),('xlssummary', 'Excel Summary'),('xls', 'Excel'),('pdf', 'PDF'),],string='Export To', default='list')
 
 	def get_saldopiutangdetail(self):
 
@@ -270,7 +274,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 												datediff numeric(19,2),
 												denda numeric(19,2),
 												dendastatus varchar(5),
-												tfstatus varchar(5)
+												tfstatus varchar(5),
+												groupname varchar(50)
 												)
 
 						set @dateto = '""" + self.dateto.strftime("%Y%m%d")     + """'
@@ -310,10 +315,11 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								'Invoice' transtype ,
 								d.ExtraDays topcount,
 								d.PymntGroup ,
-								DATEDIFF(day, a.docduedate,DATEADD(day,d.ExtraDays,a.docduedate)),
-								0,
-								'N',
-								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus
+								DATEDIFF(day, a.TAXDATE,GETDATE()),
+								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
+								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
+								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
+                                c.GroupName custgroup
 
 								
 
@@ -361,10 +367,11 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								'CN' transtype ,
 								d.ExtraDays topcount,
 								d.PymntGroup ,
-								DATEDIFF(day, a.docduedate,DATEADD(day,d.ExtraDays,a.docduedate)),
-								0,
-								'N',
-								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus
+								DATEDIFF(day, a.TAXDATE,GETDATE()),
+								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
+								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
+								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
+                                c.GroupName custgroup
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
 						inner join ocrg c on b.GroupCode = c.GroupCode 
@@ -407,10 +414,11 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								'UnReconsile' trasntype,
 								d.ExtraDays topcount,
 								d.PymntGroup ,
-								DATEDIFF(day, a.DueDate,DATEADD(day,d.ExtraDays,a.DueDate)),
+								DATEDIFF(day, a.refdate,a.refdate),
 								0,
 								'N',
-								'N'
+								'N',
+                                c.GroupName custgroup
 
 								
 
@@ -478,7 +486,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 											"denda" 			: line[31],  
 											"dendastatus"		: line[32],  
 											"tfstatus"			: line[33],  
-											"comp_name"			: line[34],
+											"cardgroup"			: line[34],
+											"comp_name"			: line[35],
+
 											})
 			return {
 				"type": "ir.actions.act_window",

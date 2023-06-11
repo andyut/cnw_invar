@@ -7,8 +7,8 @@
             <field name="arch" type="xml">
                 <tree string="Saldo Piutang" create="false" edit="false" 
                 decoration-danger="dendastatus =='Y'"  
-                 decoration-success="tfstatus=='Y'"  > 
-                    <field name="comp_name" />
+                 decoration-success="tfstatus=='Y'"  >  
+                    <field name ="transtype" />
                     <field name="docdate"/>
                     <field name="docduedate"/>
                     <field name="topdays"/>
@@ -27,6 +27,7 @@
                     <field name="datediff" invisible="1" />  
                     <field name="dendastatus"  invisible="1" />   
                     <field name="denda" sum="sum_denda"/>   
+                    <field name="datediff" avg="sum_datediff"/>   
                     <field name="tfstatus" invisible="1"/>   
                 </tree>
             </field>
