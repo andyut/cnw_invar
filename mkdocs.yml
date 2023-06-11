@@ -1,0 +1,54 @@
+site_name: IT Software Development
+site_url: http://www.indoguna.co.id/
+site_description : Software Documentation
+site_author : Andy Utomo
+copyright : Copyright &copy; 2023 Indoguna Utama PT, Maintained by Andy Utomo
+ 
+nav:
+    - index.md
+    - Tutorial :
+        - Membuat Dokumentasi : int_createdocs.md 
+        - Restart Program Pendukung SAP : restart_server.md 
+    - Program Update : 
+        - perijinan : pi_manual.md
+        - research & development : rnd_cnw.md
+        - Faktur pajak - AR  : efaktur.md
+        - AR Invoice : arinv.md
+        - Online (Tokopedia) : onlineshop.md
+        - Pembelian non barang dagang (expense) : pembelian_expense.md
+        - WMS Di SAP : wms01.md       
+        - SETUP WMS  SAP : wms02.md
+        - Kopeasi : ksp01.md
+    - SAP Update table :
+        - table SAP 20230218 : 20230218.md
+        - Create invoice (SL) : 20230220.md
+theme : 
+    name : material
+    logo : asset/logocnw1.png
+    favicon : asset/logocnw2.png
+    palette:
+        scheme: default
+        primary: teal
+extra_css:
+    - css/extra.css
+    - css/pdf-print.css
+markdown_extensions:
+    - toc:
+        permalink: 
+    - attr_list
+    - def_list
+    - tables
+    - pymdownx.highlight:
+        use_pygments: false
+    - pymdownx.snippets
+    - pymdownx.superfences  
+
+plugins:
+    - search    
+    - mermaid2 
+    - pdf-export:
+        combined: false
+        media_type: print
+    - with-pdf: 
+        cover_subtitle: Technical documentation.
+        output_path: "../docs.pdf"
