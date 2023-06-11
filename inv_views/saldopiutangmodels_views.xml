@@ -6,26 +6,28 @@
             <field name="model">cnw.invar.saldopiutangdetailmodels</field>
             <field name="arch" type="xml">
                 <tree string="Saldo Piutang" create="false" edit="false" 
-                decoration-warning="amount &lt; 0"    > 
+                decoration-danger="dendastatus =='Y'"  
+                 decoration-success="tfstatus=='Y'"  > 
                     <field name="comp_name" />
                     <field name="docdate"/>
-                    <field name="taxdate"/>
                     <field name="docduedate"/>
-                    <field name="tfdate"/>
+                    <field name="topdays"/>
+                    <field name="taxdate"/> 
                     <field name="docnum"  />
                     <field name="numatcard"/>
-                    <field name="po"/>
-                    <field name="gr_no"/>
                     <field name="kwitansi"/>
                     <field name="fp"/>
+                    <field name="po"/>
+                    <field name="gr_no"/>
                     <field name="cardcode"/>
                     <field name="cardname"/>
                     <field name="arperson"/>  
                     <field name="amount" sum="sum_amount"/>
-                    <field name="balance" sum="sum_balance"/>  
-                    <field name="topdays"/>  
-                    <field name="datediff"/>  
-                    <field name="denda" sum="sum_denda"/>  
+                    <field name="balance" sum="sum_balance"/>   
+                    <field name="datediff" invisible="1" />  
+                    <field name="dendastatus"  invisible="1" />   
+                    <field name="denda" sum="sum_denda"/>   
+                    <field name="tfstatus" invisible="1"/>   
                 </tree>
             </field>
         </record>

@@ -551,7 +551,7 @@ class ARInvoice(models.Model):
 	tf_remarks		= fields.Char("TF Remarks")
  # Odoo Extra Field 
  
-	tf_id           = fields.Many2one("ar.tf",string="Tukar Faktur")
+	#tf_id           = fields.Many2one("ar.tf",string="Tukar Faktur")
 
 # eFAKTUR Extra Fields
 

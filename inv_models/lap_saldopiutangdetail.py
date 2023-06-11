@@ -160,16 +160,16 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	arperson 			= fields.Char("AR Person")
 	transtype 		= fields.Char("TransType")
  
-	topdays 		= fields.Float("TOP Days")
-	top_desc 		= fields.Float("TOP Description")
+	topdays 		= fields.Float("ToP Days")
+	topdesc 		= fields.Char("ToP Description")
 	datediff 		= fields.Float("Late Payment (Day(s))")
 	denda 			= fields.Float("Denda",default=0.0)
-	denda_status	= fields.Selection(string="Status Denda " , selection=[("Y","Y"),("N","N")],default="N")
-
-
+	dendastatus		= fields.Selection(string="Status Denda " , selection=[("Y","Y"),("N","N")],default="N")
+	txtlog			= fields.Text("debug mode")
+	tfstatus 		= fields.Selection(string="TF Status", selection=[("Y","Y"),("N","N")] ,default="N")
 class CNWLapSaldoPiutangDetail(models.TransientModel):
 	_name           = "cnw.invar.saldopiutangdetail"
-	_description    = "Saldo Piutang Detail"
+	_description    = "Saldo Piutang	 Detail"
 	company_id      = fields.Many2many('res.company', string='Company', required=True )
 
 	dateto          = fields.Date("Date To",default=lambda s:fields.Date.today())
@@ -269,7 +269,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 												topdesc varchar(200),
 												datediff numeric(19,2),
 												denda numeric(19,2),
-												dendastatus varchar(5)
+												dendastatus varchar(5),
+												tfstatus varchar(5)
 												)
 
 						set @dateto = '""" + self.dateto.strftime("%Y%m%d")     + """'
@@ -311,7 +312,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								d.PymntGroup ,
 								DATEDIFF(day, a.docduedate,DATEADD(day,d.ExtraDays,a.docduedate)),
 								0,
-								'N'
+								'N',
+								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus
 
 								
 
@@ -361,7 +363,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								d.PymntGroup ,
 								DATEDIFF(day, a.docduedate,DATEADD(day,d.ExtraDays,a.docduedate)),
 								0,
-								'N'
+								'N',
+								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
 						inner join ocrg c on b.GroupCode = c.GroupCode 
@@ -406,6 +409,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								d.PymntGroup ,
 								DATEDIFF(day, a.DueDate,DATEADD(day,d.ExtraDays,a.DueDate)),
 								0,
+								'N',
 								'N'
 
 								
@@ -473,8 +477,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 											"datediff" 			: line[30],  
 											"denda" 			: line[31],  
 											"dendastatus"		: line[32],  
-											"comp_name"			: line[33],  
-											 
+											"tfstatus"			: line[33],  
+											"comp_name"			: line[34],
 											})
 			return {
 				"type": "ir.actions.act_window",
