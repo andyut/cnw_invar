@@ -22,6 +22,7 @@
           <group string="Saldo Piutang">
             <field name="company_id"  widget="many2many_tags"  options="{'no_create': True}"/> 
             <field name="dateto" />
+            <field name="arperson" />
             <field name="customer" />
             <field name="account" />
               <field name="export_to"/>
