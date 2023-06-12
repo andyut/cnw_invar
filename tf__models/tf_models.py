@@ -66,25 +66,26 @@ class ARTukarfakturWizard(models.TransientModel):
 			invoice.lt_no = NomorTF
 			
 			if self.updatetf =="tf" :
-				invoice.docduedate = self.tfdate
-				paydate = self.tfdate + timedelta(days=invoice.topdays)
-				invoice.taxdate = paydate
-			else:
+				#invoice.docduedate = self.tfdate
 				invoice.taxdate = self.tfdate
+				paydate = self.tfdate + timedelta(days=invoice.topdays)
+				invoice.docduedate = paydate
+			else:
+				invoice.docduedate = self.tfdate
 
 	#########################
 	# UPDATE TF
 	######################### 
-			print("invoice type : ")
-			print(invoice.objtype)
+			#print("invoice type : ")
+			#print(invoice.objtype)
 			if invoice.objtype =="13":
 				urltf = url + "Invoices("  + invoice.docentry + ")"
 				payload = {
 							"DocDueDate" : invoice.docduedate.strftime("%Y-%m-%d") , 
 							"TaxDate" : invoice.taxdate.strftime("%Y-%m-%d") , 
 							"U_LT_No" : NomorTF ,
-							"U_TF_date" : invoice.docduedate.strftime("%Y-%m-%d"), 
-							"U_Tagihan_date" : invoice.docduedate.strftime("%Y-%m-%d"),
+							"U_TF_date" : invoice.taxdate.strftime("%Y-%m-%d"), 
+							"U_Tagihan_date" : invoice.taxdate.strftime("%Y-%m-%d"),
 						}               			
 				rsp = appSession.patch(urltf,json=payload,verify=False)
 				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
@@ -101,9 +102,9 @@ class ARTukarfakturWizard(models.TransientModel):
 							"DocDueDate" : invoice.docduedate.strftime("%Y-%m-%d") , 
 							"TaxDate" : invoice.taxdate.strftime("%Y-%m-%d") , 
 							"U_LT_No" : NomorTF ,
-							"U_TF_date" : invoice.docduedate.strftime("%Y-%m-%d"), 
-							"U_Tagihan_date" : invoice.docduedate.strftime("%Y-%m-%d"),
-						}                 			
+							"U_TF_date" : invoice.taxdate.strftime("%Y-%m-%d"), 
+							"U_Tagihan_date" : invoice.taxdate.strftime("%Y-%m-%d"),
+						}                     			
 				rsp = appSession.patch(urltf,json=payload,verify=False)
 				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
 				print(txtlog) 

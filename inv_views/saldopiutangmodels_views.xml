@@ -7,12 +7,13 @@
             <field name="arch" type="xml">
                 <tree string="Saldo Piutang" create="false" edit="false" 
                 decoration-danger="dendastatus =='Y'"  
+                 decoration-warning="transtype=='UnReconsile'" 
                  decoration-success="tfstatus=='Y'"  >  
                     <field name ="transtype" />
                     <field name="docdate"/>
-                    <field name="docduedate"/>
-                    <field name="topdays"/>
                     <field name="taxdate"/> 
+                    <field name="topdays"/>
+                    <field name="docduedate"/>
                     <field name="docnum"  />
                     <field name="numatcard"/>
                     <field name="kwitansi"/>

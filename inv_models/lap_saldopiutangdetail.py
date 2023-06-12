@@ -129,18 +129,18 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	name            = fields.Char("IDX")
 	doctype			= fields.Char("Doc Type")
 	comp_name 		= fields.Char("Company Name")
-	docdate         = fields.Date ("Date")
-	taxdate         = fields.Date ("Date To Pay")
-	docduedate		= fields.Date ("Due Date")
+	docdate         = fields.Date ("Invoice Date")
+	taxdate         = fields.Date ("TF Date")
+	docduedate		= fields.Date ("Date To Pay")
 	docnum          = fields.Char("Docnum")
 	docentry 		= fields.Char("DocEntry")
 	po          	= fields.Char("PO")
-	numatcard       = fields.Char("Sales Order")
+	numatcard       = fields.Char("SO")
 	kwitansi        = fields.Char("Kwitansi")
-	fp              = fields.Char("Faktur Pajak")
-	cardcode        = fields.Char("Code")
+	fp              = fields.Char("FP")
+	cardcode        = fields.Char("CardCode")
 	cardname        = fields.Char("Customer")
-	cardgroup        = fields.Char("Cust Group")
+	cardgroup        = fields.Char("Customer Group")
 	shiptocode		= fields.Char("ShipTo")
 	amount          = fields.Float("Total")
 	ppn         	= fields.Float("ppn")
@@ -150,7 +150,7 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 # extra
 	doctype 		= fields.Char("DocType")
 	objtype 		= fields.Char("ObjType")
-	tfdate			= fields.Date("TukarFaktur Date")
+	tfdate			= fields.Date("TF Date")
 	lt_no 			= fields.Char("TF No")
 	remdelay 		= fields.Text("Customer Remarks")
 	nogiro 			= fields.Char("No Giro")
@@ -158,13 +158,13 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	checklist 		= fields.Char("CheckList")
 	checklistdate	= fields.Date("Checklist Date")
 	gr_no 			= fields.Char("GR No")
-	arperson 			= fields.Char("AR Person")
+	arperson 		= fields.Char("AR")
 	transtype 		= fields.Char("TransType")
  
 	topdays 		= fields.Float("ToP Days")
 	topdesc 		= fields.Char("ToP Description")
 	datediff 		= fields.Float("Late(Day(s))")
-	denda 			= fields.Float("Denda",default=0.0)
+	denda 			= fields.Float("late charge",default=0.0)
 	dendastatus		= fields.Selection(string="Status Denda " , selection=[("Y","Y"),("N","N")],default="N")
 	txtlog			= fields.Text("debug mode")
 	tfstatus 		= fields.Selection(string="TF Status", selection=[("Y","Y"),("N","N")] ,default="N")
@@ -315,9 +315,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								'Invoice' transtype ,
 								d.ExtraDays topcount,
 								d.PymntGroup ,
-								DATEDIFF(day, a.TAXDATE,GETDATE()),
-								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
-								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
+								DATEDIFF(day, a.DOCDUEDATE,GETDATE()),
+								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
+								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
                                 c.GroupName custgroup
 
@@ -367,9 +367,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								'CN' transtype ,
 								d.ExtraDays topcount,
 								d.PymntGroup ,
-								DATEDIFF(day, a.TAXDATE,GETDATE()),
-								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
-								case when DATEDIFF(day, a.TAXDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
+								DATEDIFF(day, a.DOCDUEDATE,GETDATE()),
+								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
+								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
                                 c.GroupName custgroup
 						from orin a
