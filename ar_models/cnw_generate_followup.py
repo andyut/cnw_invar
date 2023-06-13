@@ -87,9 +87,9 @@ class CNWCustomerFollowupWizard(models.TransientModel):
 									else 0
 								end) '91-120',  
 								sum(case 
-									when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2022 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+									when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2023 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
 									else 0
-								end) '121+ 2022',  
+								end) '121+ 2023',  
 
 								sum(case 
 									when year (a.taxdate) = 2022 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
@@ -161,9 +161,9 @@ class CNWCustomerFollowupWizard(models.TransientModel):
 									else 0
 								end) '91-120',  
 								sum(case 
-									when datediff(day,a.refdate,getdate()) >=121 and year (a.refdate) = 2022 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+									when datediff(day,a.refdate,getdate()) >=121 and year (a.refdate) = 2023 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
 									else 0
-								end) '121+ 2022',  
+								end) as '121+ 2023',  
 
 								sum(case 
 									when year (a.refdate) = 2022 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
@@ -252,7 +252,8 @@ class CNWCustomerFollowupWizard(models.TransientModel):
 		new_df = pandas.merge(data, data2, how = 'left', on=["cardcode"])
 		#df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2022","total 2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
 #		df = new_df[["Sales Group","Sales Person","AR Person","cardcode","customer","outlet","Customer Group","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2021","total 2021","2020" ,"2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
-		df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2022","total 2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
+		#df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2022","total 2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
+		df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2023","total 2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
 
 
 		if self.export_to =="xls":

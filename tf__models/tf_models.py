@@ -66,11 +66,30 @@ class ARTukarfakturWizard(models.TransientModel):
 			invoice.lt_no = NomorTF
 			
 			if self.updatetf =="tf" :
-				invoice.docduedate = self.tfdate
-				paydate = self.tfdate + timedelta(days=invoice.topdays)
-				invoice.taxdate = paydate
+				invoice.docduedate 	= self.tfdate
+				paydate 			= self.tfdate + timedelta(days=invoice.topdays)
+				invoice.taxdate 	= paydate
+				invoice.datediff 	=  (date.today() - invoice.taxdate).days
+				invoice.tfstatus 	= "Y"
+
+				if (date.today() - invoice.taxdate).days > 0:
+					invoice.dendastatus ="Y"
+					invoice.denda = invoice.balance * 0.01 
+				else :
+					invoice.dendastatus ="N"
+					invoice.denda = 0
+					
 			else:
+				
 				invoice.taxdate = self.tfdate
+				invoice.tfstatus = "Y"
+				invoice.datediff 	=  (date.today() - invoice.taxdate).days
+				if (date.today() - invoice.taxdate).days > 0:
+					invoice.dendastatus ="Y"
+					invoice.denda = invoice.balance * 0.01
+				else :
+					invoice.dendastatus ="N"
+					invoice.denda = 0				
 
 	#########################
 	# UPDATE TF
