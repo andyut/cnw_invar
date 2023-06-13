@@ -32,13 +32,13 @@ class ARTukarfakturWizard(models.TransientModel):
 	@api.multi
 	def UpdateTglTf(self):
 
-		print("mulai update tf date")
+		#print("mulai update tf date")
  		 
 		NomorTF  = self.env["cnw.numbering.wizard"].getnumbering('TF',self.tfdate)    
 		 
 		listinvoice = self.env['cnw.invar.saldopiutangdetailmodels'].browse(self._context.get('active_ids', []))
 		doctotal = 0.0
-		print(listinvoice)
+		#print(listinvoice)
 #print(listinvoice)
 #########################
 # LOGIN
