@@ -66,6 +66,7 @@ class ARTukarfakturWizard(models.TransientModel):
 			invoice.lt_no = NomorTF
 			
 			if self.updatetf =="tf" :
+				istatus 			= "TF"
 				invoice.taxdate 	= self.tfdate
 				paydate 			= self.tfdate + timedelta(days=invoice.topdays)
 				invoice.docduedate 	= paydate
@@ -80,7 +81,7 @@ class ARTukarfakturWizard(models.TransientModel):
 					invoice.denda = 0
 					
 			else:
-				
+				istatus 			="REQ PAYMENT"
 				invoice.docduedate = self.tfdate
 				invoice.tfstatus = "Y"
 				invoice.datediff 	=  (date.today() - invoice.docduedate).days
@@ -141,7 +142,7 @@ class ARTukarfakturWizard(models.TransientModel):
 												"docdate":self.tfdate,
 												"doctype":"INVOICE",
 												"position":"TUKARFAKTUR",
-												"docstatus":"AR TF",
+												"docstatus":istatus,
 												"docby":self.env.user.name ,
 												"docindate":self.tfdate})
 
