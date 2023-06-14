@@ -174,7 +174,7 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 
 class CNWLapSaldoPiutangDetail(models.TransientModel):
 	_name           = "cnw.invar.saldopiutangdetail"
-	_description    = "Saldo Piutang	 Detail"
+	_description    = "Saldo Piutang Detail"
 	company_id      = fields.Many2many('res.company', string='Company', required=True )
 
 	dateto          = fields.Date("Date To",default=lambda s:fields.Date.today())

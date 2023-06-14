@@ -49,6 +49,7 @@ class ARTukarfakturWizard(models.TransientModel):
 													("YOHANES","YOHANES"),
 													("RIDWAN","RIDWAN"),
 													("NO COLLECTOR","NO COLLECTOR"),
+													("POS","POS"),
 													("AMIR","AMIR"),
 													("AMIR","AMIR"), ],default="NO COLLECTOR")
 	notes1 			= fields.Char("Notes1")
@@ -86,9 +87,15 @@ class ARTukarfakturWizard(models.TransientModel):
 		for invoice in listinvoice:
 			print(invoice)
 			invoice.txtlog= str(invoice)
+
 			invoice.lt_no = NomorTF
-			invoice.
-			
+
+			collector = invoice.collector if invoice.collector else "-"
+
+			if self.status_coll==True:
+				invoice.collector = self.collector
+			notes1 = self.notes1 if self.notes1 else "-"
+
 			if self.updatetf =="tf" :
 				istatus 			= "TUKARFAKTUR"
 				invoice.taxdate 	= self.tfdate
@@ -129,6 +136,8 @@ class ARTukarfakturWizard(models.TransientModel):
 							"U_LT_No" : NomorTF ,
 							"U_TF_date" : invoice.taxdate.strftime("%Y-%m-%d"), 
 							"U_Tagihan_date" : invoice.taxdate.strftime("%Y-%m-%d"),
+							"U_RemDelay": notes1,
+							"U_Coll_Name" : collector
 						}               			
 				rsp = appSession.patch(urltf,json=payload,verify=False)
 				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
@@ -147,6 +156,8 @@ class ARTukarfakturWizard(models.TransientModel):
 							"U_LT_No" : NomorTF ,
 							"U_TF_date" : invoice.taxdate.strftime("%Y-%m-%d"), 
 							"U_Tagihan_date" : invoice.taxdate.strftime("%Y-%m-%d"),
+							"U_RemDelay": notes1,
+							"U_Coll_Name" : collector
 						}                     			
 				rsp = appSession.patch(urltf,json=payload,verify=False)
 				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
@@ -168,6 +179,7 @@ class ARTukarfakturWizard(models.TransientModel):
 												"doctype":"INVOICE",
 												"position":"TUKARFAKTUR",
 												"docstatus":istatus,
+												"notes1":notes1,
 												"docby":self.env.user.name ,
 												"docindate":self.tfdate})
 
