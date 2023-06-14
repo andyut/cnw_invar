@@ -21,8 +21,10 @@
                     <field name="po"/>
                     <field name="gr_no"/>
                     <field name="cardcode"/>
-                    <field name="cardname"/>
+                    <field name="shiptocode"/>
+                    <field name="cardname" invisible="1"/>
                     <field name="arperson"/>  
+                    <field name="collector"/>  
                     <field name="amount" sum="sum_amount"/>
                     <field name="balance" sum="sum_balance"/>   
                     <field name="datediff" invisible="1" />  
@@ -64,7 +66,7 @@
             <field name="model">cnw.invar.saldopiutangdetailmodels</field>
             <field name="arch" type="xml">
                 <search string="Search">
-                      
+                    <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
                     <field name="docdate"/>
                     <field name="docnum"/> 
                     <field name="numatcard"/> 
@@ -78,6 +80,7 @@
                     <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
                     <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
                     <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="tfstatus" name="group_tfstatus" domain="[]" context="{'group_by':'tfstatus'}" />
                 </search>
             </field>
         </record>

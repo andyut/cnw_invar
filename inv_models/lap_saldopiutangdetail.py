@@ -130,13 +130,13 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	doctype			= fields.Char("Doc Type")
 	comp_name 		= fields.Char("Company Name")
 	docdate         = fields.Date ("Invoice Date")
-	taxdate         = fields.Date ("TF Date")
-	docduedate		= fields.Date ("Date To Pay")
+	taxdate         = fields.Date ("TF")
+	docduedate		= fields.Date ("Due")
 	docnum          = fields.Char("Docnum")
 	docentry 		= fields.Char("DocEntry")
 	po          	= fields.Char("PO")
 	numatcard       = fields.Char("SO")
-	kwitansi        = fields.Char("Kwitansi")
+	kwitansi        = fields.Char("KW")
 	fp              = fields.Char("FP")
 	cardcode        = fields.Char("CardCode")
 	cardname        = fields.Char("Customer")
@@ -159,7 +159,7 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	checklistdate	= fields.Date("Checklist Date")
 	gr_no 			= fields.Char("GR No")
 	arperson 		= fields.Char("AR")
-	transtype 		= fields.Char("TransType")
+	transtype 		= fields.Char("iType")
  
 	topdays 		= fields.Float("ToP Days")
 	topdesc 		= fields.Char("ToP Description")
@@ -169,6 +169,7 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	txtlog			= fields.Text("debug mode")
 	tfstatus 		= fields.Selection(string="TF Status", selection=[("Y","Y"),("N","N")] ,default="N")
 
+	collector 		= fields.Char("Collector")
 
 
 class CNWLapSaldoPiutangDetail(models.TransientModel):
@@ -275,7 +276,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 												denda numeric(19,2),
 												dendastatus varchar(5),
 												tfstatus varchar(5),
-												groupname varchar(50)
+												groupname varchar(50),
+												collector varchar(50)
 												)
 
 						set @dateto = '""" + self.dateto.strftime("%Y%m%d")     + """'
@@ -319,7 +321,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
-                                c.GroupName custgroup
+                                c.GroupName custgroup ,
+								isnull(b.u_coll_name,'') collector
 
 								
 
@@ -328,7 +331,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						inner join ocrg c on b.GroupCode = c.GroupCode 
 						inner join octg d on b.GroupNum = d.GroupNum
 						where a.canceled='N' and a.DocStatus='O' 
-						and a.ctlAccount = @Account 
+						and (a.ctlAccount like '%' +  @Account +  '%'   )
 						and a.cardcode + a.cardname like '%' +  @cardname + '%'
 						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
 						and (a.DocTotal - a.paidsys)<>0 
@@ -371,13 +374,14 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then  (a.doctotal - a.paidsys)* 0.01 else 0 end denda,
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
-                                c.GroupName custgroup
+                                c.GroupName custgroup,
+								isnull(b.u_coll_name,'') collector
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
 						inner join ocrg c on b.GroupCode = c.GroupCode 
 						inner join octg d on b.GroupNum = d.GroupNum
 						where a.canceled='N' and a.DocStatus='O' 
-						and a.ctlAccount = @Account 
+						and  (a.ctlAccount like '%' +  @Account +  '%'   )
 						and a.cardcode + a.cardname  like '%' +  @cardname + '%'
 						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
 						and (a.DocTotal - a.paidsys)<>0
@@ -418,7 +422,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								0,
 								'N',
 								'N',
-                                c.GroupName custgroup
+                                c.GroupName custgroup,
+								isnull(b.u_coll_name,'') collector
 
 								
 
@@ -429,7 +434,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
                         inner join ojdt e on a.transid = e.transid 
 						where  b.cardcode + b.cardname like '%' +  @cardname + '%'
 						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
-						and a.Account = @Account 
+						and  (a.Account like '%' +  @Account +  '%'   )
 						and (a.BalScDeb - a.BalScCred)<>0 
 						and convert(varchar,a.refdate,112) <= @dateto
 
@@ -487,7 +492,8 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 											"dendastatus"		: line[32],  
 											"tfstatus"			: line[33],  
 											"cardgroup"			: line[34],
-											"comp_name"			: line[35],
+											"collector"			: line[35],
+											"comp_name"			: line[36],
 
 											})
 			return {
