@@ -28,7 +28,30 @@ class ARTukarfakturWizard(models.TransientModel):
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)  
 	tfdate         	= fields.Date("TukarFaktur",default=lambda s:fields.Date.today()) 
 	updatetf        = fields.Selection(string="Update",selection=[("tf","Update Tanggal Tukar Faktur"),("py","Update Tanggal Est Payment")],default="tf")       
-	
+	status_coll 	= fields.Boolean("Update Manual", default=False)
+	collector 		= fields.Selection(string="Collector",
+										selection=[("NO COLLECTOR","NO COLLECTOR"),
+													("YANTO","YANTO"),
+													("WAWAN","WAWAN"),
+													("JHON","JHON"),
+													("IMAM","IMAM"),
+													("SUSILO","SUSILO"),
+													("IRFAN","IRFAN"),
+													("JEFRI","JEFRI"),
+													("BIBIT","BIBIT"),
+													("FUAD","FUAD"),
+													("ILYAS","ILYAS"),
+													("FERRY","FERRY"),
+													("AFFEN","AFFEN"),
+													("BUDI","BUDI"),
+													("BAYU","BAYU"),
+													("TYO","TYO"),
+													("YOHANES","YOHANES"),
+													("RIDWAN","RIDWAN"),
+													("NO COLLECTOR","NO COLLECTOR"),
+													("AMIR","AMIR"),
+													("AMIR","AMIR"), ],default="NO COLLECTOR")
+	notes1 			= fields.Char("Notes1")
 	@api.multi
 	def UpdateTglTf(self):
 
@@ -64,9 +87,10 @@ class ARTukarfakturWizard(models.TransientModel):
 			print(invoice)
 			invoice.txtlog= str(invoice)
 			invoice.lt_no = NomorTF
+			invoice.
 			
 			if self.updatetf =="tf" :
-				istatus 			= "TF"
+				istatus 			= "TUKARFAKTUR"
 				invoice.taxdate 	= self.tfdate
 				paydate 			= self.tfdate + timedelta(days=invoice.topdays)
 				invoice.docduedate 	= paydate
@@ -134,6 +158,7 @@ class ARTukarfakturWizard(models.TransientModel):
 					print(txtlog )			 
 
 			self.env["cnw.so.audittrail"].create({
+												"name" : NomorTF,
 												"sonumber":invoice.numatcard,
 												"cardcode":invoice.cardcode,
 												"cardname":invoice.cardname,  
