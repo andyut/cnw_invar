@@ -29,6 +29,7 @@
                     <field name="balance" sum="sum_balance"/>   
                     <field name="datediff" invisible="1" />  
                     <field name="dendastatus"  invisible="1" />   
+                    <field name="notes1"  />   
                     <field name="denda" sum="sum_denda"/>   
                     <field name="datediff" avg="sum_datediff"/>   
                     <field name="tfstatus" invisible="1"/>   

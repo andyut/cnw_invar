@@ -28,7 +28,7 @@ class ARTukarfakturWizard(models.TransientModel):
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)  
 	tfdate         	= fields.Date("TukarFaktur",default=lambda s:fields.Date.today()) 
 	updatetf        = fields.Selection(string="Update",selection=[("tf","Update Tanggal Tukar Faktur"),("py","Update Tanggal Est Payment")],default="tf")       
-	status_coll 	= fields.Boolean("Update Manual", default=False)
+	status_coll 	= fields.Boolean("Change Collector", default=False)
 	collector 		= fields.Selection(string="Collector",
 										selection=[("NO COLLECTOR","NO COLLECTOR"),
 													("YANTO","YANTO"),
@@ -94,6 +94,7 @@ class ARTukarfakturWizard(models.TransientModel):
 
 			if self.status_coll==True:
 				invoice.collector = self.collector
+				collector = invoice.collector
 			notes1 = self.notes1 if self.notes1 else "-"
 
 			if self.updatetf =="tf" :

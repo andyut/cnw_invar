@@ -170,7 +170,7 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	tfstatus 		= fields.Selection(string="TF Status", selection=[("Y","Y"),("N","N")] ,default="N")
 
 	collector 		= fields.Char("Collector")
-
+	notes1			= fields.Char("Notes1")
 
 class CNWLapSaldoPiutangDetail(models.TransientModel):
 	_name           = "cnw.invar.saldopiutangdetail"
@@ -322,7 +322,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
                                 c.GroupName custgroup ,
-								isnull(b.u_coll_name,'') collector
+								case when isnull(a.u_coll_name,'')='' then b.u_Coll_Name else a.U_Coll_Name end  collector
 
 								
 
@@ -375,7 +375,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
                                 c.GroupName custgroup,
-								isnull(b.u_coll_name,'') collector
+								case when isnull(a.u_coll_name,'')='' then b.u_Coll_Name else a.U_Coll_Name end   collector
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
 						inner join ocrg c on b.GroupCode = c.GroupCode 

@@ -19,6 +19,9 @@
                         <field name="company_id" readonly="1"/> 
                         <field name="updatetf"  /> 
                         <field name="tfdate" /> 
+                        <field name="notes1" /> 
+                        <field name="status_coll"  attrs="{'invisible': [('updatetf','!=','tf')] }"/> 
+                        <field name="collector"  attrs="{'invisible': [('status_coll','==',False)] }"/> 
                     </group>
 
                     <footer>
