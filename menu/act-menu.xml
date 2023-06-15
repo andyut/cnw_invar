@@ -57,6 +57,7 @@
     <menuitem  sequence="500" name="[A] ccounting / AR Report" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer" id="cnw_invar_menu_500" parent="cnw_invar_menu_root" />    
         <menuitem sequence="501" name="Saldo Piutang Detail" id="cnw_invar_menu_501" parent="cnw_invar_menu_500" action="cnw_invar_saldopiutangdetail_action"/>
         <menuitem sequence="502"  groups="igu_ar_viewer"  name="Kartu Piutang" id="cnw_invar_menu_502" parent="cnw_invar_menu_500" action="jas_lap_kartupiutang_action"/>        
+        <menuitem sequence="503"  groups="igu_ar_viewer"  name="Print Tukar Faktur" id="cnw_invar_menu_503" parent="cnw_invar_menu_500" action="ar_tf_print_action"/>        
         <menuitem sequence="504" groups="igu_ar_viewer"  name="Rincian AR" id="cnw_invar_menu_504" parent="cnw_invar_menu_500" action="sap_rincianar_action"/>        
 
     <menuitem  sequence="600" name="[C] onfiguration" groups="igu_ar_viewer,igu_invoice_viewer,igu_accounting_viewer,igu_admin_viewer" id="cnw_invar_menu_600" parent="cnw_invar_menu_root" />    

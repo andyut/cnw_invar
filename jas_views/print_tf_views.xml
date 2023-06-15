@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+      <!-- explicit list view definition -->
+    
+      <!-- Wizard untuk ambil data sap -->
+      <record id="ar_tf_print_action" model="ir.actions.act_window">
+        <field name="name">TF Print</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ar.tf.print</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+      </record>
+  
+      <record id="ar_tf_print_form" model="ir.ui.view">
+        <field name="name">ar.tf.print.form</field>
+        <field name="model">ar.tf.print</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+          <form string="TF Print ">
+  
+            <group string="TF Print">
+              <field name="company_id" readonly="1"/>  
+              <field name="dateto" />
+              <field name="arperson" />
+              <field name="collector" /> 
+              <field name="export_to" />
+            </group> 
+            <footer>
+              <button string="Print TF" name="get_CetakanTF" type="object" class="btn-primary"/>
+              <button string="Cancel" class="btn-default" special="cancel" />
+            </footer>
+  
+          </form>
+        </field>
+      </record>
+  
+       
+    </data>
+  </odoo>

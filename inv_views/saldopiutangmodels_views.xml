@@ -32,7 +32,7 @@
                     <field name="notes1"  />   
                     <field name="denda" sum="sum_denda"/>   
                     <field name="datediff" avg="sum_datediff"/>   
-                    <field name="tfstatus" invisible="1"/>   
+                    <field name="tfstatus"  />   
                 </tree>
             </field>
         </record>
@@ -54,7 +54,7 @@
       <field name="model">cnw.invar.saldopiutangdetailmodels</field>
       <field name="arch" type="xml">
 
-        <calendar string="Penagihan" mode="month" date_start="taxdate" color="cardname">
+        <calendar string="Penagihan" mode="month" date_start="docduedate" color="cardname">
           <field name="cardname"/> 
           <field name="numatcard"/> 
           <field name="balance" widget="monetary"/> 
@@ -68,19 +68,24 @@
             <field name="arch" type="xml">
                 <search string="Search">
                     <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
+                    <filter string="F / Pay" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
+                    <field name="cardcode"/>
                     <field name="docdate"/>
+                    <field name="taxdate"/>
+                    <field name="docduedate"/>
                     <field name="docnum"/> 
                     <field name="numatcard"/> 
                     <field name="kwitansi"/> 
                     <field name="fp"/> 
                     <field name="po"/> 
-                    <field name="cardcode"/>
                     <field name="cardname"/>  
-                    <field name="arperson"/>  
-                    <field name="cardname"/>  
+                    <field name="arperson"/>   
                     <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
                     <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
                     <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="docduedate" name="group_docduedate" domain="[]" context="{'group_by':'docduedate'}" />
+                    <filter string="taxdate" name="group_taxdate" domain="[]" context="{'group_by':'taxdate'}" />
+                    <filter string="kwitansi" name="group_kwitansi" domain="[]" context="{'group_by':'kwitansi'}" />
                     <filter string="tfstatus" name="group_tfstatus" domain="[]" context="{'group_by':'tfstatus'}" />
                 </search>
             </field>

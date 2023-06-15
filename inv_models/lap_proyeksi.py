@@ -30,7 +30,7 @@ class CNWProyeksi(models.TransientModel):
     filexls         = fields.Binary("File Output")    
     filenamexls     = fields.Char("File Name Output")
     
-    based_on       = fields.Selection([ ('tftop', 'ToP Day(s) from TF / Due Date') ,  ('tf', 'TF / DueDate') ,  ],string='Based On', default='tftop')
+    based_on       = fields.Selection([ ('tftop', 'TF') ,  ('tf', 'DueDate') ,  ],string='Based On', default='tftop')
     export_to       = fields.Selection([ ('xls', 'Excel') ,  ],string='Export To', default='xls')
 
     def getproyeksi(self):
@@ -182,7 +182,7 @@ class CNWProyeksi(models.TransientModel):
                         inner join ocrg d on c.groupcode = d.groupcode 
                         inner join oslp e on c.slpcode = e.slpcode 
                         where 
-                            convert(varchar, a.Taxdate,112) <= @dateto 
+                            convert(varchar, a.DocDuedate,112) <= @dateto 
                             and (a.doctotal-a.PaidSys)<>0 
                             and a.CANCELED ='N'
                             and isnull( c.u_AR_Person,'') like '%' +  @arperson  + '%'
@@ -211,7 +211,7 @@ class CNWProyeksi(models.TransientModel):
                         inner join ocrg d on c.groupcode = d.groupcode 
                         inner join oslp e on c.slpcode = e.slpcode 
                         where 
-                        convert(varchar, a.Taxdate,112) <= @dateto 
+                        convert(varchar, a.DocDuedate,112) <= @dateto 
                             and (a.doctotal-a.PaidSys)<>0 
                             and a.CANCELED ='N'
                             and isnull( c.u_AR_Person,'') like '%' +  @arperson  + '%'
