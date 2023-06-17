@@ -12,6 +12,7 @@ from datetime import datetime
 from odoo import models, fields, api
 import base64
 import pyodbc  
+import pymssql  
 from jinja2 import Environment, FileSystemLoader
 import pdfkit
 
@@ -126,6 +127,8 @@ class CNWLapSaldoPiutangDetailEmail(models.TransientModel):
 class CNWLapSaldoPiutangDetailModels(models.Model):
 	_name           = "cnw.invar.saldopiutangdetailmodels"
 	_description    = "Saldo Piutang Detail Models view" 
+	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
+
 	name            = fields.Char("IDX")
 	doctype			= fields.Char("Doc Type")
 	comp_name 		= fields.Char("Company Name")
@@ -172,6 +175,118 @@ class CNWLapSaldoPiutangDetailModels(models.Model):
 	collector 		= fields.Char("Collector")
 	notes1			= fields.Char("Notes1")
 
+	salesperson 	= fields.Char("Sales")
+	jadwal 			= fields.Char("Jadwal")
+# print invoice
+	filexls         = fields.Binary("File Output",default=" ")    
+	filenamexls     = fields.Char("File Name Output",default="EmptyText.txt")
+	
+	def get_CetakanInvoice(self):
+		mpath       = get_module_path('cnw_invar') 
+		filenamepdf    = 'invoice_'+   self.docentry  +  self.env.user.name +  '.pdf'
+		filenamepdf    = 'invoice_'+   self.docentry     +  self.env.user.name +   '.pdf'
+		filepath    = mpath + '/temp/'+ filenamepdf
+
+	#LOGO CSS AND TITLE
+		logo        = mpath + '/template/logo.png' 
+		logo        = mpath + '/template/logo'+ self.company_id.code_base + '.png'
+		#cssfile     = mpath + '/template/style.css'        
+		options2 = { 
+				'page-height':'16.5cm',
+				'page-width':'21.5cm',
+				'orientation': 'portrait',
+				}
+		options = { 
+				'page-size':'A4', 
+				'orientation': 'portrait',
+				}
+		print_date = datetime.now(pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d %H:%M:%S")
+	#2008202239
+
+	#MULTI COMPANY 
+
+		listfinal = []
+		listfinal2 = []
+		pandas.options.display.float_format = '{:,.2f}'.format
+
+		host        = self.company_id.server
+		database    = self.company_id.db_name
+		user        = self.company_id.db_usr
+		password    = self.company_id.db_pass 
+			
+		conn = pymssql.connect(host=host, user=user, password=password, database=database)
+		pd.options.display.float_format = '{:,.2f}'.format
+		pandas.options.display.float_format = '{:,.2f}'.format
+		
+		msgsql =  """exec [dbo].[IGU_ACT_INVOICE_HEADER]  '""" + self.docnum +  """','""" + self.docnum +  """','""" + self.docdate.strftime("%Y%m%d")  +  """','""" + self.docdate.strftime("%Y%m%d") +  """' """
+		msgsql2 =  """exec [dbo].[IGU_ACT_INVOICE_DETAIL]  '""" + self.docnum +  """','""" + self.docnum  +  """','""" + self.docdate.strftime("%Y%m%d")  +  """','""" + self.docdate.strftime("%Y%m%d") +  """' """
+		data = pandas.io.sql.read_sql(msgsql,conn) 
+		data2 = pandas.io.sql.read_sql(msgsql2,conn) 
+		listfinal.append(data)
+		listfinal2.append(data2)
+	
+		
+		conn.commit()
+
+
+		df = pd.concat(listfinal)  
+		df2 = pd.concat(listfinal2)  
+		invoiceheader = df.values.tolist()
+		invoicedetail = df2.values.tolist()
+		
+	# TEMPLATE CETAKAN INVOICE        
+		#print(invoiceheader)
+		#print(invoicedetail)
+		# for inv_line in invoiceheader:
+		#     self.env["cnw.so.audittrail"].create({
+		#                                         "sonumber":inv_line[3],
+		#                                         "cardcode":inv_line[5],
+		#                                         "cardname":inv_line[6], 
+		#                                         "sales":inv_line[19],
+		#                                         "arperson":inv_line[15],
+		#                                         "docref":inv_line[13],
+		#                                         "docdate":inv_line[20],
+		#                                         "doctype":"Cetak Invoice",
+		#                                         "position":"INVOICE",
+		#                                         "docstatus":"Cetak invoice",
+		#                                         "docby":self.env.user.name ,
+		#                                         "docindate":datetime.now()})
+		filename = filenamepdf
+		env = Environment(loader=FileSystemLoader(mpath + '/template/'))
+		
+		template = env.get_template("cetakan_invoice_template.html")            
+		rek =  self.env.user.company_id.rek if  self.env.user.company_id.rek else "" 
+		loc =  self.env.user.company_id.loc if  self.env.user.company_id.loc else "" 
+		template_var = {"logo":logo, 
+				"igu_tanggal" :print_date ,
+				"rek":rek,
+				"loc":loc,
+				"header" :invoiceheader,
+				"detail" :invoicedetail  }
+		
+		html_out = template.render(template_var)
+		#print("OUtput html")
+		#print (html_out)
+		print(mpath + '/temp/'+ filename)
+		pdfkit.from_string(html_out,mpath + '/temp/'+ filename,options=options) 
+		
+		# SAVE TO MODEL.BINARY 
+		file = open(mpath + '/temp/'+ filename , 'rb')
+		out = file.read()
+		file.close()
+		self.filexls =base64.b64encode(out)
+		self.filenamexls = filename
+		os.remove(mpath + '/temp/'+ filename )
+		print("web/content/?model=" + self._name +"&id=" + str(self.id) + "&filename_field=filenamexls&field=filexls&download=true&filename=" + self.filenamexls)
+ 
+		return {
+			'name': 'Report',
+			'type': 'ir.actions.act_url',
+			'url': "web/content/?model=" + self._name +"&id=" + str(
+			self.id) + "&filename_field=filenamexls&field=filexls&download=true&filename=" + self.filenamexls,
+			'target': 'new',
+			}
+	
 class CNWLapSaldoPiutangDetail(models.TransientModel):
 	_name           = "cnw.invar.saldopiutangdetail"
 	_description    = "Saldo Piutang Detail"
@@ -277,7 +392,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 												dendastatus varchar(5),
 												tfstatus varchar(5),
 												groupname varchar(50),
-												collector varchar(50)
+												collector varchar(50) ,
+												salesperson varchar(50) ,
+												jadwal varchar(100)
 												)
 
 						set @dateto = '""" + self.dateto.strftime("%Y%m%d")     + """'
@@ -322,7 +439,10 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
                                 c.GroupName custgroup ,
-								case when isnull(a.u_coll_name,'')='' then b.u_Coll_Name else a.U_Coll_Name end  collector
+								case when isnull(a.u_coll_name,'')='' then b.u_Coll_Name else a.U_Coll_Name end  collector ,
+								e.slpName + ' ' + isnull(E.u_slsEmpName,'') salesname ,
+								isnull(b.notes,'') jadwal
+
 
 								
 
@@ -330,6 +450,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						inner join ocrd b on a.cardcode = b.cardcode 
 						inner join ocrg c on b.GroupCode = c.GroupCode 
 						inner join octg d on b.GroupNum = d.GroupNum
+						inner join oslp e on e.slpcode = b.slpcode
 						where a.canceled='N' and a.DocStatus='O' 
 						and (a.ctlAccount like '%' +  @Account +  '%'   )
 						and a.cardcode + a.cardname like '%' +  @cardname + '%'
@@ -375,11 +496,14 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								case when DATEDIFF(day, a.DOCDUEDATE,GETDATE()) >0 then 'Y' else 'N' end  istatus ,
 								case when isnull(a.U_LT_No ,'')<>'' then 'Y' else 'N' end tfstatus,
                                 c.GroupName custgroup,
-								case when isnull(a.u_coll_name,'')='' then b.u_Coll_Name else a.U_Coll_Name end   collector
+								case when isnull(a.u_coll_name,'')='' then b.u_Coll_Name else a.U_Coll_Name end   collector,
+								e.slpName + ' ' + isnull(e.u_slsEmpName,'') salesname ,
+								isnull(b.notes,'') jadwal
 						from orin a
 						inner join ocrd  b on a.cardcode = b.cardcode 
 						inner join ocrg c on b.GroupCode = c.GroupCode 
 						inner join octg d on b.GroupNum = d.GroupNum
+						inner join oslp e on e.slpcode = b.slpcode
 						where a.canceled='N' and a.DocStatus='O' 
 						and  (a.ctlAccount like '%' +  @Account +  '%'   )
 						and a.cardcode + a.cardname  like '%' +  @cardname + '%'
@@ -423,7 +547,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 								'N',
 								'N',
                                 c.GroupName custgroup,
-								isnull(b.u_coll_name,'') collector
+								isnull(b.u_coll_name,'') collector,
+								f.slpName + ' ' + isnull(f.u_slsEmpName,'') salesname ,
+								isnull(b.notes,'') jadwal
 
 								
 
@@ -432,6 +558,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						inner join ocrg c on b.GroupCode = c.GroupCode 
 						inner join octg d on b.GroupNum = d.GroupNum
                         inner join ojdt e on a.transid = e.transid 
+						inner join oslp f on f.slpcode = b.slpcode
 						where  b.cardcode + b.cardname like '%' +  @cardname + '%'
 						and isnull(B.U_AR_Person,'')  like '%' +  @arperson + '%'
 						and  (a.Account like '%' +  @Account +  '%'   )
@@ -493,7 +620,9 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 											"tfstatus"			: line[33],  
 											"cardgroup"			: line[34],
 											"collector"			: line[35],
-											"comp_name"			: line[36],
+											"salesperson"		: line[36],
+											"jadwal"			: line[37],
+											"comp_name"			: line[38],
 
 											})
 			return {

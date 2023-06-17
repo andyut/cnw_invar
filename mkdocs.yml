@@ -1,27 +1,12 @@
-site_name: Accounting - AR Documentation
+site_name: Invoice-AR Handbook
 site_url: http://www.indoguna.co.id/
 site_description : CNW Handbook
-site_author : Andy Utomo
+site_author : IT Research & Development
 copyright : Copyright &copy; 2023 Indoguna Utama PT, Maintained by Andy Utomo
  
 nav:
     - index.md
-    - Tutorial :
-        - Membuat Dokumentasi : int_createdocs.md 
-        - Restart Program Pendukung SAP : restart_server.md 
-    - Program Update : 
-        - perijinan : pi_manual.md
-        - research & development : rnd_cnw.md
-        - Faktur pajak - AR  : efaktur.md
-        - AR Invoice : arinv.md
-        - Online (Tokopedia) : onlineshop.md
-        - Pembelian non barang dagang (expense) : pembelian_expense.md
-        - WMS Di SAP : wms01.md       
-        - SETUP WMS  SAP : wms02.md
-        - Kopeasi : ksp01.md
-    - SAP Update table :
-        - table SAP 20230218 : 20230218.md
-        - Create invoice (SL) : 20230220.md
+    - Piutang : piutang.md  
 theme : 
     name : material
     logo : asset/logocnw1.png
@@ -50,5 +35,5 @@ plugins:
         combined: false
         media_type: print
     - with-pdf: 
-        cover_subtitle: Technical documentation.
+        cover_subtitle: CNW Documentation
         output_path: "../docs.pdf"

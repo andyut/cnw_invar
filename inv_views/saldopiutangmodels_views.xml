@@ -8,21 +8,23 @@
                 <tree string="Saldo Piutang" create="false" edit="false" 
                 decoration-danger="dendastatus =='Y'"  
                  decoration-warning="transtype=='UnReconsile'" 
-                 decoration-success="tfstatus=='Y'"  >  
-                    <field name ="transtype" />
+                 decoration-success="tfstatus=='Y'"  >   
+                    <field name="jadwal"  />  
+                    <field name ="transtype"  invisible="1"/>
                     <field name="docdate"/>
                     <field name="taxdate"/> 
                     <field name="topdays"/>
                     <field name="docduedate"/>
-                    <field name="docnum"  />
+                    <field name="docnum"   invisible="1" />
                     <field name="numatcard"/>
                     <field name="kwitansi"/>
                     <field name="fp"/>
                     <field name="po"/>
-                    <field name="gr_no"/>
+                    <field name="gr_no"  invisible="1"/>
                     <field name="cardcode"/>
                     <field name="shiptocode"/>
                     <field name="cardname" invisible="1"/>
+                    <field name="salesperson"/>  
                     <field name="arperson"/>  
                     <field name="collector"/>  
                     <field name="amount" sum="sum_amount"/>
@@ -30,9 +32,10 @@
                     <field name="datediff" invisible="1" />  
                     <field name="dendastatus"  invisible="1" />   
                     <field name="notes1"  />   
-                    <field name="denda" sum="sum_denda"/>   
+                    <field name="denda" sum="sum_denda" invisible="1" />   
                     <field name="datediff" avg="sum_datediff"/>   
                     <field name="tfstatus"  />   
+                    <button name="get_CetakanInvoice" string="Print Invoice"   type="object"   />
                 </tree>
             </field>
         </record>
@@ -70,6 +73,7 @@
                     <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
                     <filter string="F / Pay" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
                     <field name="cardcode"/>
+                    <field name="jadwal"  />   
                     <field name="docdate"/>
                     <field name="taxdate"/>
                     <field name="docduedate"/>
@@ -79,8 +83,10 @@
                     <field name="fp"/> 
                     <field name="po"/> 
                     <field name="cardname"/>  
+                    <field name="shiptocode"/>
                     <field name="arperson"/>   
                     <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                    <filter string="jadwal" name="group_jadwal" domain="[]" context="{'group_by':'jadwal'}" />
                     <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
                     <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
                     <filter string="docduedate" name="group_docduedate" domain="[]" context="{'group_by':'docduedate'}" />

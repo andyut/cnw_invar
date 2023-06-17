@@ -30,7 +30,7 @@ class CNWProyeksi(models.TransientModel):
     filexls         = fields.Binary("File Output")    
     filenamexls     = fields.Char("File Name Output")
     
-    based_on       = fields.Selection([ ('tftop', 'TF') ,  ('tf', 'DueDate') ,  ],string='Based On', default='tftop')
+    based_on       = fields.Selection([ ('posting', 'Invoice Date') ,('tftop', 'TF') ,  ('tf', 'DueDate') ,  ],string='Based On', default='tf',required=True)
     export_to       = fields.Selection([ ('xls', 'Excel') ,  ],string='Export To', default='xls')
 
     def getproyeksi(self):
@@ -240,10 +240,103 @@ class CNWProyeksi(models.TransientModel):
                                   slsgroup,
                                 u_AR_Person
             """
+            msgsql3 ="""
+                        declare @customer varchar(50), @arperson varchar(50),@datefrom varchar(20),@dateto varchar(20)
+
+                        set @arperson = '""" + arperson + """' 
+                        set @customer = '""" + customer + """' 
+                        set @datefrom = '""" + self.datefrom.strftime("%Y%m%d")  + """' 
+                        set @dateto = '""" + self.dateto.strftime("%Y%m%d")  + """' 
+                        
+                      
+                        select  iday,  
+                                idivisi,
+                                 cardcode,
+                                 cardname ,
+                                cardfname,
+                                  slsgroup,
+                                u_AR_Person,
+                                sum(amount) amount
+                        from (
+                        select 
+                                case when convert(varchar,a.Docdate,112)< @datefrom then '00' else right(convert(varchar,a.Docdate ,112),2) end  iday, 
+                                d.GroupName
+                                idivisi,
+                                c.cardcode,
+                                c.cardname ,
+                                c.cardfname,
+                                e.memo slsgroup,
+                                c.u_AR_Person,
+                                sum(a.doctotal-a.PaidSys) amount
+                        from oinv a  
+                        inner join ocrd c on a.cardcode = c.cardcode 
+                        inner join ocrg d on c.groupcode = d.groupcode 
+                        inner join oslp e on c.slpcode = e.slpcode 
+                        where 
+                            convert(varchar, a.Docdate,112) <= @dateto 
+                            and (a.doctotal-a.PaidSys)<>0 
+                            and a.CANCELED ='N'
+                            and isnull( c.u_AR_Person,'') like '%' +  @arperson  + '%'
+                            and c.cardcode + c.cardname like '%' +  @customer  + '%'
+                        group by 
+                               case when convert(varchar,a.Docdate,112)< @datefrom then '00' else right(convert(varchar,a.Docdate ,112),2) end , 
+                                d.GroupName,
+                                c.cardcode,
+                                c.cardname ,
+                                e.memo ,
+                                c.u_AR_Person,
+                                c.cardfname
+                        union ALL
+                        select 
+                                case when convert(varchar,a.Docdate,112)< @datefrom then '00' else right(convert(varchar,a.Docdate ,112),2) end iday, 
+                                d.GroupName
+                                idivisi,
+                                c.cardcode,
+                                c.cardname ,
+                                c.cardfname,
+                                e.memo slsgroup,
+                                c.u_AR_Person,
+                                -1 * sum(a.doctotal-a.PaidSys) amount
+                        from orin a  
+                        inner join ocrd c on a.cardcode = c.cardcode 
+                        inner join ocrg d on c.groupcode = d.groupcode 
+                        inner join oslp e on c.slpcode = e.slpcode 
+                        where 
+                        convert(varchar, a.Docdate,112) <= @dateto 
+                            and (a.doctotal-a.PaidSys)<>0 
+                            and a.CANCELED ='N'
+                            and isnull( c.u_AR_Person,'') like '%' +  @arperson  + '%'
+                            and c.cardcode + c.cardname like '%' +  @customer  + '%'
+                        group by 
+                                case when convert(varchar,a.Docdate,112)< @datefrom then '00' else right(convert(varchar,a.Docdate ,112),2) end  , 
+                                d.GroupName,
+                                c.cardcode,
+                                c.cardname ,
+                                e.memo ,
+                                c.u_AR_Person,
+                                c.cardfname
+                            )as a 
+                            group by iday,  
+                                idivisi,
+                                 cardcode,
+                                 cardname ,
+                                cardfname,
+                                  slsgroup,
+                                u_AR_Person
+                        order  by iday,  
+                                idivisi,
+                                 cardcode,
+                                 cardname ,
+                                cardfname,
+                                  slsgroup,
+                                u_AR_Person
+            """            
             if self.based_on =="tftop":
                 msgsql = msgsql1
-            else :
+            if self.based_on =="tf":
                 msgsql = msgsql2
+            if self.based_on =="posting":
+                msgsql = msgsql3
             data = pandas.io.sql.read_sql(msgsql,conn) 
             listfinal.append(data)
   
