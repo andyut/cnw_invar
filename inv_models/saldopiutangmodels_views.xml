@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cnw_invar_saldopiutangdetailmodels_tree" model="ir.ui.view">
+            <field name="name">cnw.invar.saldopiutangdetailmodels.tree</field>
+            <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="arch" type="xml">
+                <tree string="Saldo Piutang" create="false" edit="false" 
+                decoration-danger="dendastatus =='Y'"  
+                 decoration-warning="transtype=='UnReconsile'" 
+                 decoration-success="tfstatus=='Y'"  >  
+                    <field name ="transtype" />
+                    <field name="docdate"/>
+                    <field name="taxdate"/> 
+                    <field name="topdays"/>
+                    <field name="docduedate"/>
+                    <field name="docnum"  />
+                    <field name="numatcard"/>
+                    <field name="kwitansi"/>
+                    <field name="fp"/>
+                    <field name="po"/>
+                    <field name="gr_no"/>
+                    <field name="cardcode"/>
+                    <field name="shiptocode"/>
+                    <field name="cardname" invisible="1"/>
+                    <field name="arperson"/>  
+                    <field name="collector"/>  
+                    <field name="amount" sum="sum_amount"/>
+                    <field name="balance" sum="sum_balance"/>   
+                    <field name="datediff" invisible="1" />  
+                    <field name="dendastatus"  invisible="1" />   
+                    <field name="notes1"  />   
+                    <field name="denda" sum="sum_denda"/>   
+                    <field name="datediff" avg="sum_datediff"/>   
+                    <field name="tfstatus"  />   
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="cnw_invar_saldopiutangdetailmodels_pivot" model="ir.ui.view">
+            <field name="name">cnw.invar.saldopiutangdetailmodels.pivot</field>
+            <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="arch" type="xml">
+                <pivot string="Piutang">     
+                 <field name="cardname"  type="row" />  
+                 <field name="balance"  type="measure" />  
+                </pivot>
+            </field>
+        </record>
+
+     <record model="ir.ui.view" id="cnw_invar_saldopiutangdetailmodels_calendar">
+      <field name="name">cnw.invar.saldopiutangdetailmodels.calendar</field>
+      <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+      <field name="arch" type="xml">
+
+        <calendar string="Penagihan" mode="month" date_start="docduedate" color="cardname">
+          <field name="cardname"/> 
+          <field name="numatcard"/> 
+          <field name="balance" widget="monetary"/> 
+
+        </calendar>
+      </field>
+    </record>
+        <record model="ir.ui.view" id="cnw_invar_saldopiutangdetailmodels_search">
+            <field name="name">cnw.invar.saldopiutangdetailmodels.search</field>
+            <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
+                    <filter string="F / Pay" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
+                    <field name="cardcode"/>
+                    <field name="docdate"/>
+                    <field name="taxdate"/>
+                    <field name="docduedate"/>
+                    <field name="docnum"/> 
+                    <field name="numatcard"/> 
+                    <field name="kwitansi"/> 
+                    <field name="fp"/> 
+                    <field name="po"/> 
+                    <field name="cardname"/>  
+                    <field name="arperson"/>   
+                    <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                    <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
+                    <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="docduedate" name="group_docduedate" domain="[]" context="{'group_by':'docduedate'}" />
+                    <filter string="taxdate" name="group_taxdate" domain="[]" context="{'group_by':'taxdate'}" />
+                    <filter string="kwitansi" name="group_kwitansi" domain="[]" context="{'group_by':'kwitansi'}" />
+                    <filter string="tfstatus" name="group_tfstatus" domain="[]" context="{'group_by':'tfstatus'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="cnw_invar_saldopiutangdetailmodels_action" model="ir.actions.act_window">
+            <field name="name">Saldo Piutang Per Customer</field>
+            <field name="res_model">cnw.invar.saldopiutangdetailmodels</field>
+            <field name="view_mode">tree,calendar,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

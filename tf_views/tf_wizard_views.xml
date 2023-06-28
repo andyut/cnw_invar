@@ -3,9 +3,9 @@
     <data>
         <!-- Wizard untuk ambil data sap -->
     <act_window id="sar_tf_wizard_action" 
-        name="Jadwal Harian Tukar Faktur" 
+        name="TF" 
         res_model="ar.tf.wizard" 
-        src_model="ar.invoice"  
+        src_model="cnw.invar.saldopiutangdetailmodels"  
         view_mode="form" target="new" multi="True" /> 
 
         <record id="ar_tf_wizard_form" model="ir.ui.view">
@@ -13,20 +13,19 @@
             <field name="model">ar.tf.wizard</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Jadwal Harian Tukar Faktur">
+                <form string="TF">
 
-                    <group string="Jadwal">
-                        <field name="company_id" readonly="1"/>
-                        <field name="name" readonly="1"/>
-                        <field name="ar_id" readonly="1"/>
-                        <field name="docdate" /> 
-                        <field name="coll_id" widget="selection"/>
-                        <field name="jalur_id"   />
-                        <field name="remarks" />
+                    <group string="TF">
+                        <field name="company_id" readonly="1"/> 
+                        <field name="updatetf"  /> 
+                        <field name="tfdate" /> 
+                        <field name="notes1" /> 
+                        <field name="status_coll"  attrs="{'invisible': [('updatetf','!=','tf')] }"/> 
+                        <field name="collector"  attrs="{'invisible': [('status_coll','==',False)] }"/> 
                     </group>
 
                     <footer>
-                        <button string="Jadwal Tukar Faktur" name="CreateJadwalCollector" type="object" class="btn-primary"/>
+                        <button string="TF" name="UpdateTglTf" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel" />
                     </footer>
 

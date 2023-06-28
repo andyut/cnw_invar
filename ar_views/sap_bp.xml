@@ -47,6 +47,7 @@
                     <field name="cardname"/> 
                     <field name="salesperson"/>
                     <field name="ar_person"/>
+                    <field name="collector"/>
                     <field name="parent_bp"/>
                     <field name="paymentgroup" />
                     <field name="creditline"/>
@@ -252,15 +253,32 @@
             <field name="model">sap.bp</field>
             <field name="arch" type="xml">
                 <search string="Business Partner Search">
+                    <filter string="Invoice dengan Pengiriman" domain="[('delivery_invoice','=', 'Y')]" name="checked_delivery_invoice" />
+                    <filter string="print faktur" domain="[('printfaktur','=', 'Y')]" name="checked_printfaktur" />
+                    <filter string="printkwitansi" domain="[('printkwitansi','!=', 'N')]" name="checked_printkwitansi" />
+                    <filter string="TukarFaktur" domain="[('penagihan_type','=', 'Y')]" name="checked_penagihan_type" />
+                    <filter string="printfp" domain="[('printfp','=', 'Y')]" name="checked_printfp" />
                     <field name="cardcode"/>
                     <field name="cardname"/> 
                     <field name="salesperson"/>
+                    <field name="parent_bp"/>
+                    <field name="collector"/>
                     <field name="ar_person"/>
                     <field name="groupname"/> 
                     <field name="bpname"/>
                     <field name="billaddress"/>
                     <field name="mailaddress"/>
                     <field name="notes"/>
+                    <field name="delivery_invoice"/>
+                    <field name="printfaktur"/>
+                    <field name="printkwitansi"/>
+                    <field name="penagihan_type"/>
+                    <field name="printfp"/>
+                    <filter string="delivery_invoice" name="group_delivery_invoice" domain="[]" context="{'group_by':'delivery_invoice'}" />
+                    <filter string="printfaktur" name="group_ar_person" domain="[]" context="{'group_by':'printfaktur'}" />
+                    <filter string="printkwitansi" name="group_ar_person" domain="[]" context="{'group_by':'printkwitansi'}" />
+                    <filter string="penagihan_type" name="group_ar_person" domain="[]" context="{'group_by':'penagihan_type'}" />
+                    <filter string="printfp" name="group_ar_person" domain="[]" context="{'group_by':'printfp'}" />
                     <filter string="ar_person" name="group_ar_person" domain="[]" context="{'group_by':'ar_person'}" />
                     <filter string="salesperson" name="group_salesperson" domain="[]" context="{'group_by':'salesperson'}" />
                     <filter string="groupname" name="group_groupname" domain="[]" context="{'group_by':'groupname'}" />

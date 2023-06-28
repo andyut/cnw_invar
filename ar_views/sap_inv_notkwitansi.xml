@@ -23,6 +23,8 @@
                          <field name="company_id" readonly="1"/> 
                          <field name="datefrom" /> 
                          <field name="dateto" /> 
+                         <field name="arperson" /> 
+                         <field name="customer" /> 
                          <field name="export_to" /> 
                     </group>
         

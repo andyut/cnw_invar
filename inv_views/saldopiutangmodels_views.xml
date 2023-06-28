@@ -6,20 +6,37 @@
             <field name="model">cnw.invar.saldopiutangdetailmodels</field>
             <field name="arch" type="xml">
                 <tree string="Saldo Piutang" create="false" edit="false" 
-                decoration-warning="amount &lt; 0"    > 
-                    <field name="comp_name" />
+                decoration-danger="dendastatus =='Y'"  
+                 decoration-warning="transtype=='UnReconsile'" 
+                 decoration-bf="tfstatus=='Y'"  
+                 decoration-success="tfstatus=='Y'"  >   
+                    <field name="jadwal"  />  
+                    <field name ="transtype"  invisible="1"/>
                     <field name="docdate"/>
-                    <field name="docnum"  />
+                    <field name="taxdate"/> 
+                    <field name="topdays"/>
+                    <field name="docduedate"/>
+                    <field name="docnum"   invisible="1" />
                     <field name="numatcard"/>
-                    <field name="po"/>
                     <field name="kwitansi"/>
                     <field name="fp"/>
+                    <field name="po"/>
+                    <field name="gr_no"  invisible="1"/>
                     <field name="cardcode"/>
-                    <field name="cardname"/>
-                    <field name="dpp" sum="sum_dpp"/> 
-                    <field name="ppn" sum="sum_ppn"/>
+                    <field name="shiptocode"/>
+                    <field name="cardname" invisible="1"/>
+                    <field name="salesperson"/>  
+                    <field name="arperson"/>  
+                    <field name="collector"/>  
                     <field name="amount" sum="sum_amount"/>
-                    <field name="balance" sum="sum_balance"/>  
+                    <field name="balance" sum="sum_balance"/>   
+                    <field name="datediff" invisible="1" />  
+                    <field name="dendastatus"  invisible="1" />   
+                    <field name="notes1"  />   
+                    <field name="denda" sum="sum_denda" invisible="1" />   
+                    <field name="datediff" avg="sum_datediff"/>   
+                    <field name="tfstatus"  />   
+                    <button name="get_CetakanInvoice" string="Print Invoice"   type="object"   />
                 </tree>
             </field>
         </record>
@@ -31,29 +48,58 @@
             <field name="arch" type="xml">
                 <pivot string="Piutang">     
                  <field name="cardname"  type="row" />  
+                 <field name="docduedate"  type="row" interval="day" />  
                  <field name="balance"  type="measure" />  
                 </pivot>
             </field>
         </record>
 
- 
+     <record model="ir.ui.view" id="cnw_invar_saldopiutangdetailmodels_calendar">
+      <field name="name">cnw.invar.saldopiutangdetailmodels.calendar</field>
+      <field name="model">cnw.invar.saldopiutangdetailmodels</field>
+      <field name="arch" type="xml">
+
+        <calendar string="Penagihan" mode="month" date_start="docduedate" color="cardname">
+          <field name="cardname"/> 
+          <field name="numatcard"/> 
+          <field name="balance" widget="monetary"/> 
+
+        </calendar>
+      </field>
+    </record>
         <record model="ir.ui.view" id="cnw_invar_saldopiutangdetailmodels_search">
             <field name="name">cnw.invar.saldopiutangdetailmodels.search</field>
             <field name="model">cnw.invar.saldopiutangdetailmodels</field>
             <field name="arch" type="xml">
                 <search string="Search">
-                      
+                    <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
+                    <filter string="F / Pay" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
+                    <filter string="Invoice" domain="[('transtype','=', 'Invoice')]" name="F_Invoice" /> 
+                    <filter string="CN" domain="[('transtype','=', 'CN')]" name="F_CN" /> 
+                    <filter string="Unreconsile Payment" domain="[('transtype','=', 'UnReconsile')]" name="F_Unreconsile" /> 
+                    <field name="cardcode"/>
+                    <field name="jadwal"  />   
                     <field name="docdate"/>
+                    <field name="taxdate"/>
+                    <field name="docduedate"/>
                     <field name="docnum"/> 
+                    <field name="transtype"/> 
                     <field name="numatcard"/> 
                     <field name="kwitansi"/> 
                     <field name="fp"/> 
                     <field name="po"/> 
-                    <field name="cardcode"/>
                     <field name="cardname"/>  
+                    <field name="shiptocode"/>
+                    <field name="arperson"/>   
                     <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                    <filter string="jadwal" name="group_jadwal" domain="[]" context="{'group_by':'jadwal'}" />
                     <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
                     <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="docduedate" name="group_docduedate" domain="[]" context="{'group_by':'docduedate'}" />
+                    <filter string="taxdate" name="group_taxdate" domain="[]" context="{'group_by':'taxdate'}" />
+                    <filter string="kwitansi" name="group_kwitansi" domain="[]" context="{'group_by':'kwitansi'}" />
+                    <filter string="tfstatus" name="group_tfstatus" domain="[]" context="{'group_by':'tfstatus'}" />
+                    <filter string="transtype" name="group_transtype" domain="[]" context="{'group_by':'transtype'}" />
                 </search>
             </field>
         </record>
@@ -61,7 +107,7 @@
         <record id="cnw_invar_saldopiutangdetailmodels_action" model="ir.actions.act_window">
             <field name="name">Saldo Piutang Per Customer</field>
             <field name="res_model">cnw.invar.saldopiutangdetailmodels</field>
-            <field name="view_mode">tree,pivot</field>
+            <field name="view_mode">tree,calendar,pivot</field>
 
         </record>
 

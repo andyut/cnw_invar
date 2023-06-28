@@ -1,0 +1,41 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+ 
+
+    <record model="ir.ui.view" id="cnwls_bp_updatecollector_form">
+      <field name="name">cnwls.bp.updatecollector.form</field>
+      <field name="model">cnwls.bp.updatecollector</field>
+            <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Update Collector">
+          <header>
+             
+          </header>
+        <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="company_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group> 
+                                <field name="collector" widget="selection" />  
+                        </group>
+                        
+                    <footer>
+                        <button string="[S]ave" name="update_Collector" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                    </sheet>          
+        </form>
+      </field>
+    </record> 
+ 
+    <act_window id="cnwls_bp_updatecollector_action" 
+        name="Update Collector" 
+        res_model="cnwls.bp.updatecollector" 
+        src_model="sap.bp"  
+        view_mode="form" target="new" multi="True" /> 
+  </data>
+</odoo>

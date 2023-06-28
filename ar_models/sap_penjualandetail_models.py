@@ -61,7 +61,7 @@ class SAP_penjualandetailSAP(models.TransientModel):
 
             #msg_sql= "exec  [dbo].[IGU_SLS_penjualandetailitem]   '"+ self.datefrom.strftime("%Y%m%d")   + "','"+ self.dateto.strftime("%Y%m%d")   + "','','" + comp.code_base  + "'"
             msg_sql= """
-                            declare 
+                            DECLARE 
                                     @datefrom	varchar(10),
                                     @dateto		varchar(10),
                                     @customer	varchar(50), 

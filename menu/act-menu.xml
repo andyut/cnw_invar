@@ -46,16 +46,18 @@
         <menuitem sequence="412" name="Laporan DO List"  groups="igu_sales_viewer,igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_412" parent="cnw_invar_menu_400" action="cnw_invar_dolist_action"/>
         <menuitem sequence="409" name="Laporan Penjualan  (Item) xls"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_409" parent="cnw_invar_menu_400" action="cnw_inv_penjualandetailitem_wizard"/>
         <menuitem sequence="410" name="Laporan Penjualan  (Summary) xls"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_410" parent="cnw_invar_menu_400" action="cnw_inv_penjualandetail_wizard"/>
-        <menuitem sequence="480" name="Kwitansi LIst"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_480" parent="cnw_invar_menu_400" action="cnw_invoice_kwitansi_action"/>
-        <menuitem sequence="414" name="Tukar Faktur LIst"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_414" parent="cnw_invar_menu_400" action="ar_tf_action"/>
+        <menuitem sequence="480" name="Kwitansi LIst"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_480" parent="cnw_invar_menu_400" action="cnw_invoice_kwitansi_action"/> 
         <menuitem sequence="415" name="Print Tukar Faktur "  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_415" parent="cnw_invar_menu_400" action="ar_invoice_tfprint_action"/>
         <menuitem sequence="490" name="Custom Report"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_490" parent="cnw_invar_menu_400"  />
         <menuitem sequence="491" name="Tukar Faktur Burger King"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_491" parent="cnw_invar_menu_490" action="cnw_invar_tfbk_action"/>
+        <menuitem sequence="492" name="Proyeksi"  groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_492" parent="cnw_invar_menu_490" action="cnw_invar_proyeksi_action"/>
+        <menuitem sequence="493" name="Proyeksi Summary"  groups="igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer"  id="cnw_invar_menu_493" parent="cnw_invar_menu_490" action="cnw_invar_proyeksisummary_action"/>
 
 
     <menuitem  sequence="500" name="[A] ccounting / AR Report" groups="igu_invoice_viewer,igu_ar_viewer,igu_accounting_viewer,igu_regular_viewer" id="cnw_invar_menu_500" parent="cnw_invar_menu_root" />    
         <menuitem sequence="501" name="Saldo Piutang Detail" id="cnw_invar_menu_501" parent="cnw_invar_menu_500" action="cnw_invar_saldopiutangdetail_action"/>
         <menuitem sequence="502"  groups="igu_ar_viewer"  name="Kartu Piutang" id="cnw_invar_menu_502" parent="cnw_invar_menu_500" action="jas_lap_kartupiutang_action"/>        
+        <menuitem sequence="503"  groups="igu_ar_viewer"  name="Print Tukar Faktur" id="cnw_invar_menu_503" parent="cnw_invar_menu_500" action="ar_tf_print_action"/>        
         <menuitem sequence="504" groups="igu_ar_viewer"  name="Rincian AR" id="cnw_invar_menu_504" parent="cnw_invar_menu_500" action="sap_rincianar_action"/>        
 
     <menuitem  sequence="600" name="[C] onfiguration" groups="igu_ar_viewer,igu_invoice_viewer,igu_accounting_viewer,igu_admin_viewer" id="cnw_invar_menu_600" parent="cnw_invar_menu_root" />    
