@@ -66,6 +66,7 @@
             <menuitem sequence="603"  groups="igu_admin_viewer"  name="Scan FP" id="cnw_invar_menu_603" parent="cnw_invar_menu_601" action="ar_invoice_scanfp_action"/>         
             <menuitem sequence="604"  groups="igu_admin_viewer"  name="UPdate FP" id="cnw_invar_menu_604" parent="cnw_invar_menu_601" action="ar_invoice_updatefp_action"/>         
             <menuitem sequence="605"  groups="igu_admin_viewer"  name="Collector" id="cnw_invar_menu_605" parent="cnw_invar_menu_601" action="ar_collector_action"/>         
+            <menuitem sequence="612"  groups="igu_admin_viewer"  name="Jasper File" id="cnw_invar_menu_612" parent="cnw_invar_menu_601" action="cnw_invar_jasper_action"/>         
         <menuitem sequence="610" groups="igu_ar_viewer,igu_invoice_viewer,igu_accounting_viewer"  name="Email Seting" id="cnw_invar_menu_610" parent="cnw_invar_menu_600"  />
             <menuitem sequence="611"  groups="igu_ar_viewer,igu_invoice_viewer,igu_accounting_viewer"  name="Email Address" id="cnw_invar_menu_611" parent="cnw_invar_menu_610" action="jas_lap_mailaddress_action"/>         
 
