@@ -333,6 +333,7 @@ class CNWproyeksisummary(models.TransientModel):
             #df.to_excel(mpath + '/temp/'+ filenamexls2,index=False,engine='xlsxwriter') 
             #df.pivot_table(index=["iday" ],columns=["Header","idivisi"],aggfunc=np.sum,values=["amount"],fill_value=0,margins=True ).sort_index().to_excel(mpath + '/temp/'+ filenamexls2,engine='xlsxwriter')
        # SAVE TO MODEL.BINARY 
+         
         file = open(mpath + '/temp/'+ filename , 'rb')
         out = file.read()
         file.close()

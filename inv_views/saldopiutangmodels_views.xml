@@ -60,8 +60,7 @@
       <field name="arch" type="xml">
 
         <calendar string="Penagihan" mode="month" date_start="docduedate" color="cardname">
-          <field name="cardname"/> 
-          <field name="numatcard"/> 
+          <field name="cardname"/>  
           <field name="balance" widget="monetary"/> 
 
         </calendar>
@@ -73,7 +72,7 @@
             <field name="arch" type="xml">
                 <search string="Search">
                     <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
-                    <filter string="F / Pay" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
+                    <filter string="Tukar Faktur" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
                     <filter string="Invoice" domain="[('transtype','=', 'Invoice')]" name="F_Invoice" /> 
                     <filter string="CN" domain="[('transtype','=', 'CN')]" name="F_CN" /> 
                     <filter string="Unreconsile Payment" domain="[('transtype','=', 'UnReconsile')]" name="F_Unreconsile" /> 

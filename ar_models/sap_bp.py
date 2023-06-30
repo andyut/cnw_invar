@@ -11,6 +11,14 @@ from odoo import models, fields, api
 import base64
 import pymssql 
 
+class SAP_INVAR_JASPER(models.Model):
+	_name           = "cnw.invar.jasper"
+	_description    = "cnw.invar.jasper"	
+	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
+	name            = fields.Char("Code Name" ,required=True)
+	descr           = fields.Char("Description")
+	filejasper		= fields.Binary("Jasper JRXML",required=True)    
+	jaspername		= fields.Char("Jasper File Name")
 
 class SAP_PartnerCollector(models.TransientModel):
 	_name           = "cnwls.bp.updatecollector"

@@ -79,6 +79,8 @@
         'ar_views/sap_bp_collector.xml',
         'ar_views/sap_bp_tfnotes.xml',
         'ar_views/cnw_followup_wizard.xml', 
+        'ar_views/cnw_followup_wizard.xml', 
+        'ar_views/cnw_invar_jasper_views.xml',
         'kwt_models/kwt_numbering.xml', 
         'kwt_models/kwt_wizard_views.xml', 
         'kwt_models/kwt_views.xml', 
