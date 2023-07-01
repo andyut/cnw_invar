@@ -8,8 +8,8 @@
                     <field name="company_id" readonly="1" />
                     <field name="name"  /> 
                     <field name="descr"  /> 
-                    <field name="jaspername" />  
-                    <field name="filejasper" filename="jaspername" />  
+                    <field name="jaspername" invisible="1" />  
+                    <field name="filejasper" filename="jaspername" widget="binary" />  
                 </tree>
             </field>
         </record>
