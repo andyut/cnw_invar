@@ -262,7 +262,10 @@
                     <field name="cardname"/> 
                     <field name="salesperson"/>
                     <field name="parent_bp"/>
+<<<<<<< HEAD
                     <field name="collector"/>
+=======
+>>>>>>> 52256e87b885e442efc88b4c9c75c00b3903d89b
                     <field name="ar_person"/>
                     <field name="groupname"/> 
                     <field name="bpname"/>

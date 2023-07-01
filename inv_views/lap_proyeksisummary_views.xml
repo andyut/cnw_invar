@@ -22,7 +22,10 @@
             <group string="proyeksisummary">
 
               <field name="company_id" readonly="1"/>  
+<<<<<<< HEAD
               <field name="datefrom" />
+=======
+>>>>>>> 52256e87b885e442efc88b4c9c75c00b3903d89b
               <field name="dateto" />
               <field name="arperson" />  
               <field name="customer" />  
