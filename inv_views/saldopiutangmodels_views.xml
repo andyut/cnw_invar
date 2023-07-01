@@ -8,10 +8,7 @@
                 <tree string="Saldo Piutang" create="false" edit="false" 
                 decoration-danger="dendastatus =='Y'"  
                  decoration-warning="transtype=='UnReconsile'" 
-<<<<<<< HEAD
                  decoration-bf="tfstatus=='Y'"  
-=======
->>>>>>> 52256e87b885e442efc88b4c9c75c00b3903d89b
                  decoration-success="tfstatus=='Y'"  >   
                     <field name="jadwal"  />  
                     <field name ="transtype"  invisible="1"/>
@@ -63,12 +60,7 @@
       <field name="arch" type="xml">
 
         <calendar string="Penagihan" mode="month" date_start="docduedate" color="cardname">
-<<<<<<< HEAD
           <field name="cardname"/>  
-=======
-          <field name="cardname"/> 
-          <field name="numatcard"/> 
->>>>>>> 52256e87b885e442efc88b4c9c75c00b3903d89b
           <field name="balance" widget="monetary"/> 
 
         </calendar>
@@ -80,14 +72,10 @@
             <field name="arch" type="xml">
                 <search string="Search">
                     <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
-<<<<<<< HEAD
                     <filter string="Tukar Faktur" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
                     <filter string="Invoice" domain="[('transtype','=', 'Invoice')]" name="F_Invoice" /> 
                     <filter string="CN" domain="[('transtype','=', 'CN')]" name="F_CN" /> 
                     <filter string="Unreconsile Payment" domain="[('transtype','=', 'UnReconsile')]" name="F_Unreconsile" /> 
-=======
-                    <filter string="F / Pay" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
->>>>>>> 52256e87b885e442efc88b4c9c75c00b3903d89b
                     <field name="cardcode"/>
                     <field name="jadwal"  />   
                     <field name="docdate"/>
@@ -110,10 +98,7 @@
                     <filter string="taxdate" name="group_taxdate" domain="[]" context="{'group_by':'taxdate'}" />
                     <filter string="kwitansi" name="group_kwitansi" domain="[]" context="{'group_by':'kwitansi'}" />
                     <filter string="tfstatus" name="group_tfstatus" domain="[]" context="{'group_by':'tfstatus'}" />
-<<<<<<< HEAD
                     <filter string="transtype" name="group_transtype" domain="[]" context="{'group_by':'transtype'}" />
-=======
->>>>>>> 52256e87b885e442efc88b4c9c75c00b3903d89b
                 </search>
             </field>
         </record>
