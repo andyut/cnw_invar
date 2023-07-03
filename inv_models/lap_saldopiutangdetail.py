@@ -313,6 +313,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 
 #PATH & FILE NAME & FOLDER
 		mpath       = get_module_path('cnw_invar')
+		filex  		= 'SaldoPiutangDetail_'+   datetime.now(pytz.timezone('Asia/Jakarta')).strftime("%Y%m%d%H%M%S")
 		filenamexls2    = 'SaldoPiutangDetail_'+   datetime.now(pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d%H%M%S") + '.xlsx'
 		filenamepdf    = 'SaldoPiutangDetail_'+   datetime.now(pytz.timezone('Asia/Jakarta')).strftime("%Y-%m-%d%H%M%S")  + '.pdf'
 		filepath    = mpath + '/temp/'+ filenamexls2
@@ -565,7 +566,7 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 						and (a.BalScDeb - a.BalScCred)<>0 
 						and convert(varchar,a.refdate,112) <= @dateto
 
-						select  *,'""" + comp.code_base + """' company from @table    
+						select  *,'""" + comp.name + """' company from @table    
 						order by docdate ,docnum              
 			"""
 			print(msgsql)
@@ -646,35 +647,48 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 
 		if self.export_to =="pdf":
 				   
-			filename = filenamepdf
-			env = Environment(loader=FileSystemLoader(mpath + '/template/'))
-			 
-			
-			newdf2b =  df[["docnum","docdate","numatcard","kwitansi","fp", "balance","cardcode","cardname"]].values.tolist() 
-			
-			icardcode = ""
-			icardname = ""
-			total = 0.0
-			for iline in newdf2b :
-				icardcode = iline[6]
-				icardname = iline[7]
-				total	  += iline[5]
+			proyeksi = self.env["cnw.invar.jasper"].search([("name","=","saldopiutangdetail")])
+			input_file 		= mpath + '/temp/' +  filex + ".jrxml" 
+			data_file 		= mpath + '/temp/' +  filex + ".json" 
+			output_file 	= mpath + '/temp/' +  filenamepdf
+			filename 		= filenamepdf 
 
+
+			jasperwapi = self.company_id.webapi
+
+		## JRXML FILE 
+			with open(input_file, "wb") as binary_file:
+				
+				# Write bytes to file
+				binary_file.write(base64.b64decode(proyeksi.filejasper))
+			binary_file.close()
+
+		############################
+
+		## JSON FILE 			
 			
-			template = env.get_template("saldopiutangDetail.html")            
-			template_var = {"logo":logo,
-							"igu_title" :igu_title,
-							"igu_tanggal" :igu_tanggal ,
-							"igu_remarks" :igu_remarks ,
-							"cardname" :icardname ,
-							"cardcode" :icardcode ,
-							"total" : total,
-							"detail": newdf2b}
-			
-			html_out = template.render(template_var)
-			pdfkit.from_string(html_out,mpath + '/temp/'+ filenamepdf,options=options) 
-	 
-		 
+			jsondata = df.to_json(orient="records" )
+				
+			with open(data_file,'w+') as f:
+				f.write(jsondata)
+			#f.close()
+		############################
+
+
+
+			appSession 	= requests.Session()
+			payload = { "inputfile" : input_file,
+					"outputfile" 	: output_file ,
+					"datafile" 		: data_file,
+					"extension" : 'pdf'
+					}
+			url = jasperwapi + "report"
+			print(payload)
+			response = appSession.post(url, json=payload,verify=False)
+			print(response.text)
+
+			os.remove(input_file )
+			os.remove(data_file )
 		
 	   # SAVE TO MODEL.BINARY 
 		file = open(mpath + '/temp/'+ filename , 'rb')
@@ -682,7 +696,10 @@ class CNWLapSaldoPiutangDetail(models.TransientModel):
 		file.close()
 		self.filexls =base64.b64encode(out)
 		self.filenamexls = filename
+
 		os.remove(mpath + '/temp/'+ filename )
+		
+
 		if self.export_to !="pdf":
 			return {
 				'name': 'Report',
