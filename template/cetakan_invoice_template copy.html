@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+<title>Invoice</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel='stylesheet' href='https://fonts.google.com/specimen/Inconsolata'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+ @page {
+            size: A4;
+</style>
 <body>
-    {% for key,invoice in  invoiceheader.iterrows() %}
-    <p style="page-break-before: auto" ></p>
+    {% for invoice in  header %}
     <div class="w3-container">
-	<div class="w3-row">
+	   <div class="w3-row">
             <div class="w3-col s4  w3-left-align">
                 <img src="{{logo}}" height="60" width="250">
             
@@ -24,98 +27,134 @@
             
             </div>   
         </div>
-      </div>
+    </div>
+
+<!-- New menu
+-->
+<div class="w3-container">
+
+    <div class="w3-row">
+
+        <div class="w3-col s6 w3-tiny">
+            <b>Customer Name & Address</b>
+            <p><b>{{ invoice[6] }} - {{ invoice[5] }}</b></p>
+            <p>{{ invoice[8] }}</p>
+            <b>Ship To.</b> {{ invoice[7] }} <br/> 
+            <b>Ref. </b> {{invoice[2]}} <br/> <br/>
+        </div>
+
+        <div class="w3-col s1 w3-center"><br/>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=45x45&data={{ invoice[3] }}">
+        </div>
+
+        <div class="w3-col s5">
+            <table class="w3-table w3-tiny">
+                <tr>
+                    <td>
+                            <b>Invoice No. </b><br/>
+                                    <b>Invoice Date.</b> <br/>
+                                    <b>SO No.</b> <br/> 
+                                    <b>Tax. </b>  <br/> 
+                                    <b>Faktur Pajak.</b> <br/>
+                                    <b>Term Of Payment.</b>  <br/> 
+                                    <b>Doc Status.</b> 
+                                    <br/>                    
+
+                    </td>
+                    <td>
+                            {{ invoice[0] }} <br/>
+                                    {{ invoice[1] }} <br/>
+                                    {{ invoice[3] }} <br/> 
+                                    {{ invoice[18]}}<br/> 
+                                    
+                                    {{ invoice[21] }} <br/>
+                                    {{ invoice[4] }} <br/> 
+                                      
+                                    <I>
+                                        {% if invoice[17] <2 %}
+                                            ORIGINAL
+                                        {% endif %}
+                                        {% if invoice[17] >1 %}
+                                            COPY ({{ invoice[17]-1 }})
+                                        {% endif %}
+                                    </I> <br/>                       
+
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div> 
+</div>       
       <div class="w3-container">
-            <table class="w3-table w3-bordered w3-tiny" style="border-collapse: collapse;border: 1px solid black;">
-                 
-                    <tr>
-                            <td colspan="2" rowspan="2" width="70%" style="border: 1px solid black;"><b>Customer Name & Address</b> <p>{{customer}}</p><p>{{address}}</td>
-                            <td><b>Invoice No. </b>{{invoice['inv_no']}} </td>
-                    </tr>
-                    <tr>
-                             
-                            <td  style="border: 1px solid black;" class="w3-center">
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=58x58&data={{inv_date}}" >
-                            </td>
-                    </tr>
-                    <tr>
-                            <td   style="border: 1px solid black;"><b>Ship To.</b> {{invoice['outlet']}}</p> </td>       
-                            <td   style="border: 1px solid black;"><b>Ref.</b> {{invoice['inv_refno']}} </td>                            
-                            <td  style="border: 1px solid black;"><b>Invoice Date.</b> {{invoice['inv_date']}} </td>
-                    </tr>
-                    <tr>
-                             
-                            <td   style="border: 1px solid black;"><b>Doc Status.</b> <I>ORIGINAL</I> </td>
-                            <td style="border: 1px solid black;"><b>Term Of Payment.</b>  {{invoice['inv_top']}}  </td>
-                            <td style="border: 1px solid black;"><b>SO No.</b>{{invoice['inv_baseref']}}  </td>
-                    </tr>
-                  </table>
-      </div>
-      <br/>
-      <div class="w3-container">
-            <table class="w3-table w3-bordered   w3-tiny"   style="border: 1px solid black;">
+            <table class="w3-table"   style="border: 1px solid black;font-size: 9px;border-collapse: collapse;border-spacing: 0;padding: 0;">
                 <thead>
                     <tr>
-                      <th width="50%"  style="border: 1px solid black;">Description</th>
-                      <th  style="border: 1px solid black;">Quantity</th>
-                      <th  style="border: 1px solid black;">Unit Price</th>
-                      <th  width="20%" style="border: 1px solid black;" class="w3-right-align">Total</th>
+                      <th class="w3-center" width="60%"  style="border: 1px solid black;">Description</th>
+                      <th  class="w3-center"  width="10%" style="border: 1px solid black;">Qty</th>
+                      <th  class="w3-center"  width="5%" style="border: 1px solid black;">Uom</th>
+                      <th class="w3-center"  width="10%" style="border: 1px solid black;">Unit Price <br/>(Rp)</th>
+                          <th class="w3-center"  width="15%" style="border: 1px solid black;" class="w3-right-align">Total<br/>(Rp)</th>
                     </tr>
                 </thead> 
                 
-                    <tr>
-                      <td>Jill</td>
-                      <td>Smith</td>
-                      <td class="w3-right-align">50</td>
-                      <td class="w3-right-align">50</td>
+    {% for invoiceline in  detail  %}
+    {% if invoiceline[7] == invoice[13] %}
+                
+                    <tr class="w3-tiny" style="line-height:2mm;">
+                      <td style="border: 1px solid black;font-size: 9px;">{{ invoiceline[2]}} </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{ "{:,.4f}".format(invoiceline[3]) }} </td>
+                      <td  style="border: 1px solid black;font-size: 9px;"> {{invoiceline[6]}} </td>
+                      <td  class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{ "{:,.0f}".format(invoiceline[4]) }} </td>
+                      <td class="w3-right-align" style="border: 1px solid black;font-size: 9px;">{{ "{:,.0f}".format(invoiceline[5]) }} </td>
                     </tr>
-                    <tr>
-                      <td>Eve</td>
-                      <td>Jackson</td>
-                      <td class="w3-right-align">94</td>
-                      <td class="w3-right-align">94</td>
-                    </tr>
-                    <tr>
-                      <td>Adam</td>
-                      <td>Johnson</td>
-                      <td class="w3-right-align">67</td>
-                      <td class="w3-right-align">67</td>
-                    </tr> 
+    {% endif %}
+     {% endfor %}
+     
                         <tr  class="w3-align-right">
-                            <td colspan="3"  style="border: 1px solid black;" ><b>Amount</b></td>
-                            <td  class="w3-right-align"  style="border: 1px solid black;">00000</td>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Amount</b></td>
+                            <td  class="w3-right-align"  style="border: 1px solid black;height:9pt">{{  "{:,.0f}".format(invoice[9]) }} </td>
                         </tr>
                         <tr>
-                            <td colspan="3"  style="border: 1px solid black;" ><b>Discount</b></td>
-                            <td   class="w3-right-align" style="border: 1px solid black;">J0000</td>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Discount</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt">{{  "{:,.0f}".format(invoice[11]) }} </td>
                         </tr>
                         <tr>
-                            <td colspan="3"  style="border: 1px solid black;" ><b>Tax</b></td>
-                            <td   class="w3-right-align" style="border: 1px solid black;">J0000</td>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;" ><b>Tax</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt">{{  "{:,.0f}".format(invoice[10]) }} </td>
                         </tr>
                         <tr>
-                            <td colspan="3"   style="border: 1px solid black;"><b>Total</b></td>
-                            <td   class="w3-right-align" style="border: 1px solid black;"><b>J0000</b></td>
+                            <td colspan="4" class="w3-right-align"  style="border: 1px solid black;"><b>Total</b></td>
+                            <td   class="w3-right-align" style="border: 1px solid black;height:9pt"><b>{{  "{:,.0f}".format(invoice[12]) }} </b></td>
                         </tr>
                   </table>
       </div>
-<footer class="w3-container  w3-center w3-bottom w3-tiny"> 
-    <div class="w3-row">
+ <br/>
+ <br/>
+      <div class="w3-container">
+    <div class="w3-row w3-center w3-tiny">
             <div class="w3-col s6 w3-left-align">
             <b>PT. Indoguna Utama Bank Details: <br/>
-
-<i class="fa fa-address-card"> Bank Central Asia (BCA) : No 88888888888</i>
             </b>
+                <i class="fa fa-address-card"> Bank Central Asia (BCA) : {{rek}}</i> <br/>
+                <i style="font-size:6pt"> Setiap keterlambatan pembayaran akan dikenakan denda 1% / bulan   </i>
+            
             </div>
-            <div class="w3-col s6 w3-right-align"><img src="https://api.qrserver.com/v1/create-qr-code/?size=58x58&data=Example" > <p>Admin</p></div>
+            <div class="w3-col s3 w3-center">  
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=58x58&data={{ invoice[15] }}" > &nbsp;&nbsp;&nbsp;<p  style="font-size:6pt" >AR [{{ invoice[15] }}] &nbsp;&nbsp;&nbsp;</p></div>
+                <div class="w3-col s3 w3-right-align">  
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=58x58&data={{ invoice[14] }}" > &nbsp;&nbsp;&nbsp;<p  style="font-size:6pt"  >[{{ invoice[16] }}] &nbsp;&nbsp;&nbsp;</p></div>
     </div>
     <div class="w3-row">
         <div class="w3-col">
-            <p  style="border: 1px solid black;">This is automatically generated by system. No signature is required. <br/>
-        <i>Dokumen ini diolah secara otomatis melalui sistem, sehingga tandatangan tidak diperlukan</i></p>
+            <p  style="border: 1px solid black;font-size:6pt;text-align: center;">This is automatically generated by system. No signature is required. <br/>
+                <i>Dokumen ini diproses secara otomatis melalui sistem, sehingga tandatangan tidak diperlukan</i></p>
+        </div>
     </div>
-    </div>
-  </footer>
+</div>   
+ 
+
+  <p style="page-break-before: always" ></p>
   {% endfor %}
 </body>
 </html>
