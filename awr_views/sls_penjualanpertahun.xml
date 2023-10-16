@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cnw_awr28_penjualanpertahun_tree" model="ir.ui.view">
+            <field name="name">cnw.awr28.penjualanpertahun.tree</field>
+            <field name="model">cnw.awr28.penjualanpertahun</field>
+            <field name="arch" type="xml">
+                <tree string="Business Partner" create="false" edit="false"    >
+                    <field name="company_id"/> 
+                    <field name="customergroup"/>   
+                    <field name="cardname"/>  
+                    <field name="jan" sum="sum_jan"/> 
+                    <field name="feb" sum="sum_feb"/> 
+                    <field name="mar" sum="sum_mar"/> 
+                    <field name="apr" sum="sum_apr"/> 
+                    <field name="mei" sum="sum_mei"/> 
+                    <field name="jun" sum="sum_jun"/> 
+                    <field name="jul" sum="sum_jul"/> 
+                    <field name="ags" sum="sum_ags"/> 
+                    <field name="sep" sum="sum_sep"/> 
+                    <field name="okt" sum="sum_okt"/> 
+                    <field name="nov" sum="sum_nov"/> 
+                    <field name="des" sum="sum_des"/> 
+                    <field name="total" sum="sum_total"/>  
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="cnw_awr28_penjualanpertahun_pivot" model="ir.ui.view">
+            <field name="name">cnw.awr28.penjualanpertahun.pivot</field>
+            <field name="model">cnw.awr28.penjualanpertahun</field>
+            <field name="arch" type="xml">
+                <pivot string="Business Partner">     
+                 <field name="company_id"  type="row" /> 
+                 <field name="customergroup"  type="row"   />   
+                 <field name="total"  type="measure" />  
+                </pivot>
+            </field>
+        </record>
+
+ 
+        <record model="ir.ui.view" id="cnw_awr28_penjualanpertahun_search">
+            <field name="name">cnw.awr28.penjualanpertahun.search</field>
+            <field name="model">cnw.awr28.penjualanpertahun</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="cardname"/> 
+                    <field name="salesperson"/> 
+                </search>
+            </field>
+        </record>
+
+        <record id="cnw_awr28_penjualanpertahun_action" model="ir.actions.act_window">
+            <field name="name">Sales Order list</field>
+            <field name="res_model">cnw.awr28.penjualanpertahun</field>
+            <field name="view_mode">tree,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

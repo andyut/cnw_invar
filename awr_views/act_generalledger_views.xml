@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_awr28_generalledger_wizard" model="ir.actions.act_window">
+            <field name="name">General Ledger</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cnw.awr28.generalledger</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="cnw_awr28_generalledger_form" model="ir.ui.view">
+            <field name="name">cnw.awr28.generalledger.form</field>
+            <field name="model">cnw.awr28.generalledger</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="General Ledger Report">
+
+                    <group string="General Ledger Report">
+                    <field name="company_id" widget="many2many_tags"  options="{'no_create': True}"  /> 
+                        <field name="datefrom" />
+                        <field name="dateto" />  
+                        <field name="account" />  
+                        <field name="export_to" />  
+                    </group>
+               <field name="filexls" filename="filenamexls"  widget="pdf_viewer" nolabel="1"  attrs="{'invisible': [('export_to','!=','pdf')] }"  />
+               <field name="filenamexls" invisible="1" /> 
+                    <footer>
+                        <button string="View" name="view_awr28_generalledger" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

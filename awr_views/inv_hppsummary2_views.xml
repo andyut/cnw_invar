@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_hppsummary2_wizard" model="ir.actions.act_window">
+            <field name="name">Saldo Persediaan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cnw.awr28.hppsummary2</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="cnw_awr28_hppsummary2_form" model="ir.ui.view">
+            <field name="name">cnw.awr28.hppsummary2.form</field>
+            <field name="model">cnw.awr28.hppsummary2</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Saldo Akhir Persediaan">
+
+                    <group string="Saldo Akhir Persediaan">
+                    <field name="company_id" widget="many2many_tags"  options="{'no_create': True}"   />   
+                        <field name="items" />  
+                        <field name="igroup" />  
+                        <field name="export_to" /> 
+                    </group>
+                    <field name="filexls" filename="filenamexls" widget="pdf_viewer" style="height=1024px" nolabel="1" attrs="{'invisible': [('export_to','!=','pdf')] }" />
+                    <field name="filenamexls" invisible="1" />
+                    <footer>
+                        <button string="View" name="view_hppsummary2" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

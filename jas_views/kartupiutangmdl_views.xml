@@ -5,24 +5,38 @@
             <field name="name">jas.lap.kartupiutangmdl.tree</field>
             <field name="model">jas.lap.kartupiutangmdl</field>
             <field name="arch" type="xml">
-                <tree string="Kartu Piutang" create="false" edit="false" 
+                <tree string="Kartu Piutang" 
+                        create="false" 
+                        edit="false" 
+                        decoration-success="doctype=='13-Invoice' " 
+                        decoration-bf="balance==0" 
+                        decoration-info="doctype=='14-Credit Note'" 
+                        decoration-primary="doctype=='24-Payment Invoice'" 
+                        decoration-warning="doctype=='24-Payment Credit'" 
+                        decoration-muted="doctype=='30-Jurnal Entry' " 
                     > 
+                    <field name="name" invisible="1"/>
+                    <field name="jadwal"/>
                     <field name="doctype"/>
                     <field name="cardname"  />
                     <field name="docdate"/>
+                    <field name="trxdate"/>
                     <field name="duedate"/>
                     <field name="refnumber"/>
                     <field name="kwtnumber"/>
-                    <field name="paymentterm"/>
+                    <field name="paymentterm" invisible="1"/>
                     <field name="docnumber"/> 
-                    <field name="diffdate" avg="sum_diffdate" />  
+                    <field name="diffdate" avg="sum_diffdate" invisible="1" />  
                     <field name="diffduedate" avg="sum_diffduedate"/>   
-                    <field name="topdays" invisible="1"/>
-                    <field name="arperson"  invisible="1"/>
+                    <field name="topdays" />
+                    <field name="arperson"  />
+                    <field name="salesperson"  />
                     <field name="salesgroup"  invisible="1"/>
-                    <field name="debit" sum="sum_debit"/> 
-                    <field name="credit" sum="sum_credit"/>
+                    <field name="debit" sum="sum_debit" invisible="1"/> 
+                    <field name="credit" sum="sum_credit" invisible="1" />
                     <field name="amount" sum="sum_amount"/>    
+                    <field name="balance" sum="sum_balance"/>    
+                    <field name="notes2"  />    
                 </tree>
             </field>
         </record>
@@ -45,18 +59,32 @@
             <field name="model">jas.lap.kartupiutangmdl</field>
             <field name="arch" type="xml">
                 <search string="Search">
-                      
+                    <filter string="Payment" domain="[('doctype','in',['24-Payment Invoice','24-Payment Credit','30-Jurnal Entry' ] )]" name="payment" /> 
+                    <filter string=" Paid" domain="[('balance','=',0)]" name="paid" /> 
+                    
+                    <filter string="Not Paid" domain="[('balance','>',0)]" name="unpaid" />  
+                    <filter string="Invoice" domain="[('doctype','in',['14-Credit Note','13-Invoice'  ] )]" name="invoice" /> 
+                    <separator  string="Filter" />
+                    <field name="jadwal"/>
                     <field name="name"/>
                     <field name="cardcode"/> 
                     <field name="cardname"/> 
                     <field name="docdate"/> 
+                    <field name="trxdate"/> 
+                    <field name="duedate"/> 
                     <field name="doctype"/> 
                     <field name="docnumber"/> 
                     <field name="refnumber"/>
-                    <field name="kwtnumber"/>  
+                    <field name="kwtnumber"/>
+                    <field name="amount"/>  
+                    <field name="balance"/>  
+                    <field name="notes2"/>  
+                    <filter string="summary" name="group_name" domain="[]" context="{'group_by':'name'}" />
                     <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
                     <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
                     <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="TF Date" name="group_trxdate" domain="[]" context="{'group_by':'trxdate'}" />
+                    <filter string="Due Date" name="group_duedate" domain="[]" context="{'group_by':'duedate'}" />
                     <filter string="kwtnumber" name="group_kwtnumber" domain="[]" context="{'group_by':'kwtnumber'}" />
                     <filter string="doctype" name="group_doctype" domain="[]" context="{'group_by':'doctype'}" />
                     <filter string="salesgroup" name="group_salesgroup" domain="[]" context="{'group_by':'salesgroup'}" />

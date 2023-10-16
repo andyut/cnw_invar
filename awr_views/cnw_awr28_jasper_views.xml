@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="cnw_awr28_jasper_tree">
+            <field name="name">cnw.awr28.jasper.tree</field>
+            <field name="model">cnw.awr28.jasper</field>
+            <field name="arch" type="xml">
+                <tree string="JasperFile List" editable="top"   >
+                    <field name="company_id" readonly="1" />
+                    <field name="name"  /> 
+                    <field name="descr"  /> 
+                    <field name="jaspername" invisible="1" />  
+                    <field name="filejasper" filename="jaspername" widget="binary" />  
+                </tree>
+            </field>
+        </record>
+         
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="cnw_awr28_jasper_action">
+            <field name="name">JasperFile List</field>
+            <field name="res_model">cnw.awr28.jasper</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+    </data>
+</odoo>

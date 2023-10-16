@@ -39,7 +39,7 @@
     </record>
  
     <act_window id="cnwls_bp_tfnotes_action" 
-        name="Tukar Faktur Notes" 
+        name="Tukar Faktur Master Data" 
         res_model="cnwls.bp.tfnotes" 
         src_model="sap.bp"  
         view_mode="form" target="new" multi="True" /> 

@@ -1,12 +1,13 @@
-site_name: Invoice-AR Handbook
+site_name: Invoice-AR
 site_url: http://www.indoguna.co.id/
-site_description : CNW Handbook
-site_author : IT Research & Development
-copyright : Copyright &copy; 2023 Indoguna Utama PT, Maintained by Andy Utomo
+site_description : CNW-INV_AR
+site_author : IT R&D
+copyright : Copyright &copy; 2023 Indoguna Group, Maintained by @IT
  
 nav:
     - index.md
-    - Piutang : piutang.md  
+    - Master Data : mastercustomer.md  
+    - Penagihan : penjualan.md  
 theme : 
     name : material
     logo : asset/logocnw1.png
@@ -35,5 +36,5 @@ plugins:
         combined: false
         media_type: print
     - with-pdf: 
-        cover_subtitle: CNW Documentation
+        cover_subtitle: Pedoman Penggunaan
         output_path: "../docs.pdf"

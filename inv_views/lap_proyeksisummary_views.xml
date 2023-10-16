@@ -26,6 +26,7 @@
               <field name="dateto" />
               <field name="arperson" />  
               <field name="customer" />  
+              <field name="filterby2" />  
               <field name="export_to" />  
             </group>
   

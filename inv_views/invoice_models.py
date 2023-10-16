@@ -280,19 +280,7 @@ class ARGetInvoice(models.TransientModel):
 								when 1 then 'Print Orginal'
 								else 'Copy(' + convert(varchar,a.U_Total_Print) + ')'
 								end statusprint ,
-							'Catatan TukarFaktur: ' + isnull(b.Notes,'')  + char(13)+'<br/>'+
-                                                'Faktur Pengiriman  : ' + isnull(b.U_delivery_invoice,'N') + char(13)+'<br/>'+
-                                                'Print Faktur  : ' + isnull(b.U_PrintFaktur,'Y') + char(13)+'<br/>'+
-                                                'Print Kwitansi  :<b> ' + 
-                                                                            case isnull(b.U_PrintKwitansi,'Y')
-                                                                                    when 'N' then 'Tidak Print Kwitansi'
-                                                                                    when 'Y' then 'Print Kwitansi'
-                                                                                    when 'O' then 'Print Kwitansi Per Outlet'
-                                                                                    when 'P' then 'Print Kwitansi Per PO '
-                                                                            end + char(13)+'</b><br/>'+
-                                                'Print Faktur Pajak  : ' + isnull(b.U_PrintFP,'N')+ char(13)+'<br/>'+
-                                                'Tukar Faktur  : ' + isnull(b.U_PenagihanType,'Y') + char(13)+'<br/>' +
-                                                ' ' inotes ,
+							isnull(b.Notes,'')  inotes ,
 							a.docduedate , 
 							isnull(a.U_LT_No ,'') Tagihan, 
 							isnull(a.U_Coll_Name ,'') tf_collector,
@@ -300,7 +288,7 @@ class ARGetInvoice(models.TransientModel):
 							ISNULL(B.U_Coll_Name,'-') as Collector,
 							b.U_delivery_invoice ,
 							b.U_PrintFaktur ,
-							b.U_PrintKwitansi ,
+							ISNULL(b.U_PrintKwitansi,'Y')  U_PrintKwitansi,
 							b.U_PrintFP ,
 							b.U_PenagihanType						
 
@@ -362,19 +350,7 @@ class ARGetInvoice(models.TransientModel):
 								when 1 then 'Print Orginal'
 								else 'Copy(' + convert(varchar,a.U_Total_Print) + ')'
 								end statusprint,
-							'Catatan TukarFaktur: ' + isnull(b.Notes,'')  + char(13)+'<br/>'+
-                                                'Faktur Pengiriman  : ' + isnull(b.U_delivery_invoice,'N') + char(13)+'<br/>'+
-                                                'Print Faktur  : ' + isnull(b.U_PrintFaktur,'Y') + char(13)+'<br/>'+
-                                                'Print Kwitansi  :<b> ' + 
-                                                                            case isnull(b.U_PrintKwitansi,'Y')
-                                                                                    when 'N' then 'Tidak Print Kwitansi'
-                                                                                    when 'Y' then 'Print Kwitansi'
-                                                                                    when 'O' then 'Print Kwitansi Per Outlet'
-                                                                                    when 'P' then 'Print Kwitansi Per PO '
-                                                                            end + char(13)+'</b><br/>'+
-                                                'Print Faktur Pajak  : ' + isnull(b.U_PrintFP,'N')+ char(13)+'<br/>'+
-                                                'Tukar Faktur  : ' + isnull(b.U_PenagihanType,'Y') + char(13)+'<br/>' +
-                                                ' ' inotes,
+							isnull(b.Notes,'') inotes,
 							a.docduedate , 
 							isnull(a.U_LT_No ,'') Tagihan, 
 							isnull(a.U_Coll_Name ,'') tf_collector,
@@ -382,7 +358,7 @@ class ARGetInvoice(models.TransientModel):
 							ISNULL(B.U_Coll_Name,'-') as Collector,
 							b.U_delivery_invoice ,
 							b.U_PrintFaktur ,
-							b.U_PrintKwitansi ,
+							ISNULL(b.U_PrintKwitansi,'Y')  ,
 							b.U_PrintFP ,
 							b.U_PenagihanType
 
@@ -564,7 +540,7 @@ class ARInvoice(models.Model):
 
 	delivery_invoice	= fields.Selection(string="Faktur Pengiriman", selection=[("Y","Yes"),("N","No")],default="N")
 	printfaktur			= fields.Selection(string="Print Faktur", selection=[("Y","Yes"),("N","No")],default="Y")
-	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Yes"),("N","No"),("O","Yes, Print Per Outlet"),("P","Yes, Print Per PO")],default="N")
+	printkwitansi		= fields.Selection(string="Print Kwitansi", selection=[("Y","Print Kwitansi"),("N","Tidak Print Kwitansi"),("O","Print Per Outlet"),("P","Print Per PO")],default="N")
 	printfp				= fields.Selection(string="Print FakturPajak", selection=[("Y","Yes"),("N","No")],default="N")
 	penagihan_type		= fields.Selection(string="Tipe Penagihan", selection=[("Y","Tukar Faktur"),("N","Tidak Tukar Faktur")],default="N") 
 	

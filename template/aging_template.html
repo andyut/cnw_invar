@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<title>Age Receivable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+<body>
+	
+
+ <head class="w3-container">
+  <div class="w3-row">
+      <div class="w3-col s4">
+        <h5>
+         <img align="left" src="{{logo}}" alt="Indoguna Utama" width="130">
+        </h5>   
+      </div>
+      <div class="w3-col w3-center s4">
+         {{datetime }}
+      </div>
+      <div class="w3-col w3-right-align s4">
+        <h4>
+         <b>AGE RECEIVALBLE</b>
+        </h4>   
+      </div>
+  </div>
+<div class="w3-col">
+ <div class="w3-row w3-right-align">
+  <p>Aging Per {{dateto}}
+</p> </div>
+</div>
+
+</head>
+
+<div class="w3-container">
+ <table class="w3-table w3-tiny">
+   <tr class="w3-theme  w3-tiny">
+    <th>Group</th>
+    <th>Code</th>
+    <th>Partner Name</th>
+    <th>shiptodef</th>
+    <th class="w3-right-align">0-30</th>
+    <th class="w3-right-align">31-60</th>
+    <th class="w3-right-align">61-90</th>
+    <th class="w3-right-align">91-120</th>
+    <th class="w3-right-align">121+</th>
+    <th class="w3-right-align">Total</th>
+   </tr>
+ {%for datas in data %}
+        <tr class=" w3-tiny">
+         <td>{{datas[0]}}</td>
+         <td>{{datas[1]}}</td>
+         <td>{{datas[2]}}</td>
+         <td>{{datas[3]}}</td>
+         <td class="w3-right-align">{{"{:,.0f}".format(datas[4])}}</td>
+         <td class="w3-right-align">{{"{:,.0f}".format(datas[5])}}</td>
+         <td class="w3-right-align">{{"{:,.0f}".format(datas[6])}}</td>
+         <td class="w3-right-align">{{"{:,.0f}".format(datas[7])}}</td>
+         <td class="w3-right-align">{{"{:,.0f}".format(datas[8])}}</td>
+         <td class="w3-right-align">{{ "{:,.0f}".format(datas[9])}}</td>
+        </tr> 
+ {%endfor%}
+   <tr class="  w3-small">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>Total</td>
+    <td class="w3-right-align">{{"{:,.0f}".format(i30)}}</td>
+    <td class="w3-right-align">{{"{:,.0f}".format(i60)}}</td>
+    <td class="w3-right-align">{{"{:,.0f}".format(i90)}}</td>
+    <td class="w3-right-align">{{"{:,.0f}".format(i120)}}</td>
+    <td class="w3-right-align">{{"{:,.0f}".format(i121)}}</td>
+    <td class="w3-right-align">{{"{:,.0f}".format(itotal)}}</td>
+   </tr>
+ </table>
+</div>
+
+</body>
+</html>

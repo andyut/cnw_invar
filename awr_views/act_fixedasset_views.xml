@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_awr28_fixedasset_wizard" model="ir.actions.act_window">
+            <field name="name">Fixed Asset</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cnw.awr28.fixedasset</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="cnw_awr28_fixedasset_form" model="ir.ui.view">
+            <field name="name">cnw.awr28.fixedasset.form</field>
+            <field name="model">cnw.awr28.fixedasset</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Fixed Asset Report">
+
+                    <group string="Fixed Asset  Report">
+                    <field name="company_id" widget="many2many_tags"  options="{'no_create': True}"  /> 
+                        
+                        <field name="dateto" />   
+                        <field name="export_to" />  
+                    </group>
+
+                    <footer>
+                        <button string="View" name="view_awr28_fixedasset" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

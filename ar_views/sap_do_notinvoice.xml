@@ -27,7 +27,8 @@
                          <field name="tukarfaktur" /> 
                          <field name="export_to" /> 
                     </group>
-        
+                            <field name="filexls" filename="filenamexls" widget="pdf_viewer" style="height=1024px" nolabel="1" attrs="{'invisible': [('export_to','not in',('pdf','pdf2'))] }" />
+                    <field name="filenamexls" invisible="1" />
                     <footer>
                         <button string="View " name="view_belumfaktur_xls" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel" />

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cnw_awr28_mdlslsorderlist_tree" model="ir.ui.view">
+            <field name="name">cnw.awr28.mdlslsorderlist.tree</field>
+            <field name="model">cnw.awr28.mdlslsorderlist</field>
+            <field name="arch" type="xml">
+                <tree string="Business Partner" create="false" edit="false" 
+                decoration-primary="quantity_out==0"
+                decoration-warning="canceled=='Y'"     >
+                    <field name="company_id"/>
+                    <field name="canceled" invisible="1" />
+                    <field name="so_number"/>
+                    <field name="docdate"/>
+                    <field name="customergroup"/>
+                    <field name="cardcode"/>
+                    <field name="cardname"/>
+                    <field name="salesperson"/>
+                    <field name="shiptocode"/> 
+                    <field name="ordername"/>
+                    <field name="uspegroup"/>
+                    <field name="ubrand"/>
+                    <field name="itemcode"/>
+                    <field name="itemdescription"/>
+                    <field name="uom"/>
+                    <field name="quantity_order" sum="sum_qty_order"/> 
+                    <field name="quantity_out"  sum="sum_qty_out"/> 
+                    <field name="price"/> 
+                    <field name="total" sum="sum_total" />  
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="cnw_awr28_mdlslsorderlist_pivot" model="ir.ui.view">
+            <field name="name">cnw.awr28.mdlslsorderlist.pivot</field>
+            <field name="model">cnw.awr28.mdlslsorderlist</field>
+            <field name="arch" type="xml">
+                <pivot string="Business Partner">     
+                 <field name="company_id"  type="row" /> 
+                 <field name="docdate"  type="row" interval="day" />  
+                 <field name="customergroup"  type="col" />  
+                 <field name="quantity_out"  type="measure" />  
+                </pivot>
+            </field>
+        </record>
+
+ 
+        <record model="ir.ui.view" id="cnw_awr28_mdlslsorderlist_search">
+            <field name="name">cnw.awr28.mdlslsorderlist.search</field>
+            <field name="model">cnw.awr28.mdlslsorderlist</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <filter string="Not Cancel" domain="[('canceled','=', 'N')]" name="icanceled" />
+                    <filter string="Cancel" domain="[('canceled','=', 'Y')]" name="iCanceledY" />
+                    <filter string="Not Delivery" domain="[('quantity_out','=', 0)]" name="inotDeliver" />
+                    <field name="cardname"/>
+                    <field name="cardcode"/>
+                    <field name="ordername"/> 
+                    <field name="shiptocode"/> 
+                    <field name="salesperson"/>
+                    <field name="so_number"/> 
+                    <field name="ordername"/> 
+                    <field name="docdate"/>
+                    <field name="itemdescription"/> 
+                    <field name="itemcode"/> 
+                    <field name="ubrand"/> 
+                    <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
+                    <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="salesperson" name="group_salesperson" domain="[]" context="{'group_by':'salesperson'}" />
+                    <filter string="itemcode" name="group_itemcode" domain="[]" context="{'group_by':'itemcode'}" />
+                    <filter string="ordername" name="group_ordername" domain="[]" context="{'group_by':'ordername'}" />                                        
+                    <filter string="Brand" name="group_ubrand" domain="[]" context="{'group_by':'ubrand'}" />                                        
+                    <filter string="Commodity Group" name="group_uspegroup" domain="[]" context="{'group_by':'uspegroup'}" />                                        
+                    <filter string="Customer Group" name="group_customergroup" domain="[]" context="{'group_by':'customergroup'}" />                                        
+                    <filter string="Sub Group" name="group_usubgroup" domain="[]" context="{'group_by':'usubgroup'}" />                                        
+                    <filter string="itemdescription" name="group_itemdescription" domain="[]" context="{'group_by':'itemdescription'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="cnw_awr28_mdlslsorderlist_action" model="ir.actions.act_window">
+            <field name="name">Sales Order list</field>
+            <field name="res_model">cnw.awr28.mdlslsorderlist</field>
+            <field name="view_mode">tree,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cnw_awr28_saldohutangdetail_tree" model="ir.ui.view">
+            <field name="name">cnw.awr28.saldohutangdetail.tree</field>
+            <field name="model">cnw.awr28.saldohutangdetail</field>
+            <field name="arch" type="xml">
+                <tree string="Saldo Hutang" create="false" edit="false" 
+                decoration-success="transname == 'AP INVOICE'"    
+                decoration-primary="transname == 'AP DOWNPAYMENT'"    
+                decoration-info="transname == 'OUTGOING PAYMENT'"    
+                decoration-danger="transname == 'AP CreditNote'"    
+                decoration-warning="transname == 'JURNAL ENTRY'"    > 
+                    <field name="company_id" />
+                    <field name="ponumber"/>
+                    <field name="transname"  invisible="1"/>
+                    <field name="cardcode"/>
+                    <field name="cardname"/> 
+                    <field name="docnum"  />
+                    <field name="docdate"  />
+                    <field name="etadate"  />
+                    <field name="reqpaymentdate"  />
+                    <field name="docref"  />
+                    <field name="taxnumber"  />
+                    <field name="fakturpajak"  />
+                    <field name="igroup"  />
+                    <field name="transname"  />
+                    <field name="currency"/> 
+                    <field name="balancefc" sum="sum_balancefc"/>
+                    <field name="balancesy" sum="sum_balancesy"/>  
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="cnw_awr28_saldohutangdetail_pivot" model="ir.ui.view">
+            <field name="name">cnw.awr28.saldohutangdetail.pivot</field>
+            <field name="model">cnw.awr28.saldohutangdetail</field>
+            <field name="arch" type="xml">
+                <pivot string="Piutang">     
+                 <field name="cardname"  type="row" />
+                 <field name="company_id"  type="row" />  
+                 <field name="currency"  type="row" />  
+                 <field name="balancefc"  type="measure" />  
+                 <field name="balancesy"  type="measure" />  
+                </pivot>
+            </field>
+        </record>
+
+ 
+        <record model="ir.ui.view" id="cnw_awr28_saldohutangdetail_search">
+            <field name="name">cnw.awr28.saldohutangdetail.search</field>
+            <field name="model">cnw.awr28.saldohutangdetail</field>
+            <field name="arch" type="xml">
+                <search string="Search">                      
+                    <field name="company_id"/>
+                    <field name="ponumber"/>
+                    <field name="docdate"/>
+                    <field name="docnum"/>  
+                    <field name="igroup"/> 
+                    <field name="cardcode"/>
+                    <field name="cardname"/>  
+                    <field name="taxnumber"/>  
+                    <field name="fakturpajak"/>  
+                    <filter string="igroup" name="group_igroup" domain="[]" context="{'group_by':'igroup'}" />
+                    <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                    <filter string="currency" name="group_currency" domain="[]" context="{'group_by':'currency'}" />
+                    <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
+                    <filter string="docdate" name="group_docdate" domain="[]" context="{'group_by':'docdate'}" />
+                    <filter string="company_id" name="group_company_id" domain="[]" context="{'group_by':'company_id'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="cnw_awr28_saldohutangdetail_action" model="ir.actions.act_window">
+            <field name="name">Saldo Hutang Per Supplier</field>
+            <field name="res_model">cnw.awr28.saldohutangdetail</field>
+            <field name="view_mode">tree,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

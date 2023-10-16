@@ -1,0 +1,79 @@
+<odoo>
+    <data>
+        <!-- Top menu item -->
+
+        <menuitem name="CNW-AWR28" groups="cnw_awr28user,cnw_awr28ar,cnw_awr28sales,cnw_awr28purchasing,cnw_awr28intercomp" web_icon="cnw_awr28,static/description/icon.png" id="awr_mainmenu"/>
+        <menuitem sequence="50"  groups="cnw_awr28user,cnw_awr28ar,cnw_awr28sales,cnw_awr28purchasing,cnw_awr28intercomp" name="..." id="awr_menu" parent="awr_mainmenu" action="cnw_awr28_home_action"/>
+
+
+        <menuitem sequence="100"  groups="cnw_awr28user" name="[L]aba Rugi " id="awr_menu_lr" parent="awr_mainmenu" />
+        <menuitem sequence="101"  groups="cnw_awr28user" name="LR Per Item" id="awr_menu_lr_01" parent="awr_menu_lr" action="cnw_lritem_wizard" />
+        <menuitem sequence="102"  groups="cnw_awr28user" name="Cash Flow" id="awr_menu_lr_02" parent="awr_menu_lr" action="cnw_cashflow_wizard" />
+ 
+        <menuitem sequence="200"  groups="cnw_awr28user,cnw_awr28purchasing" name="[I]nventory  " id="awr_menu_inventory" parent="awr_mainmenu" />
+                <menuitem sequence="201"  groups="cnw_awr28user,cnw_awr28purchasing" name="Saldo Persediaan Pertanggal" id="awr_menu_inventory_01" parent="awr_menu_inventory" action="cnw_hppsummary_wizard" />
+                <menuitem sequence="202"  groups="cnw_awr28user,cnw_awr28purchasing" name="Saldo Akhir Persediaan" id="awr_menu_inventory_02" parent="awr_menu_inventory" action="cnw_hppsummary2_wizard" />
+                <menuitem sequence="205"  groups="cnw_awr28user,cnw_awr28purchasing" name="Inventory Daily Report" id="awr_menu_inventory_05" parent="awr_menu_inventory" action="cnw_inventorydailyreport_wizard" />
+                <menuitem sequence="206"  groups="cnw_awr28user" name="Realisasi Import" id="awr_menu_inventory_06" parent="awr_menu_inventory" action="cnw_realisasi_wizard" />
+                <menuitem sequence="207"  groups="cnw_awr28user,cnw_awr28purchasing" name="Kartu Stock" id="awr_menu_inventory_07" parent="awr_menu_inventory" action="cnw_kartustock_wizard" />
+
+        <menuitem sequence="300"  groups="cnw_awr28user,cnw_awr28sales,cnw_awr28spvsales,cnw_awr28purchasing,cnw_awr28ar" name="[S]ales  " id="awr_menu_sa" parent="awr_mainmenu" />
+                <menuitem sequence="301"  groups="cnw_awr28user,cnw_awr28ar" name="Laporan DO Harian (Full Report)" id="awr_menu_sa_01" parent="awr_menu_sa" action="cnw_awr28_doharianfull_wizard" />
+                <menuitem sequence="302"  groups="cnw_awr28user,cnw_awr28ar" name="Penjualan (Delivery)" id="awr_menu_sa_02" parent="awr_menu_sa" action="cnw_penjualandelivery_wizard" />
+                <menuitem sequence="303"  groups="cnw_awr28user,cnw_awr28ar" name="Penjualan (Invoice)" id="awr_menu_sa_03" parent="awr_menu_sa" action="cnw_penjualandetail_wizard" />
+                <menuitem sequence="304"  groups="cnw_awr28user,cnw_awr28purchasing,cnw_awr28ar" name="Penjualan (Invoice) Per Item" id="awr_menu_sa_04" parent="awr_menu_sa" action="cnw_penjualandetailitem_wizard" />
+                <menuitem sequence="305"  groups="cnw_awr28user,cnw_awr28ar" name="Lap DO Belum Jadi Invoice" id="awr_menu_sa_05" parent="awr_menu_sa" action="cnw_awr28_donotinvoice_wizard" />
+                <menuitem sequence="306"  groups="cnw_awr28user,cnw_awr28ar" name="Lap Analysis Piutang" id="awr_menu_sa_06" parent="awr_menu_sa" action="cnw_awr28_analysispiutang_wizard" />
+                <menuitem sequence="321"  groups="cnw_awr28user,cnw_awr28sales,cnw_awr28spvsales" name="Sales Order List" id="awr_menu_sa_21" parent="awr_menu_sa" action="cnw_awr28_slsorderlist_wizard"  />
+                <menuitem sequence="322"  groups="cnw_awr28user,cnw_awr28sales,cnw_awr28spvsales" name="Penjualan Pertahun" id="awr_menu_sa_22" parent="awr_menu_sa" action="cnw_awr28_penjualanpertahun_wizard_wizard"  />
+
+
+        <menuitem sequence="400"  groups="cnw_awr28user,cnw_awr28ar,cnw_awr28purchasing" name="[A]ccounting " id="awr_menu_act" parent="awr_mainmenu" />
+
+        <menuitem sequence="410"  groups="cnw_awr28user,cnw_awr28purchasing" name="Pembelian" id="awr_menu_act_11" parent="awr_menu_act"  />
+                <menuitem sequence="411"  groups="cnw_awr28user" name="Pembelian Detail" id="awr_menu_act_01" parent="awr_menu_act_11" action="cnw_pembeliandetail_wizard"  />
+                <menuitem sequence="412"  groups="cnw_awr28user" name="Pembelian Summary" id="awr_menu_act_02" parent="awr_menu_act_11" action="cnw_pembeliansummary_wizard"  />
+                <menuitem sequence="413"  groups="cnw_awr28user,cnw_awr28purchasing" name="Purchasing Report" id="awr_menu_act_09" parent="awr_menu_act_11" action="cnw_awr28_purchasingreport_wizard"  />
+                <menuitem sequence="414"  groups="cnw_awr28user,cnw_awr28purchasing" name="Shipping Schedule Report" id="awr_menu_act_21" parent="awr_menu_act_11" action="cnw_awr28_shippingschedule_wizard"  />
+                <menuitem sequence="415"  groups="cnw_awr28purchasing,cnw_awr28ar" name="Lap Analysis Hutang" id="awr_menu_sa_07" parent="awr_menu_act_11" action="cnw_awr28_analysishutang_wizard" />
+                <menuitem sequence="405"  groups="cnw_awr28user,cnw_awr28purchasing" name="Aging Payable" id="awr_menu_act_405" parent="awr_menu_act_11"  action="cnw_apaging_wizard" />
+                <menuitem sequence="402"  groups="cnw_awr28user,cnw_awr28purchasing" name="Saldo Hutang Detail" id="awr_menu_act_402" parent="awr_menu_act_11"  action="cnw_awr28_saldohutangdetail_get_action" />
+                <menuitem sequence="403"  groups="cnw_awr28user,cnw_awr28purchasing" name="Kartu Hutang" id="awr_menu_act_403" parent="awr_menu_act_11"  action="cnw_awr28_kartuhutang_get_action" />
+                <menuitem sequence="406"  groups="cnw_awr28user" name="Reconsile Landed Cost" id="awr_menu_act_406" parent="awr_menu_act_11"  action="cnw_awr28_landedrecon_get_wizard" />
+        <menuitem sequence="420"  groups="cnw_awr28user,cnw_awr28ar" name="Penjualan" id="awr_menu_act_20" parent="awr_menu_act"  />
+                <menuitem sequence="423"  groups="cnw_awr28user,cnw_awr28ar" name="AR Aging" id="awr_menu_act_03" parent="awr_menu_act_20" action="cnw_araging_wizard"  />
+                <menuitem sequence="425"  groups="cnw_awr28user,cnw_awr28ar" name="AR Aging per Date" id="awr_menu_act_08" parent="awr_menu_act_20" action="cnw_agingperdate_wizard"  />
+                <menuitem sequence="424"  groups="cnw_awr28user,cnw_awr28ar" name="Unpaid Invoice (Aging Detail)" id="awr_menu_act_04" parent="awr_menu_act_20" action="cnw_aragingdetail_wizard"  />
+                <menuitem sequence="406"  groups="cnw_awr28user,cnw_awr28ar" name="Pembayaran Harian" id="awr_menu_act_06" parent="awr_menu_act_20" action="cnw_pembayaranharian_wizard" />
+        <menuitem sequence="430"  groups="cnw_awr28user,cnw_awr28ar" name="Accounting" id="awr_menu_act_430" parent="awr_menu_act"  />
+                <menuitem sequence="431"  groups="cnw_awr28user" name="Jurnal Entry" id="awr_menu_act_07" parent="awr_menu_act_430" action="cnw_awr28_jurnalentry_wizard"  />
+                <menuitem sequence="432"  groups="cnw_awr28user" name="General Ledger" id="awr_menu_act_08" parent="awr_menu_act_430" action="cnw_awr28_generalledger_wizard"  />
+                <menuitem sequence="433"  groups="cnw_awr28user" name="Fixed Asset" id="awr_menu_act_10" parent="awr_menu_act_430" action="cnw_awr28_fixedasset_wizard"  />
+                <menuitem sequence="434"  groups="cnw_awr28user" name="COA Master Data" id="awr_menu_act_434" parent="awr_menu_act_430" action="cnw_awr28_coamaster_wizard"  />
+
+
+
+
+
+        <menuitem sequence="500"  groups="cnw_awr28user" name="[C] losing (Financial Report)" id="awr_menu_closing" parent="awr_mainmenu" />
+                <menuitem sequence="501"  groups="cnw_awr28user" name="Trial Balance" id="awr_menu_closing_01" parent="awr_menu_closing"  action="cnw_awr28_tb_wizard" />
+                <menuitem sequence="502"  groups="cnw_awr28user" name="Balance Sheet" id="awr_menu_closing_02" parent="awr_menu_closing"  action="cnw_awr28_bl_wizard" />
+                <menuitem sequence="503"  groups="cnw_awr28user" name="Profit Loss" id="awr_menu_closing_03" parent="awr_menu_closing"  action="cnw_awr28_pl_wizard" />
+                <menuitem sequence="504"  groups="cnw_awr28user" name="HPP Global" id="awr_menu_closing_04" parent="awr_menu_closing"  action="cnw_awr28_hppglobal_wizard" />
+                <menuitem sequence="505"  groups="cnw_awr28user" name="Lap Harian" id="awr_menu_closing_05" parent="awr_menu_closing"  action="cnw_awr28_lapharian_wizard" />
+
+
+        <menuitem sequence="600"  groups="cnw_awr28user,cnw_awr28intercomp" name="[R] econciliation" id="awr_menu_reconsile" parent="awr_mainmenu" />
+        <menuitem sequence="601"  groups="cnw_awr28user,cnw_awr28intercomp" name="Intercomp AR" id="awr_menu_reconsile_01" parent="awr_menu_reconsile"  action="cnw_intercomp_ar_wizard" />
+        <menuitem sequence="602"  groups="cnw_awr28user,cnw_awr28intercomp" name="Intercomp AP" id="awr_menu_reconsile_02" parent="awr_menu_reconsile"  action="cnw_intercomp_ap_wizard" />
+        <menuitem sequence="603"  groups="cnw_awr28intercomp" name="Intercomp Penjualan" id="awr_menu_reconsile_03" parent="awr_menu_reconsile"  action="cnw_intercomp_sales_wizard" />
+        <menuitem sequence="604"  groups="cnw_awr28intercomp" name="Intercomp Pembelian" id="awr_menu_reconsile_04" parent="awr_menu_reconsile"  action="cnw_intercomp_purchase_wizard" />
+        <menuitem sequence="605"  groups="cnw_awr28intercomp" name="Intercomp Sewa" id="awr_menu_reconsile_05" parent="awr_menu_reconsile"  action="cnw_intercomp_sewa_wizard" />
+
+        <menuitem sequence="700"  groups="cnw_awr28intercomp" name="[I] ntercomp Setting" id="awr_menu_intercomp_setting" parent="awr_mainmenu" />
+        <menuitem sequence="701"  groups="cnw_awr28intercomp" name="Intercomp Setting" id="awr_menu_intercomp_setting_01" parent="awr_menu_intercomp_setting"  action="cnw_intercomp_setting_wizard" />
+
+        <menuitem sequence="800"  groups="cnw_awr28intercomp" name="[S] etting" id="awr_menu_setting" parent="awr_mainmenu" />
+        <menuitem sequence="801"  groups="cnw_awr28intercomp" name="Jasper Setting" id="awr_menu_setting_01" parent="awr_menu_setting"  action="cnw_awr28_jasper_action" />
+    </data>
+</odoo>

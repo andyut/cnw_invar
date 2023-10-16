@@ -9,9 +9,9 @@ class CNWCustomerFollowup(models.Model):
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
 	customer_id     = fields.Many2one("sap.bp", string="Customer")
 	docdate         = fields.Date("Doc Date",required=True,default=lambda s:fields.Date.today())
-	cardcode        = fields.Char("Customer Code",related="customer_id.cardcode")
-	cardname        = fields.Char("Customer Name",related="customer_id.cardname")
-	cardgroup       = fields.Char("Customer Group",related="customer_id.groupname")
+	cardcode        = fields.Char("Customer Code",related="customer_id.cardcode",store=True)
+	cardname        = fields.Char("Customer Name",related="customer_id.cardname",store=True)
+	cardgroup       = fields.Char("Customer Group",related="customer_id.groupname",store=True )
 	salesname       = fields.Char("Sales Name",related="customer_id.salesperson")
 	arperson        = fields.Char("AR person",related="customer_id.ar_person")
 
@@ -36,11 +36,11 @@ class CNWCustomerFollowupWiz(models.TransientModel):
 
 	customer_id     = fields.Many2one("sap.bp", string="Customer",default=_getcustomerdata)
 	docdate         = fields.Date("Doc Date",required=True,default=lambda s:fields.Date.today())
-	cardcode        = fields.Char("Customer Code",related="customer_id.cardcode")
-	cardname        = fields.Char("Customer Name",related="customer_id.cardname")
-	cardgroup       = fields.Char("Customer Group",related="customer_id.groupname")
-	salesname       = fields.Char("Sales Name",related="customer_id.salesperson")
-	arperson        = fields.Char("AR person",related="customer_id.ar_person")
+	cardcode        = fields.Char("Customer Code",related="customer_id.cardcode",store=True)
+	cardname        = fields.Char("Customer Name",related="customer_id.cardname" )
+	cardgroup       = fields.Char("Customer Group",related="customer_id.groupname" )
+	salesname       = fields.Char("Sales Name",related="customer_id.salesperson" )
+	arperson        = fields.Char("AR person",related="customer_id.ar_person" )
 
 	followup_type   = fields.Selection(selection=[("mail","E-Mail"),("phone","Phone"),("whatsapp","Whatsapp"),("others","Other")],string="Type",default="phone")
 

@@ -1,7 +1,7 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-  
+
     <!-- Wizard untuk ambil data sap -->
     <record id="cnw_invar_saldopiutangdetail_action" model="ir.actions.act_window">
       <field name="name">Saldo Piutang Detail</field>
@@ -18,21 +18,26 @@
       <field name="type">form</field>
       <field name="arch" type="xml">
         <form string="Get Saldo Piutang Detail ">
-
-          <group string="Saldo Piutang">
-            <field name="company_id"  widget="many2many_tags"  options="{'no_create': True}"/> 
+          <sheet>
+            <group>
+              <field name="company_id" widget="many2many_tags" options="{'no_create': True}"/>
             <field name="dateto" />
             <field name="arperson" />
             <field name="customer" />
             <field name="account" />
-              <field name="export_to"/>
-             
-          </group>
-          
-               <field name="filexls" filename="filenamexls"  widget="pdf_viewer" nolabel="1"  attrs="{'invisible': [('export_to','!=','pdf')] }"  />
-               <field name="filenamexls" invisible="1" /> 
+            <field name="export_to"/>
+            </group>          
+            <notebook> 
+            <page string="Report">
+            <field name="filexls" filename="filenamexls" widget="pdf_viewer" style="height=1024px" nolabel="1" attrs="{'invisible': [('export_to','!=','pdf')] }" />
+            <field name="filenamexls" invisible="1" />
+            </page>
+            </notebook>
+
+
+          </sheet>
           <footer>
-             <button string="Get Saldo Piutang" name="get_saldopiutangdetail" type="object" />
+            <button string="Get Saldo Piutang" name="get_saldopiutangdetail" type="object" />
             <button string="Cancel" class="btn-default" special="cancel" />
           </footer>
 
@@ -40,6 +45,6 @@
       </field>
     </record>
 
-     
+
   </data>
 </odoo>

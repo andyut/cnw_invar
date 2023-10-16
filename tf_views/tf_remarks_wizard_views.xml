@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard untuk ambil data sap -->
+    <act_window id="ar_tf_remarks_wizard_action" 
+        name="Update Remarks" 
+        res_model="ar.tf.remark.wizard" 
+        src_model="cnw.invar.saldopiutangdetailmodels"  
+        view_mode="form" target="new" multi="True" /> 
+
+        <record id="ar_tf_remarks_wizard_form" model="ir.ui.view">
+            <field name="name">ar.tf.remark.wizard.form</field>
+            <field name="model">ar.tf.remark.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Remarks">
+
+                    <group string="Remarks">
+                        <field name="company_id" readonly="1"/> 
+                        <field name="notes2"  />  
+                    </group>
+
+                    <footer>
+                        <button string="Update Remarks" name="getremarks" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

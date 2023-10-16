@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<title>Financial Report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+<body>
+	
+
+ <head class="w3-container">
+  <div class="w3-row">
+      <div class="w3-col s4">
+        <h5>
+         <b>{{company}}</b>
+        </h5>   
+      </div>
+      <div class="w3-col w3-center s4 w3-tiny">
+         {{datetime }}
+      </div>
+      <div class="w3-col w3-right-align s4">
+        <h5>
+         <b>balance Sheet</b>
+        </h5>   
+      </div>
+  </div>
+<div class="w3-col">
+ <div class="w3-row w3-right-align w3-tiny">
+  <p><b>Per {{dateto}}</b>
+</p> </div>
+</div>
+
+</head>
+<br/>
+
+ 
+   
+ {%for datas in data %}
+
+ <!-- 
+   AKTIVA 
+ -->
+ 
+      {%if datas[3]=="AKTIVA" %}
+                {%if datas[5]=="9999001" %}
+
+                  <div class="w3-row w3-tiny"   style="border-bottom:1px solid;border-top:1px solid;">
+                    <div class="w3-col s2"><b>{{datas[5]}} &nbsp;</b></div>
+                    <div class="w3-col s5"><b>{{datas[6]}}</b></div>
+                    <div class="w3-col s5 w3-right-align"><b>{{"{:,.0f}".format(datas[7])}}</b></div>
+                  </div> 
+                  {% elif datas[5]=="9999002"   %}
+                  <div class="w3-row w3-tiny">
+                    <div class="w3-col s2"><b>{{datas[5]}} &nbsp;</b></div>
+                    <div class="w3-col s5"><b>{{datas[6]}} </b></div>
+                    <div class="w3-col s5 w3-right-align"><b>{{"{:,.0f}".format(datas[7])}}</b></div>
+                  </div> 
+                  <div style="page-break-before: always;"></div>  
+
+                  {% elif datas[5]=="1000000"   %}
+                  <div  class="w+3-row w3-small w3-border-solid" style="border-bottom-style: double;">
+                    <div class="w3-col s2 "> <b>AKTIVA</b></div>
+                    <div class="w3-col s5 w3-right-align"><b> &nbsp;</b></div>
+                    <div class="w3-col s5 w3-right-align "><b> &nbsp;</b></div>
+                  </div>  
+                  <div class="w3-row w3-tiny">
+                    <div class="w3-col s12">&nbsp; </div>
+                  </div>                                          
+                {% else %}
+                  <div class="w3-row w3-tiny">
+                    <div class="w3-col s2">{{datas[5]}} &nbsp;</div>
+                    <div class="w3-col s5">{{datas[6]}}</div>
+                    <div class="w3-col s5 w3-right-align">{{"{:,.0f}".format(datas[7])}}</div>
+                  </div> 
+                {% endif %}
+                
+      {% endif %}
+ 
+
+<!-- 
+   PASSIVA 
+ -->
+  
+{%if datas[3]=="PASSIVA" %}
+          {%if datas[5]=="9999001" %}
+
+            <div class="w3-row w3-tiny"   style="border-bottom:1px solid;border-top:1px solid;">
+            <div class="w3-col s2"><b>{{datas[5]}} &nbsp;</b></div>
+            <div class="w3-col s5"><b>{{datas[6]}}</b></div>
+            <div class="w3-col s5 w3-right-align"><b>{{"{:,.0f}".format(datas[7])}}</b></div>
+            </div> 
+          {% elif datas[5]=="9999002"   %}
+              <div class="w3-row w3-tiny">
+                <div class="w3-col s2"><b>{{datas[5]}} &nbsp;</b></div>
+                <div class="w3-col s5"><b>{{datas[6]}} </b></div>
+                <div class="w3-col s5 w3-right-align"><b>{{"{:,.0f}".format(datas[7])}}</b></div>
+              </div> 
+              
+              <div style="page-break-before: always;"></div>         
+              {% elif datas[5]=="1000000"   %}
+              <div  class="w3-row w3-small w3-border-solid" style="border-bottom-style: double;">
+                <div class="w3-col s2 "> <b>PASSIVA</b></div>
+                <div class="w3-col s5 w3-right-align"><b> &nbsp;</b></div>
+                <div class="w3-col s5 w3-right-align "><b> &nbsp;</b></div>
+              </div>  
+              <div class="w3-row w3-tiny">
+                <div class="w3-col s12">&nbsp;</div>
+              </div>                         
+          {% else %}
+          <div class="w3-row w3-tiny">
+            <div class="w3-col s2">{{datas[5]}} &nbsp;</div>
+            <div class="w3-col s5">{{datas[6]}}</div>
+            <div class="w3-col s5 w3-right-align">{{"{:,.0f}".format(datas[7])}}</div>
+          </div>              
+          {% endif %}
+          
+{% endif %}
+ 
+
+
+      {%endfor%}
+     
+</body>
+</html>

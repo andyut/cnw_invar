@@ -21,7 +21,96 @@ import pandas.io.sql
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+
+class ARTukarFakturRemarks(models.TransientModel):
+	_name           = "ar.tf.remark.wizard"
+	_description    = "Tukar Faktur remark"	
+	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)  
+	notes2 			= fields.Char("Notes2")
+
+	def getremarks(self):
+
+		listinvoice = self.env['cnw.invar.saldopiutangdetailmodels'].browse(self._context.get('active_ids', []))
+#########################
+# LOGIN
+#########################
+		CompanyDB 	= self.company_id.db_name
+		UserName 	= self.company_id.sapuser
+		Password 	= self.company_id.sappassword
+		url 		= self.company_id.sapsl
+
+		appSession = requests.Session()
+
+		urllogin = url + "Login"
+		print(urllogin)
+
+		payload = { "CompanyDB" :CompanyDB ,
+					"UserName" : UserName,
+					"Password" : Password
+					}
+		
+		response = appSession.post(urllogin, json=payload,verify=False)
+		txtlog = "" 
+		notes2 = self.notes2 if self.notes2 else ""
+		for invoice in listinvoice:
  
+			if invoice.objtype =="13":
+				urltf = url + "Invoices("  + invoice.docentry + ")"
+				payload = {
+							"U_IGU_PIBRemarks" : notes2 
+						}               			
+				rsp = appSession.patch(urltf,json=payload,verify=False)
+				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
+				invoice.txtlog= txtlog  
+					
+				if rsp.status_code >=400 :
+					print(urltf)
+					txtlog =txtlog + str(payload) + "\n"
+					print(txtlog )
+				else :
+					invoice.notes2 = notes2
+
+
+			if invoice.objtype =="14":
+				urltf = url + "CreditNotes("  + invoice.docentry + ")"
+				payload = {
+							"U_IGU_PIBRemarks" : notes2 
+						}                           			
+				rsp = appSession.patch(urltf,json=payload,verify=False)
+				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
+				print(txtlog) 
+				invoice.txtlog= txtlog 
+				if rsp.status_code >=400 :
+					print(urltf)
+					txtlog =txtlog + str(payload) + "\n"
+					print(txtlog )			 
+				else :
+
+					invoice.notes2 = notes2
+					
+
+			self.env["cnw.so.audittrail"].create({
+												"name" : "UpdateRemarks",
+												"sonumber":invoice.numatcard,
+												"cardcode":invoice.cardcode,
+												"cardname":invoice.cardname,  
+												"arperson":invoice.arperson,
+												"docref":"UpdateRemarks",
+												"docdate":invoice.docdate,
+												"doctype":"INVOICE",
+												"position":"TUKARFAKTUR",
+												"docstatus":"remarks",
+												"notes1":notes2,
+												"docby":self.env.user.name ,
+												"docindate":invoice.docdate})
+
+#########################
+# LOGOUT SERVICE LAYER
+#########################				
+		urllogout = url + "Logout"
+		rsplogout = appSession.post(urllogout,json=payload,verify=False)		
+
+		self.status = "postSAP"		
 class ARTukarfakturWizard(models.TransientModel):
 	_name           = "ar.tf.wizard"
 	_description    = "Tukar Faktur"
@@ -30,6 +119,29 @@ class ARTukarfakturWizard(models.TransientModel):
 	updatetf        = fields.Selection(string="Update",selection=[("tf","Update Tanggal Tukar Faktur"),("py","Update Tanggal Est Payment")],default="tf")       
 	status_coll 	= fields.Boolean("Change Collector", default=False)
 	collector 		= fields.Selection(string="Collector",
+										selection=[("NO COLLECTOR","NO COLLECTOR"),
+													("YANTO","YANTO"),
+													("WAWAN","WAWAN"),
+													("JHON","JHON"),
+													("IMAM","IMAM"),
+													("SUSILO","SUSILO"),
+													("IRFAN","IRFAN"),
+													("JEFRI","JEFRI"),
+													("BIBIT","BIBIT"),
+													("FUAD","FUAD"),
+													("ILYAS","ILYAS"),
+													("FERRY","FERRY"),
+													("AFFEN","AFFEN"),
+													("BUDI","BUDI"),
+													("BAYU","BAYU"),
+													("TYO","TYO"),
+													("YOHANES","YOHANES"),
+													("RIDWAN","RIDWAN"),
+													("NO COLLECTOR","NO COLLECTOR"),
+													("POS","POS"),
+													("AMIR","AMIR"),
+													("AMIR","AMIR"), ],default="NO COLLECTOR")
+	collector2 		= fields.Selection(string="Collector",
 										selection=[("NO COLLECTOR","NO COLLECTOR"),
 													("YANTO","YANTO"),
 													("WAWAN","WAWAN"),
@@ -148,6 +260,9 @@ class ARTukarfakturWizard(models.TransientModel):
 					print(urltf)
 					txtlog =txtlog + str(payload) + "\n"
 					print(txtlog )
+				else :
+					invoice.notes1 = notes1
+
 
 			if invoice.objtype =="14":
 				urltf = url + "CreditNotes("  + invoice.docentry + ")"
@@ -168,6 +283,10 @@ class ARTukarfakturWizard(models.TransientModel):
 					print(urltf)
 					txtlog =txtlog + str(payload) + "\n"
 					print(txtlog )			 
+				else :
+
+					invoice.notes1 = notes1
+					
 
 			self.env["cnw.so.audittrail"].create({
 												"name" : NomorTF,

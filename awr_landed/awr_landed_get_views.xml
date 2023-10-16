@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_awr28_landedrecon_get_wizard" model="ir.actions.act_window">
+            <field name="name">Jurnal Entry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cnw.awr28.landedrecon.get</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="cnw_awr28_landedrecon_get_form" model="ir.ui.view">
+            <field name="name">cnw.awr28.landedrecon.get.form</field>
+            <field name="model">cnw.awr28.landedrecon.get</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reconsile Landed">
+
+                    <group string="Reconsile Landed">
+                    <field name="company_id" readonly="1" /> 
+                        <field name="datefrom" />
+                        <field name="dateto" />  
+                        <field name="account" />  
+                        <field name="remarks" />   
+                    </group>
+
+                    <footer>
+                        <button string="View" name="getlanded" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

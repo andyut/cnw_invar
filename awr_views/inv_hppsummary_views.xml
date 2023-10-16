@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_hppsummary_wizard" model="ir.actions.act_window">
+            <field name="name">Saldo Persediaan Per Tanggal</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cnw.awr28.hppsummary</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="cnw_awr28_hppsummary_form" model="ir.ui.view">  
+            <field name="name">cnw.awr28.hppsummary.form</field>
+            <field name="model">cnw.awr28.hppsummary</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Saldo  Persediaan Pertanggal">
+
+                    <group string="Saldo Akhir Persediaan">
+                    <field name="company_id" widget="many2many_tags"  options="{'no_create': True}"  />  
+                        <field name="dateto" /> 
+                        <field name="items" /> 
+                        <field name="igroup" />  
+                        <field name="export_to" /> 
+                    </group>
+
+                    <footer>
+                        <button string="View" name="view_hppsummary" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

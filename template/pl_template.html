@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<title>Age Receivable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+<body>
+	
+
+ <head class="w3-container">
+  <div class="w3-row">
+      <div class="w3-col s4">
+        <h5>
+         <b>{{company}}</b>
+        </h5>   
+      </div>
+      <div class="w3-col w3-center s4 w3-tiny">
+         {{datetime }}
+      </div>
+      <div class="w3-col w3-right-align s4">
+        <h5>
+         <b>Profit & Loss</b>
+        </h5>   
+      </div>
+  </div>
+<div class="w3-col">
+ <div class="w3-row w3-right-align w3-tiny">
+  <p><b>Per {{dateto}}</b>
+</p> </div>
+</div>
+
+</head>
+<br/>
+
+   <div  class="w3-row w3-small w3-border-solid" style="border-bottom-style: double;">
+        <div class="w3-col s6 "> <b>Description</b></div>
+        <div class="w3-col s3 w3-right-align"><b>[This Month]</b></div>
+        <div class="w3-col s3 w3-right-align "><b>[Cumulative]</b></div>
+   </div>  
+   
+ {%for datas in data %}
+      {%if datas[2]=="" %}
+        <div class="w3-row w3-tiny"   style="border-bottom:1px solid;border-top:1px solid;">
+         <div class="w3-col s1"><b>{{datas[2]}} &nbsp;</b></div>
+         <div class="w3-col s5"><b>{{datas[3]}}</b></div>
+         <div class="w3-col s3 w3-right-align"><b>{{"{:,.0f}".format(datas[4])}}</b></div>
+         <div class="w3-col s3 w3-right-align"><b>{{"{:,.0f}".format(datas[5])}}</b></div>
+        </div> 
+      {% else %}
+        <div class="w3-row w3-tiny">
+         <div class="w3-col s2">{{datas[2]}} &nbsp;</div>
+         <div class="w3-col s4">{{datas[3]}}</div>
+         <div class="w3-col s3 w3-right-align">{{"{:,.0f}".format(datas[4])}}</div>
+         <div class="w3-col s3 w3-right-align">{{"{:,.0f}".format(datas[5])}}</div>
+        </div> 
+
+      {% endif %}
+ {%endfor%}
+     
+</body>
+</html>

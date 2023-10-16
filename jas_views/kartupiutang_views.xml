@@ -17,9 +17,9 @@
         <field name="model">jas.lap.kartupiutang</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-          <form string="Get Saldo Piutang Detail ">
+          <form string="  Kartu Piutang   ">
   
-            <group string="Saldo Piutang">
+            <group string="Kartu Piutang">
               <field name="company_id" readonly="1"/> 
               <field name="datefrom" />
               <field name="dateto" />

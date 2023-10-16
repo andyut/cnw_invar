@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<title>Age Receivable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
+<body>
+	
+
+ <head class="w3-container">
+  <div class="w3-row">
+      <div class="w3-col s4">
+        <h5>
+         <b>{{company}}</b>
+        </h5>   
+      </div>
+      <div class="w3-col w3-center s4 w3-tiny">
+         {{datetime }}
+      </div>
+      <div class="w3-col w3-right-align s4">
+        <h5>
+         <b>HPP Global</b>
+        </h5>   
+      </div>
+  </div>
+<div class="w3-col">
+ <div class="w3-row w3-right-align w3-tiny">
+  <p><b>Per {{dateto}}</b>
+</p> </div>
+</div>
+
+</head>
+<br/>
+<div class="w3-container w3-center" >
+<div class="w3-card" style="width: 70%;">
+   <div  class="w3-row w3-small w3-border-solid" style="border-bottom-style: double;">
+        <div class="w3-col s6 "> <b>Description</b></div>
+        <div class="w3-col s6 w3-right-align"><b>[Amount]</b></div> 
+   </div>  
+   
+ {%for datas in data %}
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Saldo Awal</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[1])}}</b></div> 
+        </div> 
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Pembelian</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[2])}}</b></div> 
+        </div> 
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Retur</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[3])}}</b></div> 
+        </div> 
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Adjustment In</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[4])}}</b></div> 
+        </div> 
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Adjustment Out</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[5])}}</b></div> 
+        </div> 
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Sample</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[6])}}</b></div> 
+        </div>
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Stock Akhir</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[7])}}</b></div> 
+        </div> 		
+        <div class="w3-row w3-tiny" style="border-top: double"   >
+         <div class="w3-col s6"><b>Total</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[1]+datas[2]-datas[3]+datas[4]-datas[5]-datas[6]-datas[7])}}</b></div> 
+        </div> 
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Barang Terjual</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format(datas[8])}}</b></div> 
+        </div> 
+        <div class="w3-row w3-tiny"   >
+         <div class="w3-col s6"><b>Selisih</b></div>
+         <div class="w3-col s6 w3-right-align"><b>{{"{:,.0f}".format((datas[1]+datas[2]-datas[3]+datas[4]-datas[5]-datas[6]-datas[7])-datas[8])}}</b></div> 
+        </div> 
+     
+ {%endfor%}
+</div>
+</div>
+</body>
+</html>

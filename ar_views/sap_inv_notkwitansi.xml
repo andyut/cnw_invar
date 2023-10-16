@@ -18,16 +18,18 @@
             <field name="arch" type="xml">
                 <form string="Invoice Belum dibuat Kwitansi">
 
-                    <group string="Invoice Belum dibuat Kwitansi"> 
-                     
-                         <field name="company_id" readonly="1"/> 
-                         <field name="datefrom" /> 
-                         <field name="dateto" /> 
-                         <field name="arperson" /> 
-                         <field name="customer" /> 
-                         <field name="export_to" /> 
+                    <group string="Invoice Belum dibuat Kwitansi">
+
+                        <field name="company_id" readonly="1"/>
+                        <field name="datefrom" />
+                        <field name="dateto" />
+                        <field name="arperson" />
+                        <field name="customer" />
+                        <field name="jadwal" />
+                        <field name="export_to" />
                     </group>
-        
+                    <field name="filexls" filename="filenamexls" widget="pdf_viewer" style="height=1024px" nolabel="1" attrs="{'invisible': [('export_to','!=','pdf')] }" />
+                    <field name="filenamexls" invisible="1" />
                     <footer>
                         <button string="View " name="view_notkwitansi_xls" type="object" class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel" />

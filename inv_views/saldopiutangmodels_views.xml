@@ -12,6 +12,7 @@
                  decoration-success="tfstatus=='Y'"  >   
                     <field name="jadwal"  />  
                     <field name ="transtype"  invisible="1"/>
+                    <field name ="printkwitansi" widget="badges" />
                     <field name="docdate"/>
                     <field name="taxdate"/> 
                     <field name="topdays"/>
@@ -23,8 +24,8 @@
                     <field name="po"/>
                     <field name="gr_no"  invisible="1"/>
                     <field name="cardcode"/>
+                    <field name="cardname"  />
                     <field name="shiptocode"/>
-                    <field name="cardname" invisible="1"/>
                     <field name="salesperson"/>  
                     <field name="arperson"/>  
                     <field name="collector"/>  
@@ -33,10 +34,11 @@
                     <field name="datediff" invisible="1" />  
                     <field name="dendastatus"  invisible="1" />   
                     <field name="notes1"  />   
+                    <field name="notes2"  />   
                     <field name="denda" sum="sum_denda" invisible="1" />   
-                    <field name="datediff" avg="sum_datediff"/>   
-                    <field name="tfstatus"  />   
-                    <button name="get_CetakanInvoice" string="Print Invoice"   type="object"   />
+                    <field name="datediff" avg="sum_datediff" invisible="1"/>   
+                    <field name="tfstatus"  invisible="1" />   
+                    <button name="get_CetakanInvoice"  class="fa fa-file-pdf-o" help="Cetakan Invoice"   type="object"   />
                 </tree>
             </field>
         </record>
@@ -74,12 +76,17 @@
                     <filter string="Not TF / Pay" domain="[('tfstatus','=', 'N')]" name="not_TF" /> 
                     <filter string="Tukar Faktur" domain="[('tfstatus','=', 'Y')]" name="TF" /> 
                     <filter string="Invoice" domain="[('transtype','=', 'Invoice')]" name="F_Invoice" /> 
+                    <filter string="Kwitansi" domain="[('kwitansi','!=', False)]" name="kwitansi1" /> 
+                    <filter string="Tidak ada Kwitansi" domain="[('kwitansi','=', False)]" name="kwitansi2" />  
                     <filter string="CN" domain="[('transtype','=', 'CN')]" name="F_CN" /> 
+                    <separator string="Filter jatuh Tempo" /> 
+                    <filter string="Jatuh Tempo" domain="[('dendastatus','=', 'Y')]" name="Fdendastatus" /> 
+                    <separator string="Filter Un payment  " /> 
                     <filter string="Unreconsile Payment" domain="[('transtype','=', 'UnReconsile')]" name="F_Unreconsile" /> 
                     <field name="cardcode"/>
                     <field name="jadwal"  />   
                     <field name="docdate"/>
-                    <field name="taxdate"/>
+                    <field name="taxdate"  />
                     <field name="docduedate"/>
                     <field name="docnum"/> 
                     <field name="transtype"/> 
@@ -90,6 +97,8 @@
                     <field name="cardname"/>  
                     <field name="shiptocode"/>
                     <field name="arperson"/>   
+                    <field name="notes1"/>   
+                    <field name="notes2"/>   
                     <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
                     <filter string="jadwal" name="group_jadwal" domain="[]" context="{'group_by':'jadwal'}" />
                     <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />

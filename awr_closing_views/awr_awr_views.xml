@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_awr28_awr_wizard" model="ir.actions.act_window">
+				<field name="name">Lap Keuangan (W)</field>
+				<field name="res_model">cnw.awr28.awr</field>
+				<field name="view_mode">tree,form,pivot</field>
+        </record>
+
+        <record id="cnw_awr28_awr_tree" model="ir.ui.view">
+            <field name="name">cnw.awr28.awr.tree</field>
+            <field name="model">cnw.awr28.awr</field> 
+            <field name="arch" type="xml">
+                <tree string="Lap Keuangan (W)" editable="top">
+ 
+				<field name="company_id" />
+				<field name="account_id" />
+			
+				<field name="idate" />
+				<field name="amount" />
+					<field name="account" />
+				<field name="header" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="cnw_awr28_awr_search" model="ir.ui.view">
+            <field name="name">cnw.awr28.awr.search</field>
+            <field name="model">cnw.awr28.awr</field> 
+            <field name="arch" type="xml">
+                <search>
+ 
+				<field name="company_id" />
+				<field name="account_id" />
+				<field name="account" />
+				<field name="header" />
+				<field name="idate" /> 
+				
+                </search>
+            </field>
+        </record>
+        <record id="cnw_awr28_awr_pivot" model="ir.ui.view">
+            <field name="name">cnw.awr28.awr.pivot</field>
+            <field name="model">cnw.awr28.awr</field> 
+            <field name="arch" type="xml">
+                <pivot string="Report">
+ 
+				<field name="idate" type="col"  interval="month"/>
+				<field name="company_id"  type="col" />
+				<field name="header" type="row" />
+				<field name="amount" type="measure" /> 
+				
+                </pivot>
+            </field>
+        </record>
+
+    </data>
+</odoo>

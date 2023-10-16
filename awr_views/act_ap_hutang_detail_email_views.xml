@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <act_window id="cnw_awr28_saldohutangdetailemail_action" 
+        name="Billing Email"  
+
+    groups="cnw_awr28.cnw_awr28user,cnw_awr28.cnw_awr28ar"        
+        res_model="cnw.awr28.saldohutangdetailemail" 
+        src_model="cnw.awr28.saldohutangdetail"  
+        view_mode="form" target="new" multi="True"  view_type="form"/>
+ 
+
+    <record id="cnw_awr28_saldohutangdetailemail_wizard" model="ir.ui.view">
+      <field name="name">cnw.awr28.saldohutangdetailemail.wizard</field>
+      <field name="model">cnw.awr28.saldohutangdetailemail</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Billing Email">
+
+          <group string="Billing Email">          
+            <field name="email_body"  />              
+            
+          </group>
+          <group string="Email "   >
+            <field name="hutang_ids" nolabel="1">
+              <tree editable="top">
+                    <field name="name"/>
+                    <field name="mailaddress"/>
+                    <field name="remarks"/>
+              </tree>
+
+            </field>
+          </group>
+          <footer>
+            <button string="Send email" name="check_list" type="object" class="btn-primary"/>
+            <button string="Cancel" class="btn-default" special="cancel" />
+          </footer>
+
+        </form>
+      </field>
+    </record>
+</data>
+</odoo>

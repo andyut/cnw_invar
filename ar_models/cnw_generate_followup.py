@@ -46,11 +46,14 @@ class CNWCustomerFollowupWizard(models.TransientModel):
 
 #MULTI COMPANY 
 		  
+		#companyDB 	= self.env.user.company_id.db_name
+		#UserName 	=  self.env.user.company_id.sapuser
+		#Password 	=  self.env.user.company_id.sappassword
 
-		host        = '192.168.250.40'
-		database    = 'IGU_NEW'
-		user        = 'sa'
-		password    = 'B1admin'
+		host        = self.env.user.company_id.server
+		database    = self.env.user.company_id.db_name
+		user        = self.env.user.company_id.db_usr
+		password    = self.env.user.company_id.db_pass
 
 
 		host2        = "192.168.250.14"
@@ -65,75 +68,79 @@ class CNWCustomerFollowupWizard(models.TransientModel):
 		if self.env.user.company_id.code_base =="igu23":
 			msg_sql= """                
 						select    
-								c.cardcode  ,
-								c.cardname 'Partner Name',
-								d.groupname 'Group',
-								c.U_AR_Person , 
-								c.shiptodef outlet ,
-								sum(case 
-									when datediff(day,a.taxdate,getdate())<=30 and a.transtype in (13,14) then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '0-30',  
-								sum(case 
-									when datediff(day,a.taxdate,getdate()) between 31 and 60  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '31-60',  
-								sum(case 
-									when datediff(day,a.taxdate,getdate())  between 61 and 90  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '61-90',  
-								sum(case 
-									when datediff(day,a.taxdate,getdate())  between 91 and 120    and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '91-120',  
-								sum(case 
-									when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2023 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '121+ 2023',  
+									c.cardcode  ,
+									c.cardname 'Partner Name',
+									d.groupname 'Group',
+									c.U_AR_Person , 
+									c.shiptodef outlet ,
+									sum(case 
+										when datediff(day,a.taxdate,getdate())<=30 and a.transtype in (13,14) then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '0-30',  
+									sum(case 
+										when datediff(day,a.taxdate,getdate()) between 31 and 60  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '31-60',  
+									sum(case 
+										when datediff(day,a.taxdate,getdate())  between 61 and 90  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '61-90',  
+									sum(case 
+										when datediff(day,a.taxdate,getdate())  between 91 and 120    and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '91-120',  
+									sum(case 
+										when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2023 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '121+ 2023',  
 
-								sum(case 
-									when year (a.taxdate) = 2022 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) as 'total 2022',
-								sum(case 
-									when year (a.taxdate) = 2021 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) as '2021',                                
-								sum(case 
-									when year (a.taxdate) = 2020 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) as '2020',
-								sum(case 
-									when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2019  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '2019',
-								sum(case 
-									when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2018  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '2018',
-								sum(case 
-									when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2017  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '2017',
-								sum(case 
-									when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2016  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
-									else 0
-								end) '2016',
-								sum( case when a.transtype in (24,30,231) then (a.BalScDeb -a.balsccred ) else 0 end )'UnRec',
-								sum(a.BalScDeb -a.balsccred ) 'Total'
-								from jdt1 a 
-								inner join ojdt b on a.transid = b.transid 
-								inner join ocrd c on a.ShortName = c.cardcode 
-								inner join ocrg d on d.groupcode = c.groupcode 
-								where 
-								a.account ='1130001' 
-								and a.BalScDeb -a.balsccred  <>0 
-								
-								group by  
-								c.cardcode ,
-								d.groupname ,
-								c.cardname , c.shiptodef ,
-								c.U_AR_Person
+									sum(case 
+										when year (a.taxdate) = 2023 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) as 'total 2023',      
+									sum(case 
+										when year (a.taxdate) = 2022 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) as '2022',
+									sum(case 
+										when year (a.taxdate) = 2021 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) as '2021',                                
+									sum(case 
+										when year (a.taxdate) = 2020 and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) as '2020',
+									sum(case 
+										when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2019  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '2019',
+									sum(case 
+										when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2018  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '2018',
+									sum(case 
+										when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2017  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '2017',
+									sum(case 
+										when datediff(day,a.taxdate,getdate()) >=121 and year (a.taxdate) = 2016  and a.transtype in (13,14)  then (a.BalScDeb -a.balsccred ) 
+										else 0
+									end) '2016',
+									sum( case when a.transtype in (24,30,231) then (a.BalScDeb -a.balsccred ) else 0 end )'UnRec',
+									sum(a.BalScDeb -a.balsccred ) 'Total'
+									from jdt1 a 
+									inner join ojdt b on a.transid = b.transid 
+									inner join ocrd c on a.ShortName = c.cardcode 
+									inner join ocrg d on d.groupcode = c.groupcode 
+									where 
+									a.account ='1130001' 
+									and a.BalScDeb -a.balsccred  <>0 
+									and convert(varchar,a.refdate,112)<= convert(varchar,getdate(),112)
+									group by  
+									c.cardcode ,
+									d.groupname ,
+									c.cardname , c.shiptodef ,
+									c.U_AR_Person
 						"""
 		
 		else :
@@ -235,7 +242,7 @@ class CNWCustomerFollowupWizard(models.TransientModel):
 				    a.laststatus_date,
 				    '[' || coalesce(a.followup_type,'') || '] ' || coalesce(a.laststatus ,'') status
 				from sap_bp  A
-				where a.company_id=69
+				where a.company_id=""" + str(self.env.user.company_id.id) + """
 				order by 
 				    a.salesgroup ,  a.salesperson,
 				    a.groupname ,  A.cardcode
@@ -253,8 +260,11 @@ class CNWCustomerFollowupWizard(models.TransientModel):
 		#df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2022","total 2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
 #		df = new_df[["Sales Group","Sales Person","AR Person","cardcode","customer","outlet","Customer Group","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2021","total 2021","2020" ,"2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
 		#df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2022","total 2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
-		df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2023","total 2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
-
+		
+		# df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2023","total 2023","2022","2021" ,"2020","2019", "2018", "2017", "2016","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
+		#Menghilangkan 2016 dari view
+		df = new_df[["cardcode","customer","outlet","Customer Group","Sales Group","Sales Person","AR Person","Term of Payment","Credit limit","0-30","31-60","61-90","91-120","121+ 2023","total 2023","2022","2021" ,"2020","2019", "2018", "2017","UnRec", "Total","Remain Credit","followup_by","laststatus_date","status"]]
+		df.rename(columns={"121+ 2023": "121+"},inplace=True)
 
 		if self.export_to =="xls":
 			filename = filenamexls2 

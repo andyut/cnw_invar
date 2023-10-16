@@ -64,6 +64,7 @@
         'inv_views/audittrail_views.xml',
         #'inv_views/sap_do_notinvoice.xml',
         'tf_views/tf_wizard_views.xml',
+        'tf_views/tf_remarks_wizard_views.xml',
         'ar_views/sap_bp.xml',
         'ar_views/sap_bp_outlet.xml',
         'ar_views/sap_bp_contact.xml',

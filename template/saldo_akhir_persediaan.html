@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<title>Age Receivable</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+<body>
+	
+
+ <head class="w3-container">
+  <div class="w3-row">
+      <div class="w3-col s4">
+        <h5>
+         {{company}}
+        </h5>   
+      </div>
+      <div class="w3-col w3-center s4">
+         {{datetime }}
+      </div>
+      <div class="w3-col w3-right-align s4">
+        <h4>
+         <b>SALDO AKHIR PERSEDIAAN</b>
+        </h4>   
+      </div>
+  </div>
+<div class="w3-col">
+ <div class="w3-row w3-right-align">
+  <p>Aging Per {{dateto}}
+</p> </div>
+</div>
+
+</head>
+
+<div class="w3-container">
+ <table class="w3-table-all w3-tiny">
+   <tr class="w3-tiny w3-teal">
+    <th>Company</th>
+    <th>Group</th>
+    <th>Sub Group</th>
+    <th>Item Code</th>
+    <th >Item Name</th>
+    <th class="w3-right-align">Quantity</th>
+    <th class="w3-right-align">Uom</th>
+    <th class="w3-right-align">Amount</th>
+   </tr>
+ {%for datas in data %}
+        <tr class=" w3-tiny">
+         <td>{{datas[0]}}</td>
+         <td>{{datas[1]}}</td>
+         <td>{{datas[2]}}</td>
+         <td>{{datas[3]}}</td>
+         <td>{{datas[4]}}</td>
+         <td class="w3-right-align">{{"{:,.0f}".format(datas[5])}}</td>
+         <td class="w3-right-align">{{datas[6]}}</td>
+         <td class="w3-right-align">{{"{:,.0f}".format(datas[7])}}</td>
+        </tr> 
+ {%endfor%}
+   <tr class="  w3-small">
+    <td colspan="7">Total</td>
+    <td class="w3-right-align"><b>{{"{:,.0f}".format(itotal)}}</b></td>
+   </tr>
+ </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       
+       
+        <record id="cnw_intercomp_setting_wizard" model="ir.actions.act_window">
+				<field name="name">Intercomp Setting</field>
+				<field name="res_model">cnw.intercomp.setting</field>
+				<field name="view_mode">tree</field>
+        </record>
+
+        <record id="cnw_intercomp_setting_tree" model="ir.ui.view">
+            <field name="name">cnw.intercomp.setting.tree</field>
+            <field name="model">cnw.intercomp.setting</field> 
+            <field name="arch" type="xml">
+                <tree string="Intercomp Setting" editable="top">
+ 
+			    <field name="codename" />
+				<field name="npwp" />
+				<field name="nourut" />
+				<field name="company" /> 
+				<field name="dbname" /> 
+				<field name="host" /> 
+				<field name="dbuser" /> 
+				<field name="dbpass" password="True" /> 
+				
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

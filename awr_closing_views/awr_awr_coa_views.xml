@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cnw_awr28_awr_coa_wizard" model="ir.actions.act_window">
+				<field name="name">Lap Keuangan (W)</field>
+				<field name="res_model">cnw.awr28.awr.coa</field>
+				<field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="cnw_awr28_awr_coa_tree" model="ir.ui.view">
+            <field name="name">cnw.awr28.awr.coa.tree</field>
+            <field name="model">cnw.awr28.awr.coa</field> 
+            <field name="arch" type="xml">
+                <tree string="Lap Keuangan (W)" editable="top">
+ 
+			<field name="company_id" />
+				<field name="acctcode" />
+				<field name="acctname" />
+				<field name="name" />
+				<field name="iparent" /> 
+				
+                </tree>
+            </field>
+        </record>
+
+        <record id="cnw_awr28_awr_coa_search" model="ir.ui.view">
+            <field name="name">cnw.awr28.awr.coa.search</field>
+            <field name="model">cnw.awr28.awr.coa</field> 
+            <field name="arch" type="xml">
+                <search>
+ 
+				<field name="company_id" />
+				<field name="acctcode" />
+				<field name="acctname" />
+				<field name="name" />
+				<field name="iparent" /> 
+				
+                </search>
+            </field>
+        </record>
+       
+
+    </data>
+</odoo>

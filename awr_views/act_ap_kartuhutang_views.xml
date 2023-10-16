@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cnw_awr28_kartuhutang_tree" model="ir.ui.view">
+            <field name="name">cnw.awr28.kartuhutang.tree</field>
+            <field name="model">cnw.awr28.kartuhutang</field>
+            <field name="arch" type="xml">
+                <tree string="Saldo Hutang" create="false" edit="false"  > 
+                    <field name="companycode" />
+                    <field name="transno"/>
+                    <field name="refdate"  />
+                    <field name="transname"/>
+                    <field name="groupname"/> 
+                    <field name="cardname"  />
+                    <field name="debit"  sum="sum_debit"/>
+                    <field name="credit"  sum="sum_credit"  />
+                    <field name="amount"  sum="sum_amount"  />
+                    <field name="currency"  />
+                    <field name="fcamount"  sum="sum_fcamount"  />
+                    <field name="balance"  sum="sum_balance"  />
+                    <field name="linememo"  />
+                    <field name="transname"  />
+                    <field name="ref1"/> 
+                    <field name="ref2" /> 
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="cnw_awr28_kartuhutang_pivot" model="ir.ui.view">
+            <field name="name">cnw.awr28.kartuhutang.pivot</field>
+            <field name="model">cnw.awr28.kartuhutang</field>
+            <field name="arch" type="xml">
+                <pivot string="Hutang">     
+                 <field name="groupname"  type="row" />
+                 <field name="cardname"  type="row" />  
+                 <field name="currency"  type="col" />  
+                 <field name="amount"  type="measure" />  
+                 <field name="fcamount"  type="measure" />  
+                 <field name="balance"  type="measure" />  
+                </pivot>
+            </field>
+        </record>
+
+ 
+        <record model="ir.ui.view" id="cnw_awr28_kartuhutang_search">
+            <field name="name">cnw.awr28.kartuhutang.search</field>
+            <field name="model">cnw.awr28.kartuhutang</field>
+            <field name="arch" type="xml">
+                <search string="Search">              
+                    <field name="companycode"/>
+                    <field name="transno"/>
+                    <field name="refdate"/>  
+                    <field name="groupname"/> 
+                    <field name="cardcode"/>
+                    <field name="cardname"/>  
+                    <field name="linememo"/>  
+                    <field name="ref2"/>  
+                    <filter string="groupname" name="group_groupname" domain="[]" context="{'group_by':'groupname'}" />
+                    <filter string="cardcode" name="group_cardcode" domain="[]" context="{'group_by':'cardcode'}" />
+                    <filter string="currency" name="group_currency" domain="[]" context="{'group_by':'currency'}" />
+                    <filter string="cardname" name="group_cardname" domain="[]" context="{'group_by':'cardname'}" />
+                    <filter string="refdate" name="group_refdate" domain="[]" context="{'group_by':'refdate'}" />
+                    <filter string="companycode" name="group_companycode" domain="[]" context="{'group_by':'companycode'}" />
+                </search>
+            </field>
+        </record>
+
+        <record id="cnw_awr28_kartuhutang_action" model="ir.actions.act_window">
+            <field name="name">Kartu Hutang Per Supplier</field>
+            <field name="res_model">cnw.awr28.kartuhutang</field>
+            <field name="view_mode">tree,pivot</field>
+
+        </record>
+
+
+    </data>
+</odoo>

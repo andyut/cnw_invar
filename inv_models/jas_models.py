@@ -66,16 +66,18 @@ class LapKartuPiutangMdl(models.Model):
 	docnumber 		= fields.Char("Doc Number")
 	refnumber 		= fields.Char("Ref Number")
 	kwtnumber 		= fields.Char("Kwitansi")
+	jadwal 			= fields.Char("Jadwal")
+	notes2 			= fields.Char("Remarks")
 	
 	#amount
 
 	debit 			= fields.Float(string="Debit",digit=(19,6),default=0.0 )
 	credit 			= fields.Float(string="Credit",digit=(19,6),default=0.0 )
 	amount 			= fields.Float(string="Amount",digit=(19,6),default=0.0 )
-	
+	balance 		= fields.Float(string="Balance",digit=(19,6),default=0.0 )
 	#extra
 
-	trxdate 		= fields.Date("Trx Date")
+	trxdate 		= fields.Date("Trx /TF Date")
 	duedate 		= fields.Date("Due Date")
 	diffdate 		= fields.Integer("DiffDocDate")
 	diffduedate		= fields.Integer("DiffDueDate")
@@ -100,6 +102,7 @@ class LapKartuPiutang(models.TransientModel):
 	dateto          = fields.Date("Date To",default=lambda s:fields.Date.today())
 	customer        = fields.Char("Business Partner",default="")
 	arperson        = fields.Char("AR Person",default="")
+	jadwal        	= fields.Char("Jadwal",default="")
 	account         = fields.Selection(string="Account", selection=[
 																	("1130001","1130001-PIUTANG DAGANG"),
 																	("1135001","1135001-PIUTANG SEWA"),
@@ -112,6 +115,10 @@ class LapKartuPiutang(models.TransientModel):
 
 	export_to       = fields.Selection(string="Export to",selection=[("list","List View"),
 																		("listsummary","List Summary View"),
+																		("json","JSON File Format"),
+																		("json2","JSON Summary Format"),
+																		("pdf","PDF Report"),
+																		("pdf2","PDF Summary Report"),
 																		("excelsummary","Excel Summary"),
 																		("excel","Excel")],default="list")
 
@@ -151,12 +158,14 @@ class LapKartuPiutang(models.TransientModel):
 			
 			bp = self.customer if self.customer else ""
 			arperson = self.arperson if self.arperson  else ""
+			jadwal = self.jadwal if self.jadwal  else ""
 			#bp = self.customer if self.customer else ""
 			msgsql2 = """
 						DECLARE @DateFrom 	varchar(10) ,
 								@DateTo 	varchar(10),
 								@cardcode 	varchar(50) ,
 								@account 	varchar(10) ,
+								@Jadwal 	varchar(100) ,
 								@arperson 	varchar(50)
 						SET NOCOUNT ON
 						set     @DateFrom = '""" + self.datefrom.strftime("%Y-%m-%d")  + """'
@@ -164,6 +173,7 @@ class LapKartuPiutang(models.TransientModel):
 						set     @CardCode = '""" + bp + """'
 						set     @account  = '""" + self.account + """'
 						set     @arperson = '""" + arperson + """'
+						set     @Jadwal = '""" + jadwal + """'
 
 						declare @table table (  
 												idx int identity(1,1) ,
@@ -226,7 +236,7 @@ class LapKartuPiutang(models.TransientModel):
 
 						WHERE CONVERT(VARCHAR, A.REFDATE ,23) <=@DATEFROM 
 						AND B.ACCOUNT = @account
-						and (c.CardCode + c.cardname) 	  like '%' + @cardcode + '%' AND isnull(C.U_AR_Person,'') LIKE '%' + @arperson + '%')
+						and (c.CardCode + c.cardname 	  like '%' + @cardcode + '%' AND isnull(C.U_AR_Person,'') LIKE '%' + @arperson + '%')
 
 						GROUP BY c.CardCode ,
 								'[' + C.CardCode + '] ' + C.cardname ,
@@ -252,7 +262,7 @@ class LapKartuPiutang(models.TransientModel):
 								a.doctotal ,
 								0,
 								a.doctotal,
-								convert(varchar,a.docdate,23)   ,
+								convert(varchar,a.taxdate,23)   ,
 								convert(varchar,a.docduedate,23)  ,
 								0,
 								0,
@@ -282,7 +292,7 @@ class LapKartuPiutang(models.TransientModel):
 								0,
 								a.doctotal ,
 								-1 * a.doctotal,
-								convert(varchar,a.docdate,23)   ,
+								convert(varchar,a.taxdate,23)   ,
 								convert(varchar,a.docduedate,23)  ,
 								0,
 								0,
@@ -428,6 +438,7 @@ class LapKartuPiutang(models.TransientModel):
 								@DateTo varchar(10),
 								@cardcode varchar(50) ,
 								@account varchar(10) ,
+								@jadwal varchar(100) ,
 								@arperson varchar(50)
 						SET NOCOUNT ON
 						set     @DateFrom = '""" + self.datefrom.strftime("%Y-%m-%d")  + """'
@@ -435,6 +446,8 @@ class LapKartuPiutang(models.TransientModel):
 						set     @CardCode = '""" + bp + """'
 						set     @account  ='""" + self.account + """'
 						set     @arperson = '""" + arperson + """'
+
+						set     @jadwal = '""" + jadwal + """'
 
 						declare @table table (  
 												idx int identity(1,1) ,
@@ -451,8 +464,12 @@ class LapKartuPiutang(models.TransientModel):
 												trxdate varchar(10) ,
 												duedate varchar(10) ,
 												diffdate int ,
-												diffduedate int 
+												diffduedate int ,
+												balance numeric(19,6),
+												jadwal varchar(100),
+												notes2 varchar(100)
 												)
+
 						declare @table2 table ( cardcode varchar(50) ,
 												maxdiff numeric(19,2) ,
 												mindiff numeric(19,2) ,
@@ -472,7 +489,11 @@ class LapKartuPiutang(models.TransientModel):
 								@datefrom  ,
 								@datefrom ,
 								0,
-								0
+								0,
+								sum	(b.BalScDeb - b.BalScCred) balance ,
+								'' jadwal,
+								'' notes2 
+								
 						from OJDT A 
 							INNER JOIN JDT1 B ON A.transID = b.TransID 
 							INNER JOIN OCRD C ON B.ShortName = C.CARDCODE 
@@ -495,10 +516,13 @@ class LapKartuPiutang(models.TransientModel):
 								a.doctotal ,
 								0,
 								a.doctotal,
-								convert(varchar,a.docdate,23)   ,
+								convert(varchar,a.taxdate,23)   ,
 								convert(varchar,a.docduedate,23)  ,
 								0,
-								0
+								0,
+								a.doctotal - a.paidsys balance,
+								isnull(c.notes,'') Jadwal,
+								isnull(a.U_IGU_PIBRemarks,'') notes2
 						from oinv a 
 						inner join ocrd c on a.cardcode = c.cardcode 
 						where convert(varchar,a.docdate,23) between @datefrom and @dateto
@@ -518,10 +542,13 @@ class LapKartuPiutang(models.TransientModel):
 								0,
 								a.doctotal ,
 								-1 * a.doctotal,
-								convert(varchar,a.docdate,23)   ,
+								convert(varchar,a.taxdate,23)   ,
 								convert(varchar,a.docduedate,23)  ,
 								0,
-								0
+								0,
+								a.doctotal - a.paidsys balance,
+								isnull(c.notes,'') Jadwal,
+								isnull(a.U_IGU_PIBRemarks,'') notes2
 						from orin a 
 						inner join ocrd c on a.cardcode = c.cardcode 
 						where convert(varchar,a.docdate,23) between @datefrom and @dateto
@@ -543,7 +570,10 @@ class LapKartuPiutang(models.TransientModel):
 								convert(varchar,d.docdate,23)  ,
 								convert(varchar,d.docduedate,23) ,
 								datediff(day,d.docdate,a.docdate),
-								datediff(day,d.docduedate,a.docdate)
+								datediff(day,d.docduedate,a.docdate),
+								0 ,
+								isnull(c.notes,'') Jadwal,
+								'' notes2
 						from orct a
 						inner join rct2 b on a.DocEntry = b.DocNum
 						inner join ocrd c on a.cardcode = c.cardcode 
@@ -551,7 +581,7 @@ class LapKartuPiutang(models.TransientModel):
 						where convert(varchar,a.docdate,23) between @datefrom and @dateto
 						and (c.CardCode + c.cardname  like '%' + @cardcode + '%' AND isnull(C.U_AR_Person,'') LIKE '%' + @arperson + '%')
 						and a.canceled = 'N'
-						and a.BpAct=@account
+						and d.CtlAccount=@account
 
 						union all 
 						SELECT  c.CardCode , 
@@ -567,7 +597,10 @@ class LapKartuPiutang(models.TransientModel):
 								convert(varchar,d.docdate,23)  ,
 								convert(varchar,d.docduedate,23) ,
 								datediff(day,d.docdate,a.docdate),
-								datediff(day,d.docduedate,a.docdate)
+								datediff(day,d.docduedate,a.docdate),
+								0,
+								isnull(c.notes,'') Jadwal,
+								'' notes2
 						from orct a
 						inner join rct2 b on a.DocEntry = b.DocNum
 						inner join ocrd c on a.cardcode = c.cardcode 
@@ -575,7 +608,7 @@ class LapKartuPiutang(models.TransientModel):
 						where convert(varchar,a.docdate,23) between @datefrom and @dateto
 						and (c.CardCode + c.cardname  like '%' + @cardcode + '%' AND isnull(C.U_AR_Person,'') LIKE '%' + @arperson + '%')
 						and a.canceled = 'N'
-						and a.BpAct=@account
+						and  d.CtlAccount=@account
 						
 						union all
 
@@ -592,7 +625,10 @@ class LapKartuPiutang(models.TransientModel):
 								convert(varchar,a.refdate,23)  ,
 								convert(varchar,a.refdate,23) ,
 								datediff(day,a.refdate,a.refdate),
-								datediff(day,a.refdate,a.refdate)
+								datediff(day,a.refdate,a.refdate),
+								a.BalScDeb - a.BalScCred balance,
+								isnull(c.notes,'') Jadwal,
+								'' Notes2
 						from jdt1 a
 						inner join ojdt b on a.TransId = b.TransId 
 						inner join ocrd c on a.ShortName = c.CardCode 
@@ -618,7 +654,21 @@ class LapKartuPiutang(models.TransientModel):
 								'Min Diff Due vs Payment : ' + convert(varchar,e.mindiff)  + '\n' +
 								'Average Diff Due vs Payment : ' + convert(varchar,e.avgdiff)  + '\n'
 								as data_customer ,
-								a.*, 
+								a.idx , 
+								a.cardcode , 
+								a.cardname , 
+								a.docdate , 
+								a.doctype , 
+								a.docnumber , 
+								a.ref_number , 
+								a.kwtno , 
+								a.debit , 
+								a.credit , 
+								a.amount , 
+								a.trxdate , 
+								a.duedate , 
+								a.diffdate , 
+								a.diffduedate ,  
 								c.PymntGroup ,
 								c.ExtraDays ,
 								upper(b.U_AR_Person) arperson ,
@@ -626,7 +676,10 @@ class LapKartuPiutang(models.TransientModel):
 								d.Memo ,
 								e.maxdiff ,
 								e.mindiff ,
-								e.avgdiff
+								e.avgdiff,
+								a.balance,
+								a.Jadwal,
+								isnull(a.notes2,'') notes2
 						from @table a
 							inner join ocrd b on a.cardcode = b.cardcode 
 							inner join octg c on b.GroupNum = c.GroupNum 
@@ -686,7 +739,10 @@ class LapKartuPiutang(models.TransientModel):
 											"salesgroup"		: line[20] ,
 											"maxdiff"			: line[21] ,
 											"mindiff"			: line[22] ,
-											"avgdiff"			: line[23] 
+											"avgdiff"			: line[23] ,
+											"balance"			: line[24] ,
+											"jadwal"			: line[25] ,
+											"notes2"			: line[26] 
 											
 											})
 			return {
