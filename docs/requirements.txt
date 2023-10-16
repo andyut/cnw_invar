@@ -1,0 +1,5 @@
+mkdocs-mermaid2-plugin
+mkdocs-rtd-dropdown
+mkdocs-pdf-export-plugin
+mkdocs-material
+mkdocs-with-pdf

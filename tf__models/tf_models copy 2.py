@@ -28,41 +28,17 @@ class ARTukarfakturWizard(models.TransientModel):
 	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)  
 	tfdate         	= fields.Date("TukarFaktur",default=lambda s:fields.Date.today()) 
 	updatetf        = fields.Selection(string="Update",selection=[("tf","Update Tanggal Tukar Faktur"),("py","Update Tanggal Est Payment")],default="tf")       
-	status_coll 	= fields.Boolean("Change Collector", default=False)
-	collector 		= fields.Selection(string="Collector",
-										selection=[("NO COLLECTOR","NO COLLECTOR"),
-													("YANTO","YANTO"),
-													("WAWAN","WAWAN"),
-													("JHON","JHON"),
-													("IMAM","IMAM"),
-													("SUSILO","SUSILO"),
-													("IRFAN","IRFAN"),
-													("JEFRI","JEFRI"),
-													("BIBIT","BIBIT"),
-													("FUAD","FUAD"),
-													("ILYAS","ILYAS"),
-													("FERRY","FERRY"),
-													("AFFEN","AFFEN"),
-													("BUDI","BUDI"),
-													("BAYU","BAYU"),
-													("TYO","TYO"),
-													("YOHANES","YOHANES"),
-													("RIDWAN","RIDWAN"),
-													("NO COLLECTOR","NO COLLECTOR"),
-													("POS","POS"),
-													("AMIR","AMIR"),
-													("AMIR","AMIR"), ],default="NO COLLECTOR")
-	notes1 			= fields.Char("Notes1")
+	
 	@api.multi
 	def UpdateTglTf(self):
 
-		#print("mulai update tf date")
+		print("mulai update tf date")
  		 
 		NomorTF  = self.env["cnw.numbering.wizard"].getnumbering('TF',self.tfdate)    
 		 
 		listinvoice = self.env['cnw.invar.saldopiutangdetailmodels'].browse(self._context.get('active_ids', []))
 		doctotal = 0.0
-		#print(listinvoice)
+		print(listinvoice)
 #print(listinvoice)
 #########################
 # LOGIN
@@ -87,25 +63,16 @@ class ARTukarfakturWizard(models.TransientModel):
 		for invoice in listinvoice:
 			print(invoice)
 			invoice.txtlog= str(invoice)
-
 			invoice.lt_no = NomorTF
-
-			collector = invoice.collector if invoice.collector else "-"
-
-			if self.status_coll==True:
-				invoice.collector = self.collector
-				collector = invoice.collector
-			notes1 = self.notes1 if self.notes1 else "-"
-
+			
 			if self.updatetf =="tf" :
-				istatus 			= "TUKARFAKTUR"
-				invoice.taxdate 	= self.tfdate
+				invoice.docduedate 	= self.tfdate
 				paydate 			= self.tfdate + timedelta(days=invoice.topdays)
-				invoice.docduedate 	= paydate
-				invoice.datediff 	=  (date.today() - invoice.docduedate).days
+				invoice.taxdate 	= paydate
+				invoice.datediff 	=  (date.today() - invoice.taxdate).days
 				invoice.tfstatus 	= "Y"
 
-				if (date.today() - invoice.docduedate).days > 0:
+				if (date.today() - invoice.taxdate).days > 0:
 					invoice.dendastatus ="Y"
 					invoice.denda = invoice.balance * 0.01 
 				else :
@@ -113,11 +80,11 @@ class ARTukarfakturWizard(models.TransientModel):
 					invoice.denda = 0
 					
 			else:
-				istatus 			="REQ PAYMENT"
-				invoice.docduedate = self.tfdate
+				
+				invoice.taxdate = self.tfdate
 				invoice.tfstatus = "Y"
-				invoice.datediff 	=  (date.today() - invoice.docduedate).days
-				if (date.today() - invoice.docduedate).days > 0:
+				invoice.datediff 	=  (date.today() - invoice.taxdate).days
+				if (date.today() - invoice.taxdate).days > 0:
 					invoice.dendastatus ="Y"
 					invoice.denda = invoice.balance * 0.01
 				else :
@@ -127,18 +94,16 @@ class ARTukarfakturWizard(models.TransientModel):
 	#########################
 	# UPDATE TF
 	######################### 
-			#print("invoice type : ")
-			#print(invoice.objtype)
+			print("invoice type : ")
+			print(invoice.objtype)
 			if invoice.objtype =="13":
 				urltf = url + "Invoices("  + invoice.docentry + ")"
 				payload = {
 							"DocDueDate" : invoice.docduedate.strftime("%Y-%m-%d") , 
 							"TaxDate" : invoice.taxdate.strftime("%Y-%m-%d") , 
 							"U_LT_No" : NomorTF ,
-							"U_TF_date" : invoice.taxdate.strftime("%Y-%m-%d"), 
-							"U_Tagihan_date" : invoice.taxdate.strftime("%Y-%m-%d"),
-							"U_RemDelay": notes1,
-							"U_Coll_Name" : collector
+							"U_TF_date" : invoice.docduedate.strftime("%Y-%m-%d"), 
+							"U_Tagihan_date" : invoice.docduedate.strftime("%Y-%m-%d"),
 						}               			
 				rsp = appSession.patch(urltf,json=payload,verify=False)
 				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
@@ -155,11 +120,9 @@ class ARTukarfakturWizard(models.TransientModel):
 							"DocDueDate" : invoice.docduedate.strftime("%Y-%m-%d") , 
 							"TaxDate" : invoice.taxdate.strftime("%Y-%m-%d") , 
 							"U_LT_No" : NomorTF ,
-							"U_TF_date" : invoice.taxdate.strftime("%Y-%m-%d"), 
-							"U_Tagihan_date" : invoice.taxdate.strftime("%Y-%m-%d"),
-							"U_RemDelay": notes1,
-							"U_Coll_Name" : collector
-						}                     			
+							"U_TF_date" : invoice.docduedate.strftime("%Y-%m-%d"), 
+							"U_Tagihan_date" : invoice.docduedate.strftime("%Y-%m-%d"),
+						}                 			
 				rsp = appSession.patch(urltf,json=payload,verify=False)
 				txtlog = txtlog + urltf + " >> " + str(rsp.status_code) +   "\n"
 				print(txtlog) 
@@ -170,7 +133,6 @@ class ARTukarfakturWizard(models.TransientModel):
 					print(txtlog )			 
 
 			self.env["cnw.so.audittrail"].create({
-												"name" : NomorTF,
 												"sonumber":invoice.numatcard,
 												"cardcode":invoice.cardcode,
 												"cardname":invoice.cardname,  
@@ -179,8 +141,7 @@ class ARTukarfakturWizard(models.TransientModel):
 												"docdate":self.tfdate,
 												"doctype":"INVOICE",
 												"position":"TUKARFAKTUR",
-												"docstatus":istatus,
-												"notes1":notes1,
+												"docstatus":"AR TF",
 												"docby":self.env.user.name ,
 												"docindate":self.tfdate})
 

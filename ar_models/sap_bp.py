@@ -11,6 +11,74 @@ from odoo import models, fields, api
 import base64
 import pymssql 
 
+class SAP_INVAR_JASPER(models.Model):
+	_name           = "cnw.invar.jasper"
+	_description    = "cnw.invar.jasper"	
+	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
+	name            = fields.Char("Code Name" ,required=True)
+	descr           = fields.Char("Description")
+	filejasper		= fields.Binary("Jasper JRXML",required=True)    
+	jaspername		= fields.Char("Jasper File Name")
+
+class SAP_PartnerCollector(models.TransientModel):
+	_name           = "cnwls.bp.updatecollector"
+
+	company_id      = fields.Many2one('res.company', 'Company', required=True, index=True,  default=lambda self: self.env.user.company_id.id)
+	 
+	collector	= fields.Many2one("ar.collector","Collector", required=True) 
+	
+	def update_Collector(self):
+
+		bps= self.env["sap.bp"].browse(self.env.context.get("active_ids"))        
+
+
+# INIT SERVICES LAYER
+		appSession 	= requests.Session()
+		companyDB 	= self.env.user.company_id.db_name
+		UserName 	=  self.env.user.company_id.sapuser
+		Password 	=  self.env.user.company_id.sappassword
+
+		url 		= self.env.user.company_id.sapsl
+
+# SERVICES LAYER LOGIN		
+
+
+		urllogin 	= url + "Login"
+		print("LOGIN SL :")
+
+
+		payload = { "CompanyDB" :companyDB,
+					"UserName" : UserName ,
+					"Password" : Password
+					}
+		print(payload)
+		response = appSession.post(urllogin, json=payload,verify=False)
+
+		print(response.text)
+		
+
+# SERVICES LAYER PATCH
+		for partner_id in bps:
+
+			print("update SL :")
+			urlPartner = url + "BusinessPartners('" + partner_id.cardcode + "')" 
+
+			payload = 	{
+						"U_Coll_Name": self.collector.name , 
+						}
+
+			response = appSession.patch(urlPartner,json=payload,verify=False)
+
+			print(response.text)
+			partner_id.collector = self.collector.name 
+
+
+
+
+		urllogout =  url + "Logout"
+
+
+		response = appSession.post(urllogout,verify=False)        
 
 class SAPPartner_ContactGet(models.TransientModel):
 	_name           = "sap.bp.contact.get"
@@ -259,7 +327,8 @@ class SAPPartner(models.Model):
 	printstatussummary = fields.Html("Print Status")
 
 	resulttxt = fields.Text("Result")
-	 
+	collector = fields.Char("Collector")
+
 	def _getdesc(self):
 		self.partnerdesc = "[" + self.cardcode + "] " + self.cardname
 
@@ -625,7 +694,8 @@ class SAPPartnerWizard(models.TransientModel):
                                                 'Print Faktur Pajak  : ' + isnull(a.U_PrintFP,'N')+ char(13)+'<br/>'+
                                                 'Tukar Faktur  : ' + isnull(a.U_PenagihanType,'Y') + char(13)+'<br/>' +
                                                 'Lain Lain : ' + isnull(convert(varchar,a.free_text),'')+ char(13)+'<br/>'
-                                                as printsummary 
+                                                as printsummary  ,
+												isnull(A.U_Coll_Name,'') Collector
 												from OCRD (NOLOCK) A   
 												INNER JOIN OCRG (NOLOCK)  B ON A.GroupCode = B.GroupCode   
 												INNER JOIN OSLP (NOLOCK)  C ON A.SLPCODE = C.SlpCode  
@@ -719,7 +789,8 @@ class SAPPartnerWizard(models.TransientModel):
 								"printkwitansi",
 								"printfp",
 								"penagihan_type",
-								"printstatussummary"
+								"printstatussummary",
+								"collector"
 								],rowdata)
 
 		conn.close()

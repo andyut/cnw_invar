@@ -4,6 +4,7 @@ access_sap_bp,access_sap_bp,model_sap_bp,,1,1,1,1
 access_ar_invoice_item,access_ar_invoice_item,model_ar_invoice_item,,1,1,1,1
 access_ar_invoice_home,access_ar_invoice_home,model_ar_invoice_home,,1,1,1,1
 access_ar_collector,access_ar_collector,model_ar_collector,,1,1,1,1
+access_cnw_invar_jasper,access_cnw_invar_jasper,model_cnw_invar_jasper,,1,1,1,1
 access_ar_arperson,access_ar_arperson,model_ar_arperson,,1,1,1,1
 access_cnw_home,access_cnw_home,model_cnw_home,,1,1,1,1
 access_ar_tf,access_ar_tf,model_ar_tf,,1,1,1,1

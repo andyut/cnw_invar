@@ -1,0 +1,39 @@
+site_name: Invoice-AR Handbook
+site_url: http://www.indoguna.co.id/
+site_description : CNW Handbook
+site_author : IT Research & Development
+copyright : Copyright &copy; 2023 Indoguna Utama PT, Maintained by Andy Utomo
+ 
+nav:
+    - index.md
+    - Piutang : piutang.md  
+theme : 
+    name : material
+    logo : asset/logocnw1.png
+    favicon : asset/logocnw2.png
+    palette:
+        scheme: default
+        primary: teal
+extra_css:
+    - css/extra.css
+    - css/pdf-print.css
+markdown_extensions:
+    - toc:
+        permalink: 
+    - attr_list
+    - def_list
+    - tables
+    - pymdownx.highlight:
+        use_pygments: false
+    - pymdownx.snippets
+    - pymdownx.superfences  
+
+plugins:
+    - search    
+    - mermaid2 
+    - pdf-export:
+        combined: false
+        media_type: print
+    - with-pdf: 
+        cover_subtitle: CNW Documentation
+        output_path: "../docs.pdf"
